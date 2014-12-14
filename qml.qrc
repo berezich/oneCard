@@ -1,0 +1,31 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>svg/car.svg</file>
+        <file>svg/carPUSH.svg</file>
+        <file>svg/different.svg</file>
+        <file>svg/differentPUSH.svg</file>
+        <file>svg/fit.svg</file>
+        <file>svg/fitPUSH.svg</file>
+        <file>svg/food.svg</file>
+        <file>svg/foodPUSH.svg</file>
+        <file>svg/med.svg</file>
+        <file>svg/medPUSH.svg</file>
+        <file>svg/new.svg</file>
+        <file>svg/newPUSH.svg</file>
+        <file>svg/oblako.svg</file>
+        <file>svg/oblakoPUSH.svg</file>
+        <file>svg/plane.svg</file>
+        <file>svg/planePUSH.svg</file>
+        <file>svg/rebild.svg</file>
+        <file>svg/rebildPUSH.svg</file>
+        <file>svg/shop.svg</file>
+        <file>svg/shopPUSH.svg</file>
+        <file>svg/sun.svg</file>
+        <file>svg/sunPUSH.svg</file>
+        <file>components/Icon.qml</file>
+        <file>screens/BlankScreen.qml</file>
+        <file>screens/GrpScreen.qml</file>
+        <file>components/CapIcon.qml</file>
+    </qresource>
+</RCC>
