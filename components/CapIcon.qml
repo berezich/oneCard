@@ -5,34 +5,27 @@ Item
     id: container
     property alias imgSrc: img.source
     property alias imgSrcPush: imgPush.source
-    //property double scaleFactor: 1
     width: 80*scaleFactor
     height: 80*scaleFactor
     property int imgHeight: 50
     property int imgWidht: 80
 
 
-    //VectorSprite {
     Image {
         id: img
-        width: parent.imgWidht
-        height: parent.imgHeight
-        //anchors.fill: parent
+        width: parent.imgWidht*scaleFactor
+        height: parent.imgHeight*scaleFactor
         anchors.centerIn: parent
         //anchors.top: container.Top
         //anchors.horizontalCenter: container.horizontalCenter
         source: ""
         visible: true
     }
-    //VectorSprite {
     Image {
         id: imgPush
-        width: parent.imgWidht
-        height: parent.imgHeight
-        //anchors.fill: parent
+        width: parent.imgWidht*scaleFactor
+        height: parent.imgHeight*scaleFactor
         anchors.centerIn: parent
-        //anchors.horizontalCenter: container.horizontalCenter
-        //anchors.top: container.Top
         source: ""
         visible: false
     }

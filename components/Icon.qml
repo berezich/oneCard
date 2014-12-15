@@ -5,43 +5,43 @@ Item
     property string type: ""
     property int itemId: 0
     property alias name: itemName.text
-    property alias imgSrc: img.source
-    property alias imgSrcPush: imgPush.source
-    //property double scaleFactor: 1
-    width: 200*scaleFactor
-    height: (180+50)*scaleFactor
+    property string imgSrc: img.source
+    property string imgSrcPush: imgPush.source
+    property int imgH: 180
+    property int imgW: 180
+    width: (imgW+20)*scaleFactor
+    height: (imgH+50)*scaleFactor
+    clip: false
 
 
-    //VectorSprite {
     Image {
         id: img
-        width: 180*scaleFactor
-        height: 180*scaleFactor
-        //anchors.fill: parent
+        width: imgW*scaleFactor
+        height: imgH*scaleFactor
         anchors.top: container.Top
         anchors.horizontalCenter: container.horizontalCenter
-        source: ""
+        source: imgSrc
         visible: true
     }
-    //VectorSprite {
+
     Image {
         id: imgPush
-        width: 180*scaleFactor
-        height: 180*scaleFactor
-        //anchors.fill: parent
+        width: imgW*scaleFactor
+        height: imgH*scaleFactor
         anchors.horizontalCenter: container.horizontalCenter
         anchors.top: container.Top
-        source: ""
+        source: imgSrcPush
         visible: false
     }
 
 
     Text{
         id: itemName
-        text: "TEXT"
+        text: ""
         anchors.horizontalCenter: container.horizontalCenter
         visible: true
-        anchors.bottom: parent.bottom
+        anchors.top: img.bottom
+
     }
 
     MouseArea {

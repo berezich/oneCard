@@ -27,52 +27,45 @@ import "../components"
 
 BlankScreen {
     id: grpScreen
-    //signal startClicked()
-    //signal aboutClicked()
+    //signal itemClicked(int id)
 
-    Rectangle{
-        id: cap
-        width: grpScreen.width
-        height: 120*scaleFactor
-        anchors.top: grpScreen.top
-        color: "#80bab7"
-        Text{
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: 50*scaleFactor
-            text: "ВАШИ КАРТЫ"
-            font.bold: false
-            color: "white"
-        }
+    ColumnLayout
+    {
+        anchors.fill: parent
+        spacing: 70*scaleFactor
 
-        CapIcon{
-            anchors.right: cap.right; anchors.rightMargin: 30*scaleFactor
-            anchors.verticalCenter: cap.verticalCenter
-            width: 80*scaleFactor
-            height: 80*scaleFactor
-            visible: true
-            imgSrc: "../svg/oblako.svg"
-            imgSrcPush: "../svg/oblakoPUSH.svg"
-            imgHeight: 50*scaleFactor
-            imgWidht: 80*scaleFactor
+        Rectangle{
+            id: cap
+            width: grpScreen.width
+            height: 120*scaleFactor
+            anchors.top: grpScreen.top
+            color: "#80bab7"
+            Text{
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 50*scaleFactor
+                text: "ВАШИ КАРТЫ"
+                font.bold: false
+                color: "white"
+            }
+
+            CapIcon{
+                anchors.right: cap.right; anchors.rightMargin: 30*scaleFactor
+                anchors.verticalCenter: cap.verticalCenter
+                width: 80*scaleFactor
+                height: 80*scaleFactor
+                visible: true
+                imgSrc: "../svg/oblako.svg"
+                imgSrcPush: "../svg/oblakoPUSH.svg"
+                imgHeight: 50*scaleFactor
+                imgWidht: 80*scaleFactor
+            }
         }
-    }
-    /*ScrollView {
-        anchors.top: cap.bottom
-        width: defaultWidth*scaleFactor
-*/
         Grid {
-                anchors.top: cap.bottom
-                //anchors.top: parent.top
-                anchors.topMargin: 70*scaleFactor
-                width: parent.width
-                id: itemGrid
-
-                //anchors.top: cap.bottom
-                //anchors.topMargin: 70*scaleFactor
-
-                x: 30*scaleFactor
-                rows: 4; columns: 3; spacing: 30*scaleFactor
+                id: groups
+                Layout.alignment: Qt.AlignHCenter
+                clip: true
+                rows: 6; columns: 3; spacing: 30*scaleFactor
 
                 Icon { name: "Транспорт"; itemId: 1; imgSrc: "../svg/car.svg"; imgSrcPush: "../svg/carPUSH.svg"}
                 Icon { name: "Спорт"; itemId: 2; imgSrc: "../svg/fit.svg"; imgSrcPush: "../svg/fitPUSH.svg"}
@@ -86,35 +79,7 @@ BlankScreen {
                 Icon { name: ""; itemId: -1; imgSrc: "../svg/new.svg"; imgSrcPush: "../svg/newPUSH.svg"}
 
             }
-  //  }
-    /*
-    ColumnLayout {
-        anchors.fill: parent
-        anchors.topMargin: 40 * scaleFactor
-        anchors.bottomMargin: 20 * scaleFactor
 
-        /*
-        CuteHeader {
-            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
-            text: "Cute Plane"
-        }
+    }
 
-        CuteButton {
-            Layout.alignment: Qt.AlignBottom | Qt.AlignHCenter
-            text: "Start"
-            onClicked: menuScreen.startClicked()
-        }
-
-        CuteButton {
-            Layout.alignment: Qt.AlignBottom | Qt.AlignHCenter
-            text: "About"
-            onClicked: menuScreen.aboutClicked()
-        }
-
-        CuteLabel {
-            Layout.alignment: Qt.AlignBottom | Qt.AlignHCenter
-            text: "Highscore: " + highscore
-        }
-
-    }*/
 }
