@@ -1,0 +1,36 @@
+<RCC>
+    <qresource prefix="/">
+        <file>svg/grpIcons/car.svg</file>
+        <file>svg/grpIcons/carPUSH.svg</file>
+        <file>svg/grpIcons/different.svg</file>
+        <file>svg/grpIcons/differentPUSH.svg</file>
+        <file>svg/grpIcons/fit.svg</file>
+        <file>svg/grpIcons/fitPUSH.svg</file>
+        <file>svg/grpIcons/food.svg</file>
+        <file>svg/grpIcons/foodPUSH.svg</file>
+        <file>svg/grpIcons/med.svg</file>
+        <file>svg/grpIcons/medPUSH.svg</file>
+        <file>svg/grpIcons/new.svg</file>
+        <file>svg/grpIcons/newPUSH.svg</file>
+        <file>svg/grpIcons/plane.svg</file>
+        <file>svg/grpIcons/planePUSH.svg</file>
+        <file>svg/grpIcons/rebild.svg</file>
+        <file>svg/grpIcons/rebildPUSH.svg</file>
+        <file>svg/grpIcons/shop.svg</file>
+        <file>svg/grpIcons/shopPUSH.svg</file>
+        <file>svg/grpIcons/sun.svg</file>
+        <file>svg/grpIcons/sunPUSH.svg</file>
+        <file>svg/tools/arrow.svg</file>
+        <file>svg/tools/arrowPUSH.svg</file>
+        <file>svg/tools/backArrow.svg</file>
+        <file>svg/tools/BackArrowPUSH.svg</file>
+        <file>svg/tools/oblako.svg</file>
+        <file>svg/tools/oblakoPUSH.svg</file>
+        <file>svg/tools/pen.svg</file>
+        <file>svg/tools/penPUSH.svg</file>
+        <file>svg/tools/plus.svg</file>
+        <file>svg/tools/plusPUSH.svg</file>
+        <file>svg/tools/sync.svg</file>
+        <file>svg/tools/syncPUSH.svg</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+]>
+<svg version="1.1"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 x="0px" y="0px" width="151px" height="154px" viewBox="0 -0.632 151 154" enable-background="new 0 -0.632 151 154"
+	 xml:space="preserve">
+<defs>
+</defs>
+<radialGradient id="SVGID_1_" cx="75.4033" cy="79.1401" r="72.2911" gradientUnits="userSpaceOnUse">
+	<stop  offset="0.0121" style="stop-color:#733003;stop-opacity:0.25"/>
+	<stop  offset="0.9091" style="stop-color:#260803;stop-opacity:0.25"/>
+	<stop  offset="0.9243" style="stop-color:#290B06;stop-opacity:0.2417"/>
+	<stop  offset="0.9364" style="stop-color:#311510;stop-opacity:0.235"/>
+	<stop  offset="0.9476" style="stop-color:#3F2521;stop-opacity:0.2288"/>
+	<stop  offset="0.9581" style="stop-color:#533C39;stop-opacity:0.223"/>
+	<stop  offset="0.9682" style="stop-color:#6D5958;stop-opacity:0.2175"/>
+	<stop  offset="0.978" style="stop-color:#8C7D7E;stop-opacity:0.2121"/>
+	<stop  offset="0.9875" style="stop-color:#B1A8AA;stop-opacity:0.2069"/>
+	<stop  offset="0.9966" style="stop-color:#DCD9DD;stop-opacity:0.2019"/>
+	<stop  offset="1" style="stop-color:#EDEDF2;stop-opacity:0.2"/>
+</radialGradient>
+<circle fill="url(#SVGID_1_)" cx="75.404" cy="79.139" r="75.404"/>
+<circle fill="#F7F7F9" stroke="#072BAA" stroke-width="8" cx="76.057" cy="72.079" r="68.079"/>
+<path fill="#072BAA" d="M46.722,125.432l-10.117-20.416L17.243,92.56l2.654-7.333l21.732,2.68l23.247-20.04l-25.067-22.68
+	l3.856-6.791L84.811,51.01l25.046-16.083c2.98-1.858,6.073-2.866,8.755-2.866c3.139,0,5.637,1.38,6.853,3.787
+	c1.609,3.185,0.638,7.224-2.886,12.005l-0.209,0.283L99.575,69.806l4.244,41.404l-7.316,2.613L77.439,84.977L54.6,102.018
+	l-0.295,21.693L46.722,125.432L46.722,125.432z M36.304,95.31l6.487,4.174l3.74,7.547l0.124-9.066L79.443,73.5l14.758,22.33
+	l-2.984-29.116l25.121-23.881c0.867-1.211,1.332-2.099,1.581-2.707c-0.944,0.159-2.281,0.624-3.785,1.562L86.012,59.747
+	l-27.507-8.434L76.96,68.011L44.168,96.28L36.304,95.31L36.304,95.31z"/>
+</svg>
