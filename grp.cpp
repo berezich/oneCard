@@ -6,6 +6,7 @@ Grp::Grp(int id, QString name, QString imgSrc, QString imgPushSrc){
     _name = name;
     _imgSrc = imgSrc;
     _imgPushSrc = imgPushSrc;
+    cardsLst = new QList<CardInfo>();
 }
 
 

@@ -32,18 +32,19 @@ protected:
     QHBoxLayout *capLayout;
     Cap  *cap;
     QWidget *blankSpace;
-
+    QSize screenSize;
+    int capSpacerH = 50;
+    int titleLeftMargin = 20;
+    int textTitleSize = 15;
+    int capRightIconOffset = 40;
+    int capLeftIconOffset = 10;
 private:
     int defaultWidth = 720;
     int defaultHeight = 1280;
     int capHeight = 120;
-    int capSpacerH = 50;
-    int capRightIconOffset = 40;
-    QString title = tr("ВАШИ КАРТЫ");
-    int titleLeftMargin = 20;
-    int textTitleSize = 15;
 
-    QSize screenSize;
+
+    QString title = tr("ВАШИ КАРТЫ");
     QScreen *screenInfo;
 
 

@@ -32,5 +32,13 @@
         <file>svg/tools/plusPUSH.svg</file>
         <file>svg/tools/sync.svg</file>
         <file>svg/tools/syncPUSH.svg</file>
+        <file>cardsImg/letual.png</file>
+        <file>cardsImg/ashan.png</file>
+        <file>cardsImg/auto.png</file>
+        <file>cardsImg/fitnes.png</file>
+        <file>cardsImg/food.png</file>
+        <file>cardsImg/other.png</file>
+        <file>cardsImg/sun.png</file>
+        <file>cardsImg/travel.png</file>
     </qresource>
 </RCC>

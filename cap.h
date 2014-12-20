@@ -18,6 +18,8 @@ signals:
 public slots:
     void setTitle(QString txt, int textSize, int leftMargin=0, QString color = "#ffffff");
     void addRightIcon(SimpleIcon *icon, int rightOffset);
+    void addLeftIcon(SimpleIcon *icon, int leftOffset);
+
 private:
     int height = 120;
     QString color = "#aaaaaa";

@@ -10,7 +10,9 @@ HEADERS       = button.h \
     grpscreen.h \
     data.h \
     cap.h \
-    simpleicon.h
+    simpleicon.h \
+    cardscreen.h \
+    cardinfo.h
 SOURCES       = button.cpp \
                 main.cpp \
     blankscreen.cpp \
@@ -20,7 +22,9 @@ SOURCES       = button.cpp \
     grpscreen.cpp \
     data.cpp \
     cap.cpp \
-    simpleicon.cpp
+    simpleicon.cpp \
+    cardscreen.cpp \
+    cardinfo.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/oneCard
@@ -36,3 +40,5 @@ OTHER_FILES += \
     android/res/drawable-hdpi/icon.png
     android/res/drawable-ldpi/icon.png
     android/res/drawable-mdpi/icon.png
+
+DISTFILES +=

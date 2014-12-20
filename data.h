@@ -1,7 +1,7 @@
 #ifndef DATA_H
 #define DATA_H
 #include "grp.h"
-#include <QWidget>
+#include "cardinfo.h"
 
 class Data
 {
@@ -10,6 +10,8 @@ public:
     ~Data();
 
     QList<Grp> getLocalGroups();
+    QList<CardInfo> *getLocalCards(int grpId);
+    Grp *getLocalGrp(int grpId);
 private:
 
     QList<Grp> localGrpLst;

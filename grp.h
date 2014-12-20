@@ -3,6 +3,7 @@
 #include <QString>
 #include <QObject>
 #include <QList>
+#include "cardinfo.h"
 
 class Grp
 {
@@ -16,7 +17,10 @@ private:
     QString _name;
     QString _imgSrc;
     QString _imgPushSrc;
+protected:
+
 public:
+    QList<CardInfo> *cardsLst;
     Grp();
     Grp(int id, QString name, QString imgSrc, QString imgPushSrc);
 
@@ -35,6 +39,11 @@ public:
     void setImgPushSrc(QString val);
 
     QString getImgPushSrc();
+
+    void addCard(CardInfo card){cardsLst->append(card);}
+    void delCard(int iCard){cardsLst->removeAt(iCard);}
+    QList<CardInfo> *getCards(){return cardsLst;}
+    void clearCards(){cardsLst->clear();}
 };
 
 #endif // GRP_H

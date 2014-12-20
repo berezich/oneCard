@@ -6,21 +6,22 @@
 #include "icon.h"
 class GrpScreen : public BlankScreen
 {
+    Q_OBJECT
 public:
-    //explicit GrpScreen(QWidget *parent);
-    //explicit GrpScreen(QScreen *screenInfo);
     explicit GrpScreen(QScreen *screenInfo,QWidget *parent=0);
     ~GrpScreen();
     void setGrpLst(QList<Grp> grpLst);
     void setTitle(QString txt);
+signals:
+    void selectLocalGrp(int grpId);
+private slots:
+    void onClickGrpIcon(int grpId);
 private:
     int columnsNum = 3;
     int rowsNum = 4;
-    int iconHeight = 190;
-    int iconWidth = 190;
     QSize iconSize = QSize(190,190);
     int textSize = 15;
-    QString title;
+    QString title=tr("ВАШИ КАРТЫ");
 
     QGridLayout *gridLayout;
 };

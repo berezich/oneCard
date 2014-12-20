@@ -17,7 +17,7 @@ public:
     ~Icon();
 
 signals:
-
+    void clickIcon(int id);
 public slots:
 private slots:
 

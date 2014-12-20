@@ -23,6 +23,11 @@ void Cap::addRightIcon(SimpleIcon *icon, int rightOffset)
     hLayout->addSpacing(rightOffset);
 }
 
+void Cap::addLeftIcon(SimpleIcon *icon, int leftOffset)
+{
+    hLayout->insertWidget(0, icon);
+    hLayout->insertSpacing(0,leftOffset);
+}
 
 Cap::Cap(int height, QString color , QWidget *parent)
 {
@@ -40,13 +45,14 @@ Cap::Cap(int height, QString color , QWidget *parent)
 
     hLayout = new QHBoxLayout();
     hLayout->setMargin(0);
+    hLayout->setSpacing(0);
 
     titleLbl = new QLabel(title);
     titleLbl->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
     //titleLbl->setMinimumSize(40,40);
     //titleLbl->resi
     hLayout->addWidget( titleLbl);
-
+    hLayout->addStretch(1);
 
 //    rightIcon = new QLabel();
 //    rightIcon->setAlignment(Qt::AlignRight|Qt::AlignVCenter);

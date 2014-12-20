@@ -15,8 +15,7 @@ Icon::Icon(int id, QString name, int textSize,  QString imgScr,  QString imgPush
     picIcon = new QIcon(imgScr);
 
     labelIcon = new QLabel();
-
-    labelIcon->setPixmap( picIcon->pixmap(imgSize));
+    labelIcon->setPixmap(picIcon->pixmap(imgSize));
     //labelIcon->setPixmap(picIcon->pixmap(imgSize));
     labelIcon->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
     //labelIcon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -55,8 +54,6 @@ Icon::~Icon()
 
     void Icon::mousePressEvent(QMouseEvent *)
     {
-        if( picIcon==NULL || picIcon->isNull())
-            return;
         QPixmap pixmap=  picIcon->pixmap(imgSize,QIcon::Selected);
         labelIcon->setPixmap(pixmap);
          labelIcon->setEnabled(!pixmap.isNull());
@@ -66,13 +63,12 @@ Icon::~Icon()
 
     void Icon::mouseReleaseEvent(QMouseEvent *)
     {
-        if(picIcon->isNull())
-            return;
         QPixmap pixmap=  picIcon->pixmap(imgSize,QIcon::Normal);
                 labelIcon->setPixmap(pixmap);
         labelIcon->setPixmap(pixmap);
         labelIcon->setEnabled(!pixmap.isNull());
         labelIcon->adjustSize();
         adjustSize();
+        emit clickIcon(id);
     }
 

@@ -7,9 +7,12 @@
 
 class SimpleIcon : public QLabel
 {
+    Q_OBJECT
 public:
     SimpleIcon(int id, QString imgScr,  QString imgPushScr, QSize imgSize, QWidget *parent=0);
     ~SimpleIcon();
+signals:
+    void click(int iconId);
 private:
     int id;
     QIcon *picIcon;
