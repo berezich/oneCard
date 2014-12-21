@@ -12,6 +12,7 @@ public:
     QList<Grp> getLocalGroups();
     QList<CardInfo> *getLocalCards(int grpId);
     Grp *getLocalGrp(int grpId);
+    CardInfo *getLocalCard(int grpId, int cardId);
 private:
 
     QList<Grp> localGrpLst;

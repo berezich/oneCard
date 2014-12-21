@@ -12,7 +12,9 @@ HEADERS       = button.h \
     cap.h \
     simpleicon.h \
     cardscreen.h \
-    cardinfo.h
+    cardinfo.h \
+    cardinfoscreen.h \
+    appstate.h
 SOURCES       = button.cpp \
                 main.cpp \
     blankscreen.cpp \
@@ -24,7 +26,9 @@ SOURCES       = button.cpp \
     cap.cpp \
     simpleicon.cpp \
     cardscreen.cpp \
-    cardinfo.cpp
+    cardinfo.cpp \
+    cardinfoscreen.cpp \
+    appstate.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/oneCard

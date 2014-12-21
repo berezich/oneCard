@@ -25,7 +25,7 @@ QList<Grp> Data::getLocalGroups()
     Grp gr7 (i++,"Магазины", ":/svg/grpIcons/shop.svg", ":/svg/grpIcons/shopPUSH.svg");
     Grp gr8 (i++,"Солярий", ":/svg/grpIcons/sun.svg", ":/svg/grpIcons/sunPUSH.svg");
     Grp gr9 (i++,"Разное", ":/svg/grpIcons/different.svg", ":/svg/grpIcons/differentPUSH.svg");
-    Grp gr10 (i++, "", ":/svg/grpIcons/new.svg", ":/svg/grpIcons/newPUSH.svg");
+    Grp gr10 (-1, "", ":/svg/grpIcons/new.svg", ":/svg/grpIcons/newPUSH.svg");
 
     localGrpLst.append(gr1);
     localGrpLst.append(gr2);
@@ -90,5 +90,18 @@ Grp *Data::getLocalGrp(int grpId)
     for(int i=0; i<localGrpLst.length(); i++)
         if(localGrpLst[i].getId()==grpId)
             return &(localGrpLst[i]);
+}
+
+CardInfo *Data::getLocalCard(int grpId, int cardId)
+{
+    CardInfo *card;
+    for(int i=0; i<localGrpLst.length(); i++)
+        if(localGrpLst[i].getId()==grpId)
+            for(int k=0; k<localGrpLst[i].cardsLst->length(); k++)
+            {
+                card = localGrpLst[i].getCardInfo(cardId);
+                return card;
+            }
+    return new CardInfo();
 }
 

@@ -43,6 +43,7 @@ public:
     void addCard(CardInfo card){cardsLst->append(card);}
     void delCard(int iCard){cardsLst->removeAt(iCard);}
     QList<CardInfo> *getCards(){return cardsLst;}
+    CardInfo *getCardInfo(int cardId);
     void clearCards(){cardsLst->clear();}
 };
 

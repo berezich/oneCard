@@ -38,10 +38,12 @@ protected:
     int textTitleSize = 15;
     int capRightIconOffset = 40;
     int capLeftIconOffset = 10;
+    QString backGroundColor = "#e5e5e5";
 private:
     int defaultWidth = 720;
     int defaultHeight = 1280;
     int capHeight = 120;
+
 
 
     QString title = tr("ВАШИ КАРТЫ");

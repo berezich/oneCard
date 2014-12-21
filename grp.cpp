@@ -42,5 +42,13 @@ QString Grp::getImgPushSrc(){
     return _imgPushSrc;
 }
 
+CardInfo *Grp::getCardInfo(int cardId)
+{
+    for(int i=0; i<cardsLst->length(); i++)
+        if((*cardsLst)[i].getId()==cardId)
+            return &(*cardsLst)[i];
+    return new CardInfo();
+}
+
 
 

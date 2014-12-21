@@ -19,6 +19,7 @@ public slots:
     void onCapBack(int i);
 signals:
     void backPressed(int i);
+    void cardSelected(int cardId);
 private:
     int capLeftIconOffset = 10;
 

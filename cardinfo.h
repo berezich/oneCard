@@ -4,7 +4,7 @@
 class CardInfo
 {
 public:
-    CardInfo(int id, int grpId, QString cardName, QString cardCom, QString iSrc);
+    CardInfo(int id=-1, int grpId=-1, QString cardName="", QString cardCom="", QString iSrc="");
     ~CardInfo();
 private:
     int id;

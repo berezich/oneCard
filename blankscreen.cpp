@@ -31,7 +31,11 @@ BlankScreen::BlankScreen(QScreen *screenInfo, QWidget *parent):QWidget(parent)
     blankLayout->setSpacing(0);
     blankLayout->setMargin(0);
 
-
+    QPalette Pal(palette());
+    // set black background
+    Pal.setColor(QPalette::Background, backGroundColor);
+    setAutoFillBackground(true);
+    setPalette(Pal);
 
 }
 
