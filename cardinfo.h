@@ -19,6 +19,8 @@ public:
     QString getCardName(){return name;}
     QString getCardComment(){return comment;}
     QString getCardImgSrc(){return imgSrc;}
+    void setCardName(QString txt){name=txt;}
+    void setCardImgSrc(QString path){imgSrc = path;}
 };
 
 #endif // CARDINFO_H

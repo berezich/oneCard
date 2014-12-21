@@ -13,25 +13,31 @@ public:
 
 public slots:
     //void onCapBack(int i);
+private slots:
+    void onEditName();
+    void onEditCard(int i);
 signals:
     void backPressed(int i);
+    void editCard(QString name, QString src);
 private:
     int capLeftIconOffset = 10;
 
-    int capSpacerH = 0;
+    int capSpacerH = 20;
 
     QString title = tr("ИНФОРМАЦИЯ О КАРТЕ");
 
-    int spacingSize = 0;
+    int spacingSize = 20;
     QSize cardIconSize = QSize(480,360);
+    QString imgSrc;
     //int leftCardOffset = 20;
-
+    CardInfo *cardInfo;
     //int leftNameCardOffset = 25;
     int textCardNameSize = 25;
     QString colorTextNameCard = "#000000";
+    QLineEdit *nameEditLine;
 
     QSize editIconSize = QSize(80,80);
-    int rightEditIconOffset = 20;
+    int rightEditIconOffset = 15;
 
     QVBoxLayout *cardInfoListLayout;
 };

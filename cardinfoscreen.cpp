@@ -30,6 +30,7 @@ CardInfoScreen::CardInfoScreen(QScreen *screenInfo, QWidget *parent):BlankScreen
 
     cardInfoListLayout = new QVBoxLayout();
     cardInfoListLayout->setSpacing(spacingSize);
+
     blankSpace->setLayout(cardInfoListLayout);
 
     //blankSpace->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
@@ -51,94 +52,84 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
     //CardInfo *card;
     QWidget *widgetLine;
     //SimpleIcon *icon;
-
+    imgSrc = card->getCardImgSrc();
+    cardInfo = card;
 
     //this->title = title;
     //cap->setTitle(title,titleLeftMargin,textTitleSize);
 
-    cardInfoListLayout->setSpacing(0);
+    cardInfoListLayout->setSpacing(spacingSize);
 
     SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/backArrow.svg",":/svg/tools/backArrowPUSH.svg",QSize(55,55)*scaleFactor);
     icon->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    connect(icon,SIGNAL(click(int)),this,SIGNAL(backPressed(int)));
+    connect(icon,SIGNAL(click(int)),this,SLOT(onEditCard(int)));
     cap->addLeftIcon(icon,capLeftIconOffset);
 
     line = new QHBoxLayout();
+    line->addSpacing(editIconSize.width()*scaleFactor);
+
+    line->addStretch(1);
+
+    nameEditLine = new QLineEdit(card->getCardName());
+    nameEditLine->setFont(QFont("Calibri",textCardNameSize));
+    nameEditLine->setAlignment(Qt::AlignHCenter| Qt::AlignTop);
+    nameEditLine->setReadOnly(true);
+    nameEditLine->setStyleSheet("border: 0px solid gray; border-radius: 10px; padding: 0 8px; background: "+backGroundColor+"; selection-background-color: darkgray;");
+    connect( nameEditLine,SIGNAL(focusOutEvent(QFocusEvent*)),this,SLOT(onEditNameFinished));
+    line->addWidget(nameEditLine);
+    //cardInfoListLayout->addWidget(nameEditLine);
+
     line->addStretch(1);
     icon = new SimpleIcon(0,":/svg/tools/pen.svg",":/svg/tools/penPUSH.svg",editIconSize*scaleFactor);
     icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
-    icon->setMargin(15);
+
     line->addWidget(icon);
+    line->addSpacing(rightEditIconOffset);
     widgetLine = new QWidget();
     widgetLine->setLayout(line);
+    widgetLine->setMinimumWidth(screenSize.width());
     cardInfoListLayout->addWidget(widgetLine);
+    connect(icon,SIGNAL(click(int)),this,SLOT(onEditName()));
 
-    QLineEdit *eLine = new QLineEdit(card->getCardName());
-    eLine->setFont(QFont("Calibri",textCardNameSize));
-    eLine->setAlignment(Qt::AlignHCenter| Qt::AlignTop);
-    eLine->setReadOnly(true);
-    eLine->setStyleSheet("border: 0px solid gray; border-radius: 10px; padding: 0 8px; background: "+backGroundColor+"; selection-background-color: darkgray;");
-    cardInfoListLayout->addWidget(eLine);
 
     line = new QHBoxLayout();
+    line->addSpacing(editIconSize.width()*scaleFactor);
     line->addStretch(1);
-    icon = new SimpleIcon(0,":/svg/tools/pen.svg",":/svg/tools/penPUSH.svg",editIconSize*scaleFactor);
-    icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
-    icon->setMargin(15);
-    line->addWidget(icon);
-    widgetLine = new QWidget();
-    widgetLine->setLayout(line);
-    cardInfoListLayout->addWidget(widgetLine);
 
     cardIcon = new SimpleIcon(0,card->getCardImgSrc(),"",cardIconSize);
     cardIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
-    cardInfoListLayout->addWidget(cardIcon);
+    line->addWidget(cardIcon);
+    line->addStretch(1);
+
+    icon = new SimpleIcon(0,":/svg/tools/pen.svg",":/svg/tools/penPUSH.svg",editIconSize*scaleFactor);
+    icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
+    line->addWidget(icon);
+    line->addSpacing(rightEditIconOffset);
+    widgetLine = new QWidget();
+    widgetLine->setMinimumWidth(screenSize.width());
+    widgetLine->setLayout(line);
+    cardInfoListLayout->addWidget(widgetLine);
+
+
+
+
+
 
     cardInfoListLayout->addStretch(1);
-    /*
-    for(int i=0; i<cardList->length(); i++)
-    {
-        line = new QHBoxLayout();
-        //line->setAlignment(Qt::AlignTop);
-        line->setAlignment( Qt::AlignTop);
 
+}
 
-        line->addSpacing(leftCardOffset);
-        card = &(*cardList)[i];
-        cardIcon = new SimpleIcon(card->getId(),card->getCardImgSrc(),"",cardIconSize);
-        cardIcon-> setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-        //cardIcon->adjustSize();
-        //cardIcon->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-        line->addWidget(cardIcon);
+void CardInfoScreen::onEditName()
+{
+    nameEditLine->setReadOnly(!nameEditLine->isReadOnly());
+    nameEditLine->setFocus();
+}
 
-        nameLbl = new QLabel(card->getCardName());
-        nameLbl->setFont(QFont("Calibri",textCardNameSize));
-        nameLbl->setStyleSheet("QLabel { color : "+colorTextNameCard+"; }");
-        nameLbl->setContentsMargins(leftNameCardOffset,0,0,0);
-        nameLbl-> setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-        //nameLbl->adjustSize();
-        //nameLbl->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-        line->addWidget(nameLbl);
-
-        line->addStretch(1);
-
-        nextIcon = new SimpleIcon(card->getId(),":/svg/tools/arrow.svg","",nextIconSize);
-        nextIcon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
-        //nextIcon->adjustSize();
-        //nextIcon->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-        line->addWidget(nextIcon);
-        line->addSpacing(rightNextIconOffset);
-
-        widgetLine = new QWidget();
-        widgetLine->setMinimumWidth(screenSize.width());
-        //widgetLine->setMaximumHeight(cardIconSize.height());
-        widgetLine->setLayout(line);
-
-        //widgetLine->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
-
-        cardListLayout->addWidget(widgetLine);
-    }
-    cardListLayout->addStretch(1);
-    */
+void CardInfoScreen::onEditCard(int i)
+{
+    emit editCard(nameEditLine->text(),imgSrc);
+    cardInfo->setCardName(nameEditLine->text());
+    cardInfo->setCardImgSrc(imgSrc);
+    emit backPressed(0);
 }
 
