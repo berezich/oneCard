@@ -32,7 +32,7 @@ private:
     //int leftCardOffset = 20;
     CardInfo *cardInfo;
     //int leftNameCardOffset = 25;
-    int textCardNameSize = 25;
+    double textCardNameSize = 25;
     QString colorTextNameCard = "#000000";
     QLineEdit *nameEditLine;
 

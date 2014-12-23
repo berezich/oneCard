@@ -12,10 +12,10 @@ CardScreen::CardScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenI
     capSpacerH = capSpacerH*scaleFactor;
 
     //шапка
-    cap = new Cap();
+    cap = new Cap(capHeight);
 
 
-    SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/plus.svg",":/svg/tools/plusPUSH.svg",QSize(55*scaleFactor,55*scaleFactor));
+    SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/plus.svg",":/svg/tools/plusPUSH.svg",QSize(55,55)*scaleFactor);
     icon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
     cap->addRightIcon(icon,capRightIconOffset);
 
@@ -39,11 +39,6 @@ CardScreen::CardScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenI
     //blankLayout->addStretch();
 }
 
-void CardScreen::setTitle(QString txt)
-{
-    //title = txt;
-
-}
 CardScreen::~CardScreen()
 {
 
@@ -57,18 +52,17 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
     QLabel *nextIcon;
     CardInfo *card;
     QWidget *widgetLine;
-    QWidget *space;
 
     this->title = title;
-    cap->setTitle(title,titleLeftMargin,textTitleSize);
+    cap->setTitle(title,textTitleSize,titleLeftMargin);
 
-    SimpleIcon *icon = new SimpleIcon(0,grpImgSrc,grpImgSrc,QSize(55*scaleFactor,55*scaleFactor));
+    SimpleIcon *icon = new SimpleIcon(0,grpImgSrc,grpImgSrc,QSize(55,55)*scaleFactor);
     icon->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     connect(icon,SIGNAL(click(int)),this,SIGNAL(backPressed(int)));
     cap->addLeftIcon(icon,capLeftIconOffset);
 
 
-    icon = new SimpleIcon(0,":/svg/tools/backArrow.svg",":/svg/tools/backArrowPUSH.svg",QSize(55*scaleFactor,55*scaleFactor));
+    icon = new SimpleIcon(0,":/svg/tools/backArrow.svg",":/svg/tools/backArrowPUSH.svg",QSize(55,55)*scaleFactor);
     icon->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     connect(icon,SIGNAL(click(int)),this,SIGNAL(backPressed(int)));
     cap->addLeftIcon(icon,capLeftIconOffset);
@@ -79,16 +73,12 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
     for(int i=0; i<cardList->length(); i++)
     {
         line = new QHBoxLayout();
-        //line->setAlignment(Qt::AlignTop);
         line->setAlignment( Qt::AlignTop);
-
 
         line->addSpacing(leftCardOffset);
         card = &(*cardList)[i];
         cardIcon = new SimpleIcon(card->getId(),card->getCardImgSrc(),"",cardIconSize);
         cardIcon-> setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-        //cardIcon->adjustSize();
-        //cardIcon->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
         line->addWidget(cardIcon);
 
         nameLbl = new QLabel(card->getCardName());
@@ -96,8 +86,6 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
         nameLbl->setStyleSheet("QLabel { color : "+colorTextNameCard+"; }");
         nameLbl->setContentsMargins(leftNameCardOffset,0,0,0);
         nameLbl-> setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-        //nameLbl->adjustSize();
-        //nameLbl->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
         line->addWidget(nameLbl);
 
         line->addStretch(1);
@@ -105,24 +93,15 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
         nextIcon = new SimpleIcon(card->getId(),":/svg/tools/arrow.svg","",nextIconSize);
         nextIcon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
         connect(nextIcon,SIGNAL(click(int)),this,SIGNAL(cardSelected(int)));
-        //nextIcon->adjustSize();
-        //nextIcon->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
         line->addWidget(nextIcon);
         line->addSpacing(rightNextIconOffset);
 
         widgetLine = new QWidget();
         widgetLine->setMinimumWidth(screenSize.width());
-        //widgetLine->setMaximumHeight(cardIconSize.height());
         widgetLine->setLayout(line);
-
-        //widgetLine->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
 
         cardListLayout->addWidget(widgetLine);
     }
-    //space = new QWidget();
-    //cardListLayout->addWidget(space);
-    //space->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
-    //cardListLayout->addSpacerItem(new QSpacerItem());
     cardListLayout->addStretch(1);
 
 }

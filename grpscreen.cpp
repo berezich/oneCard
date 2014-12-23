@@ -6,8 +6,8 @@ GrpScreen::GrpScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenInf
     //iconWidth = iconWidth*scaleFactor;
 
     //шапка
-    cap = new Cap();
-    cap->setTitle(title,titleLeftMargin,textTitleSize);
+    cap = new Cap(capHeight);
+    cap->setTitle(title,textTitleSize,titleLeftMargin);
 
     SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/oblako.svg",":/svg/tools/oblakoPUSH.svg",QSize(80*scaleFactor,40*scaleFactor));
     icon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
@@ -52,12 +52,6 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst)
             gridLayout->addWidget(new QWidget(), qFloor(i/columnsNum),i%columnsNum);
 
     }
-}
-
-void GrpScreen::setTitle(QString txt)
-{
-    title = txt;
-
 }
 
 void GrpScreen::onClickGrpIcon(int grpId)

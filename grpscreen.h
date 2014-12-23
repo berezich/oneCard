@@ -11,7 +11,6 @@ public:
     explicit GrpScreen(QScreen *screenInfo,QWidget *parent=0);
     ~GrpScreen();
     void setGrpLst(QList<Grp> grpLst);
-    void setTitle(QString txt);
 signals:
     void selectLocalGrp(int grpId);
 private slots:
@@ -20,7 +19,7 @@ private:
     int columnsNum = 3;
     int rowsNum = 4;
     QSize iconSize = QSize(190,190);
-    int textSize = 15;
+    double textSize = 15;
     QString title=tr("ВАШИ КАРТЫ");
 
     QGridLayout *gridLayout;

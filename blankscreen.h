@@ -28,21 +28,23 @@ public slots:
 
 protected:
     double scaleFactor = 1;
+    double scaleFactorH = 1;
     QBoxLayout *blankLayout;
     QHBoxLayout *capLayout;
     Cap  *cap;
     QWidget *blankSpace;
     QSize screenSize;
     int capSpacerH = 50;
+    int capHeight = 120;
     int titleLeftMargin = 20;
-    int textTitleSize = 15;
+    double textTitleSize = 20;
     int capRightIconOffset = 40;
     int capLeftIconOffset = 10;
     QString backGroundColor = "#e5e5e5";
 private:
     int defaultWidth = 720;
     int defaultHeight = 1280;
-    int capHeight = 120;
+
 
 
 

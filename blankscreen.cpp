@@ -1,26 +1,23 @@
 #include "blankscreen.h"
 
 BlankScreen::BlankScreen(QScreen *screenInfo, QWidget *parent):QWidget(parent)
-//BlankScreen::BlankScreen(QScreen *screenInfo)
 {
-//    this->screenInfo = screenInfo;
-//    screenSize = screenInfo->geometry().size();
-//    scaleFactor = screenSize.width()/defaultWidth;
-//    capHeight = capHeight*scaleFactor;
-//    qDebug()<<"scale = "<< scaleFactor;
-//    setMinimumSize(screenSize);
 
     this->screenInfo = screenInfo;
     screenSize = screenInfo->geometry().size();
-    scaleFactor = screenSize.width()/defaultWidth;
+    scaleFactor = ((double)screenSize.width())/(double)defaultWidth;
+    scaleFactorH = ((double)screenSize.height())/(double)defaultHeight;
 
-    qDebug()<<"scale = "<< scaleFactor;
+    qDebug()<<"scaleW = "<< scaleFactor <<"scaleH = "<< scaleFactorH;
 
 
-    capHeight = capHeight*scaleFactor;
+    //capHeight = capHeight*scaleFactor;
+    capHeight = capHeight*scaleFactorH;
     titleLeftMargin =titleLeftMargin*scaleFactor;
-    textTitleSize = textTitleSize*qSqrt(scaleFactor);
-    capSpacerH = capSpacerH * scaleFactor;
+    //textTitleSize = textTitleSize*qSqrt(scaleFactor);
+    textTitleSize = textTitleSize*qSqrt(scaleFactorH);
+    //capSpacerH = capSpacerH * scaleFactor;
+    capSpacerH = capSpacerH * scaleFactorH;
     capRightIconOffset = capRightIconOffset*scaleFactor;
 
     setMinimumSize(screenSize);

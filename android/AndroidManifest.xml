@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<manifest package="com.berezich.oneCard_qmlApp" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0.0" android:installLocation="auto" android:versionCode="1">
-    <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="OneCard">
+<manifest package="com.berezich.oneCard" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0.0" android:installLocation="auto" android:versionCode="1">
+    <application android:icon="@drawable/icon" android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="OneCard">
         <activity android:configChanges="uiMode|screenLayout|screenSize|smallestScreenSize|locale|fontScale|keyboard|keyboardHidden|navigation" android:screenOrientation="portrait" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:label="OneCard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
