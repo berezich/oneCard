@@ -1,6 +1,8 @@
 #include "cardscreen.h"
 
-CardScreen::CardScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenInfo,parent)
+//CardScreen::CardScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenInfo,parent)
+CardScreen::CardScreen(QScreen *screenInfo,QSize appScrSize , QWidget *parent):BlankScreen(screenInfo,appScrSize,parent)
+
 {
     spacingSize = spacingSize*scaleFactor;
     cardIconSize = cardIconSize*scaleFactor;
@@ -84,11 +86,13 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
         nameLbl = new QLabel(card->getCardName());
         nameLbl->setFont(QFont("Calibri",textCardNameSize));
         nameLbl->setStyleSheet("QLabel { color : "+colorTextNameCard+"; }");
-        nameLbl->setContentsMargins(leftNameCardOffset,0,0,0);
+        //nameLbl->setContentsMargins(leftNameCardOffset,0,0,0);
         nameLbl-> setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+
         line->addWidget(nameLbl);
 
-        line->addStretch(1);
+
+        line->addStretch(10);
 
         nextIcon = new SimpleIcon(card->getId(),":/svg/tools/arrow.svg","",nextIconSize);
         nextIcon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
@@ -97,8 +101,10 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
         line->addSpacing(rightNextIconOffset);
 
         widgetLine = new QWidget();
+
         widgetLine->setMinimumWidth(screenSize.width());
         widgetLine->setLayout(line);
+
 
         cardListLayout->addWidget(widgetLine);
     }

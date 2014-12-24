@@ -18,7 +18,8 @@ class BlankScreen : public QWidget
     Q_OBJECT
 public:
     explicit BlankScreen(QWidget *parent = 0);
-    explicit BlankScreen(QScreen *screenInfo, QWidget *parent = 0);
+    //explicit BlankScreen(QScreen *screenInfo, QWidget *parent = 0);
+    explicit BlankScreen(QScreen *screenInfo, QSize appScrSize, QWidget *parent = 0);
     //explicit BlankScreen(QScreen *screenInfo);
     ~BlankScreen();
 
@@ -29,6 +30,7 @@ public slots:
 protected:
     double scaleFactor = 1;
     double scaleFactorH = 1;
+    double scaleFactorW = 1;
     QBoxLayout *blankLayout;
     QHBoxLayout *capLayout;
     Cap  *cap;

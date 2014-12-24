@@ -10,7 +10,8 @@ class CardScreen : public BlankScreen
 {
     Q_OBJECT
 public:
-    explicit CardScreen(QScreen *screenInfo,QWidget *parent=0);
+    //explicit CardScreen(QScreen *screenInfo,QWidget *parent=0);
+    explicit CardScreen(QScreen *screenInfo,QSize appScrSize,QWidget *parent=0);
     ~CardScreen();
     void setCardList(QString title, QString grpImgSrc, QList<CardInfo> *cardList);
 

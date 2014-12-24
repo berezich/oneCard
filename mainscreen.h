@@ -17,8 +17,11 @@ class MainScreen : public QWidget
     Q_OBJECT
 public:
     explicit MainScreen(QWidget *parent = 0);
-    explicit MainScreen(QScreen *screenInfo, QWidget *parent = 0);
+
+    explicit MainScreen(QApplication *mainApp, QWidget *parent = 0);
+    //explicit MainScreen(QScreen *screenInfo, QWidget *parent = 0);
     ~MainScreen();
+
 
 signals:
 
@@ -27,13 +30,14 @@ public slots:
     void showGrpScreen(int i);
     void showCardScreen(int i);
     void showCardInfoScreen(int i);
-private:
 
+private:
+    QSize appWidowSize;
     int defaultWidth = 720;
     int defaultHeight = 1280;
-    QSize screenSize;
+
     QScreen *screenInfo;
-    double scaleFactor = 1;
+    //double scaleFactor = 1;
     QLayout *mainLayout;
 
     AppState *appState;

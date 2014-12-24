@@ -1,6 +1,8 @@
 #include "grpscreen.h"
 
-GrpScreen::GrpScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenInfo,parent)
+//GrpScreen::GrpScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenInfo,parent)
+GrpScreen::GrpScreen(QScreen *screenInfo,QSize appScrSize, QWidget *parent):BlankScreen(screenInfo,appScrSize,parent)
+
 {
     //iconHeight = iconHeight*scaleFactor;
     //iconWidth = iconWidth*scaleFactor;
@@ -23,7 +25,7 @@ GrpScreen::GrpScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenInf
     setLayout(blankLayout);
 
     iconSize = iconSize*scaleFactor;
-    textSize = textSize*qSqrt(scaleFactor);
+    textSize = textSize*qSqrt(qSqrt(scaleFactor));
 
     gridLayout = new QGridLayout(this);
     blankSpace->setLayout(gridLayout);

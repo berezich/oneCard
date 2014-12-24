@@ -2,13 +2,16 @@
 #define GRPSCREEN_H
 #include "blankscreen.h"
 #include <QSize>
+#include <QApplication>
 #include "grp.h"
 #include "icon.h"
 class GrpScreen : public BlankScreen
 {
     Q_OBJECT
 public:
-    explicit GrpScreen(QScreen *screenInfo,QWidget *parent=0);
+    //explicit GrpScreen(QScreen *screenInfo,QWidget *parent=0);
+    explicit GrpScreen(QScreen *screenInfo,QSize appScrSize,QWidget *parent=0);
+
     ~GrpScreen();
     void setGrpLst(QList<Grp> grpLst);
 signals:
