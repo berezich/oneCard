@@ -49,7 +49,7 @@ Icon::Icon(int id, QString name, int textSize,  QString imgScr,  QString imgPush
 
 Icon::~Icon()
 {
-
+    delete(picIcon);
 }
 
     void Icon::mousePressEvent(QMouseEvent *)

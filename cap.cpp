@@ -2,7 +2,10 @@
 
 Cap::~Cap()
 {
-
+    for(int i; i<childWidgets.length(); i++)
+        delete(childWidgets.at(i));
+    for(int i; i<childLayouts.length(); i++)
+        delete(childLayouts.at(i));
 }
 
 void Cap::setTitle(QString txt, double textSize, int leftMargin, QString color)
@@ -19,12 +22,14 @@ void Cap::addRightIcon(SimpleIcon *icon, int rightOffset)
 {
     hLayout->addWidget(icon);
     hLayout->addSpacing(rightOffset);
+    childWidgets.append(icon);
 }
 
 void Cap::addLeftIcon(SimpleIcon *icon, int leftOffset)
 {
     hLayout->insertWidget(0, icon);
     hLayout->insertSpacing(0,leftOffset);
+    childWidgets.append(icon);
 }
 
 Cap::Cap(int height, QString color , QWidget *parent)
@@ -49,7 +54,8 @@ Cap::Cap(int height, QString color , QWidget *parent)
     titleLbl->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
     hLayout->addWidget( titleLbl);
     hLayout->addStretch(1);
+    childWidgets.append(titleLbl);
 
     setLayout(hLayout);
-
+    childLayouts.append( hLayout);
 }

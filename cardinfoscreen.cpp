@@ -24,7 +24,7 @@ CardInfoScreen::CardInfoScreen(QScreen *screenInfo,QSize appScrSize, QWidget *pa
     cap->addRightIcon(icon,capRightIconOffset);
 
     blankLayout->addWidget(cap);
-
+    childWidgets.append(cap);
     blankLayout->addSpacing(capSpacerH);
 
     blankSpace = new QWidget();
@@ -37,12 +37,20 @@ CardInfoScreen::CardInfoScreen(QScreen *screenInfo,QSize appScrSize, QWidget *pa
 
     blankSpace->setLayout(cardInfoListLayout);
 
+    childLayouts.append(cardInfoListLayout);
+    childLayouts.append(blankLayout);
+
     //blankLayout->addStretch();
 }
 
 CardInfoScreen::~CardInfoScreen()
 {
-
+    for(int i=0; i<childLayouts.length(); i++)
+        if(childLayouts.at(i)!=NULL)
+            delete(childLayouts.at(i));
+    for(int i=0; i<childWidgets.length(); i++)
+        if(childWidgets.at(i)!=NULL)
+            delete(childWidgets.at(i));
 }
 
 void CardInfoScreen::showCardInfo(CardInfo *card)
@@ -67,6 +75,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
     cap->addLeftIcon(icon,capLeftIconOffset);
 
     line = new QHBoxLayout();
+    childLayouts.append(line);
     //для симметричности
     //line->addSpacing(editIconSize.width());
 
@@ -83,21 +92,25 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
 
     //cardName-------------------------
     line->addWidget(nameEditLine);
+    childWidgets.append(nameEditLine);
 
     //line->addStretch(1);
     icon = new SimpleIcon(0,":/svg/tools/pen.svg",":/svg/tools/penPUSH.svg",editIconSize);
     icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
-
+    childWidgets.append(icon);
     line->addWidget(icon);
     line->addSpacing(rightEditIconOffset);
+
     widgetLine = new QWidget();
     widgetLine->setLayout(line);
     widgetLine->setMinimumWidth(screenSize.width());
     cardInfoListLayout->addWidget(widgetLine);
+    childWidgets.append(widgetLine);
     connect(icon,SIGNAL(click(int)),this,SLOT(onEditName()));
 
     //frontside of card-------------------
     line = new QHBoxLayout();
+    childLayouts.append(line);
     //для симметричности
     //line->addSpacing(editIconSize.width());
 
@@ -106,41 +119,50 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
     cardIcon = new SimpleIcon(0,card->getCardImgSrc(),"",cardIconSize);
     cardIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
     line->addWidget(cardIcon);
+    childWidgets.append(cardIcon);
     line->addStretch(1);
 
     icon = new SimpleIcon(0,":/svg/tools/pen.svg",":/svg/tools/penPUSH.svg",editIconSize);
     icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
+    connect(icon,SIGNAL(click(int)),this,SIGNAL(editFrontSideImg()));
     line->addWidget(icon);
+    childWidgets.append(icon);
     line->addSpacing(rightEditIconOffset);
     widgetLine = new QWidget();
     widgetLine->setMinimumWidth(screenSize.width());
     widgetLine->setLayout(line);
     cardInfoListLayout->addWidget(widgetLine);
+    childWidgets.append(widgetLine);
 
     //backside of card-----------------
     line = new QHBoxLayout();
+    childLayouts.append(line);
     //для симметричности
     //line->addSpacing(editIconSize.width());
-
     line->addStretch(1);
 
-    cardIcon = new SimpleIcon(0,card->getCardImgSrc(),"",cardIconSize);
+    cardIcon = new SimpleIcon(0,card->getCardImgBackSrc(),"",cardIconSize);
     cardIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
     line->addWidget(cardIcon);
+    childWidgets.append(cardIcon);
     line->addStretch(1);
 
     icon = new SimpleIcon(0,":/svg/tools/pen.svg",":/svg/tools/penPUSH.svg",editIconSize);
     icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
+    connect(icon,SIGNAL(click(int)),this,SIGNAL(editBackSideImg()));
     line->addWidget(icon);
+    childWidgets.append(icon);
     line->addSpacing(rightEditIconOffset);
     widgetLine = new QWidget();
     widgetLine->setMinimumWidth(screenSize.width());
     widgetLine->setLayout(line);
     cardInfoListLayout->addWidget(widgetLine);
+    childWidgets.append(widgetLine);
     //----------------------------------------
 
 
     line = new QHBoxLayout();
+    childLayouts.append(line);
     //для симметричности
     //line->addSpacing(editIconSize.width());
 
@@ -149,17 +171,21 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
     icon = new SimpleIcon(0,":/svg/tools/pen.svg",":/svg/tools/penPUSH.svg",infoIconSize);
     icon->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
     line->addWidget(icon);
-
+    childWidgets.append(icon);
     line->addSpacing(rightEditIconOffset + editIconSize.width());
 
     widgetLine = new QWidget();
     widgetLine->setMinimumWidth(screenSize.width());
+    childWidgets.append(widgetLine);
     widgetLine->setLayout(line);
 
     cardInfoListLayout->addWidget(widgetLine);
 
     cardInfoListLayout->addStretch(1);
+    //childLayouts.append(cardInfoListLayout);
+    childWidgets.append(blankSpace);
 
+    //childLayouts.append(blankLayout);
 }
 
 void CardInfoScreen::onEditName()

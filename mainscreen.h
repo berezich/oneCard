@@ -9,6 +9,7 @@
 #include "grp.h"
 #include "cardscreen.h"
 #include "cardinfoscreen.h"
+#include "galeryscreen.h"
 #include "icon.h"
 #include "data.h"
 #include "appstate.h"
@@ -30,6 +31,11 @@ public slots:
     void showGrpScreen(int i);
     void showCardScreen(int i);
     void showCardInfoScreen(int i);
+    void showGalleryScreenF();
+    void showGalleryScreenB();
+    void showGalleryScreen(int i);
+    void setCardImgSrc(QString dir, QString fileName);
+    void onPressBackGalleryScreen();
 
 private:
     QSize appWidowSize;
@@ -43,13 +49,19 @@ private:
     AppState *appState;
     //GRP_SOURCE grpState = LOCAL;
 
+    QString appDataLocation="/data/data/com.berezich.oneCard/files";
+    QString cameraDir="/storage/emulated/0/DCIM/camera/";
+    QString cacheDir="cameraCache/";
 
     Data *dataM;
 
     GrpScreen *grpScreen;
     CardScreen *cardScreen;
     CardInfoScreen *cardInfoScreen;
+    GalleryScreen *galleryScreen;
 
+    QSize imgSaveSize = QSize(480,360);
+    int cacheImgNum = 8;
 
     void showScreen(SCREEN_TYPE scr);
     void hideAllScreens();

@@ -2,6 +2,10 @@
 #define DATA_H
 #include "grp.h"
 #include "cardinfo.h"
+#include <QFile>
+#include <QImage>
+#include <QPixmap>
+#include <QDir>
 
 class Data
 {
@@ -13,8 +17,11 @@ public:
     QList<CardInfo> *getLocalCards(int grpId);
     Grp *getLocalGrp(int grpId);
     CardInfo *getLocalCard(int grpId, int cardId);
-private:
+    void saveImg(QString fromSrc, QString toSrc, QSize imgSaveSize);
+    void cacheLastImg(QString cacheFromDir, QString cacheToDir, int num, QSize imgSaveSize);
 
+private:
+    QString cameraDir = "/storage/emulated/0/DCIM/camera/";
     QList<Grp> localGrpLst;
 
 };

@@ -17,6 +17,14 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     double displayDiagonalInch = sqrt(displayWidthInch*displayWidthInch + displayHeightInch*displayHeightInch); // screen diagonal size in inches
     this->screenInfo = mainApp->primaryScreen();
 
+
+    QStringList dirs = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
+    for(int i=0; i<dirs.length(); i++)
+        qDebug()<< "dir"<<i<<" = "<<dirs.at(i);
+    if(dirs.length()>0)
+        appDataLocation = dirs.at(0);
+
+
     //this->screenInfo = screenInfo;
 
     appWidowSize.setWidth(screenAvailableGeometry.width());
@@ -55,15 +63,27 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
 
     //cardInfoScreen = new CardInfoScreen(screenInfo,this);
     cardInfoScreen = new CardInfoScreen(screenInfo,appWidowSize,this);
+    imgSaveSize = cardInfoScreen->getCardIconSize();
     cardInfoScreen->hide();
     connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
     mainLayout->addWidget(cardInfoScreen);
 
+    dataM->cacheLastImg(cameraDir,appDataLocation+cacheDir,cacheImgNum,imgSaveSize);
+
+    /*
+    galleryScreen = new GalleryScreen(screenInfo,appWidowSize,this);
+    //galleryScreen->showCameraPhotos();
+    galleryScreen->hide();
+    connect(galleryScreen,SIGNAL(pressBack()),this,SLOT(onPressBackGalleryScreen()));
+    connect(galleryScreen,SIGNAL(selectPic(QString)),this,SLOT(setCardImgSrc(QString)));
+    mainLayout->addWidget(galleryScreen);
+    */
     mainLayout->setMargin(0);
     setLayout(mainLayout);
 
     appState->setCurGrpType(LOCAL);
     showScreen(LOCAL_GRP_SCREEN);
+    //showScreen(GALLERY_SCREEN);
 }
 
 /*
@@ -153,6 +173,7 @@ void MainScreen::showCardScreen(int i)
         screen ->setCardList(grp->getName(),grp->getImgSrc(),dataM->getLocalCards(grpId));
     }
     mainLayout->replaceWidget(cardScreen,screen);
+    delete(cardScreen);
     cardScreen = screen;
     connect(cardScreen,SIGNAL(backPressed(int)),this,SLOT(showGrpScreen(int)));
     connect(cardScreen,SIGNAL(cardSelected(int)),this,SLOT(showCardInfoScreen(int)));
@@ -163,6 +184,7 @@ void MainScreen::showCardScreen(int i)
 void MainScreen::showCardInfoScreen(int cardId)
 {
     int grpId = appState->getCurGrpId();
+    appState->setCurCardId(cardId);
     //CardInfoScreen *screen = new CardInfoScreen(screenInfo,this);
     CardInfoScreen *screen = new CardInfoScreen(screenInfo,appWidowSize,this);
     if(appState->getCurGrpType()==LOCAL)
@@ -170,12 +192,73 @@ void MainScreen::showCardInfoScreen(int cardId)
         screen->showCardInfo(dataM->getLocalCard(grpId,cardId));
     }
     mainLayout->replaceWidget(cardInfoScreen,screen);
+    delete(cardInfoScreen);
     cardInfoScreen = screen;
     connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
-
+    connect(cardInfoScreen,SIGNAL(editFrontSideImg()),this,SLOT(showGalleryScreenF()));
+    connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showGalleryScreenB()));
 
     showScreen(CARD_INFO_SCREEN);
 
+}
+
+void MainScreen::showGalleryScreenF()
+{
+    appState->setCurCardSideState(FRONTSIDE);
+    showGalleryScreen(0);
+}
+void MainScreen::showGalleryScreenB()
+{
+    appState->setCurCardSideState(BACKSIDE);
+    showGalleryScreen(0);
+}
+void MainScreen::showGalleryScreen(int i)
+{
+    /*
+    GalleryScreen *screen = new GalleryScreen(screenInfo,appWidowSize,this);
+    screen->showCameraPhotos();
+    mainLayout->replaceWidget(galleryScreen,screen);
+    delete(galleryScreen);
+    galleryScreen = screen;
+    */
+
+    galleryScreen = new GalleryScreen(screenInfo,appWidowSize,appDataLocation+cacheDir,this);
+    galleryScreen->hide();
+    galleryScreen->showCameraPhotos();
+    mainLayout->addWidget(galleryScreen);
+
+    connect(galleryScreen,SIGNAL(pressBack()),this,SLOT(onPressBackGalleryScreen()));
+    connect(galleryScreen,SIGNAL(selectPic(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
+
+    showScreen(GALLERY_SCREEN);
+
+}
+
+void MainScreen::setCardImgSrc(QString dir, QString fileName)
+{
+    if(galleryScreen!=NULL)
+        delete(galleryScreen);
+
+    int cardId = appState->getCurCardId();
+    int grpId = appState->getCurGrpId();
+    CardInfo *cardInf = dataM->getLocalCard(grpId, cardId);
+    QString imgName = cardInf->getCardName()+"_"+fileName;
+    QString saveSrc = appDataLocation+"/"+imgName;
+
+    dataM->saveImg(dir+fileName,saveSrc,imgSaveSize);
+
+    if(appState->getCurCardSideState()==FRONTSIDE)
+        dataM->getLocalCard(grpId,cardId)->setCardImgSrc(saveSrc);
+    else
+        dataM->getLocalCard(grpId,cardId)->setCardImgBackSrc(saveSrc);
+
+    showCardInfoScreen(cardId);
+}
+
+void MainScreen::onPressBackGalleryScreen()
+{
+    delete(galleryScreen);
+    showCardInfoScreen(appState->getCurCardId());
 }
 
 void MainScreen::showScreen(SCREEN_TYPE scr)
@@ -194,6 +277,9 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
     case CARD_INFO_SCREEN:
         cardInfoScreen->show();
         break;
+    case GALLERY_SCREEN:
+        galleryScreen->show();
+        break;
     default:
 
         break;
@@ -205,5 +291,6 @@ void MainScreen::hideAllScreens()
     grpScreen->hide();
     cardScreen->hide();
     cardInfoScreen->hide();
+    //galleryScreen->hide();
 }
 
