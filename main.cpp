@@ -48,9 +48,22 @@ int main(int argc, char *argv[])
 {
     QScreen *screenInfo;
     QApplication app(argc, argv);
+
+
+    //QRect screenGeometry = QApplication::desktop()->availableGeometry();
+    QRect screenGeometry = app.desktop()->availableGeometry();
+    int dpiY = app.desktop()->physicalDpiY();
+    int dpiX = app.desktop()->physicalDpiX();
+    double displayWidthInch = screenGeometry.width() / dpiX;
+    double displayHeightInch = screenGeometry.height() / dpiY;
+    double displayDiagonalInch = sqrt(displayWidthInch*displayWidthInch + displayHeightInch*displayHeightInch); // screen diagonal size in inches
+
+    qDebug()<< "display inches = " <<displayDiagonalInch;
+
     screenInfo = (QScreen *) app.screens().first();
 
-    MainScreen mainScreen(screenInfo);
+    //MainScreen mainScreen(screenInfo);
+    MainScreen mainScreen(&app);
     mainScreen.show();
     return app.exec();
 }

@@ -5,15 +5,13 @@ Cap::~Cap()
 
 }
 
-void Cap::setTitle(QString txt, int textSize, int leftMargin, QString color)
+void Cap::setTitle(QString txt, double textSize, int leftMargin, QString color)
 {
     titleLbl->setText(txt);
     titleLbl->setFont(QFont("Calibri",textSize));
     titleLbl->setStyleSheet("QLabel { color : "+color+"; }");
-    //titleLbl
     titleLbl->setContentsMargins(leftMargin,0,0,0);
     titleLbl->adjustSize();
-    //hLayout->layout()->itemAt(0)->
 
 }
 
@@ -49,24 +47,9 @@ Cap::Cap(int height, QString color , QWidget *parent)
 
     titleLbl = new QLabel(title);
     titleLbl->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
-    //titleLbl->setMinimumSize(40,40);
-    //titleLbl->resi
     hLayout->addWidget( titleLbl);
     hLayout->addStretch(1);
-
-//    rightIcon = new QLabel();
-//    rightIcon->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
-//    hLayout->addWidget(rightIcon);
 
     setLayout(hLayout);
 
 }
-
-
-//void Cap::setTitle(QString txt, int leftMargin, int textSize)
-//{
-//    titleLbl->setText(txt);
-//    titleLbl->setFont(QFont("Calibri",textSize));
-//    titleLbl->setContentsMargins(leftMargin,0,0,0);
-//    return;
-//}

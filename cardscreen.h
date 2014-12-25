@@ -10,9 +10,9 @@ class CardScreen : public BlankScreen
 {
     Q_OBJECT
 public:
-    explicit CardScreen(QScreen *screenInfo,QWidget *parent=0);
+    //explicit CardScreen(QScreen *screenInfo,QWidget *parent=0);
+    explicit CardScreen(QScreen *screenInfo,QSize appScrSize,QWidget *parent=0);
     ~CardScreen();
-    void setTitle(QString txt);
     void setCardList(QString title, QString grpImgSrc, QList<CardInfo> *cardList);
 
 public slots:
@@ -30,7 +30,7 @@ private:
     int leftCardOffset = 20;
 
     int leftNameCardOffset = 25;
-    int textCardNameSize = 15;
+    double textCardNameSize = 15;
     QString colorTextNameCard = "#000000";
 
     QSize nextIconSize = QSize(80,80);

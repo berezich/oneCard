@@ -6,15 +6,33 @@ MainScreen::MainScreen(QWidget *parent) : QWidget(parent)
 
 }
 
-MainScreen::MainScreen(QScreen *screenInfo, QWidget *parent): QWidget(parent)
+MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
 {
+    QDesktopWidget *desktop = mainApp->desktop();
+    QRect screenAvailableGeometry = desktop->availableGeometry();
+    int dpiY = desktop->physicalDpiY();
+    int dpiX = desktop->physicalDpiX();
+    double displayWidthInch = screenAvailableGeometry.width() / dpiX;
+    double displayHeightInch = screenAvailableGeometry.height() / dpiY;
+    double displayDiagonalInch = sqrt(displayWidthInch*displayWidthInch + displayHeightInch*displayHeightInch); // screen diagonal size in inches
+    this->screenInfo = mainApp->primaryScreen();
 
-    this->screenInfo = screenInfo;
-    screenSize = screenInfo->geometry().size();
-    scaleFactor = screenSize.width()/defaultWidth;
+    //this->screenInfo = screenInfo;
+
+    appWidowSize.setWidth(screenAvailableGeometry.width());
+    appWidowSize.setHeight(screenAvailableGeometry.height());
+    if(appWidowSize != QSize(0,0))
+        appWidowSize = QSize(defaultWidth,defaultHeight)*0.65;
+    else
+        appWidowSize = QSize(screenInfo->geometry().width(),screenInfo->geometry().height());
+    //scaleFactor = screenSize.width()/defaultWidth;
+
+
+
     dataM = new Data();
-    qDebug()<<"scale = "<< scaleFactor;
-    setMinimumSize(screenSize);
+    //qDebug()<<"scale = "<< scaleFactor;
+
+    //setMinimumSize(screenSize);
 
     appState = new AppState();
 
@@ -22,18 +40,64 @@ MainScreen::MainScreen(QScreen *screenInfo, QWidget *parent): QWidget(parent)
 
     dataM->getLocalGroups();
 
-    grpScreen = new GrpScreen(screenInfo,this);
+    //grpScreen = new GrpScreen(screenInfo,this);
+    grpScreen = new GrpScreen(screenInfo,appWidowSize,this);
     grpScreen->setGrpLst(dataM->getLocalGroups());
     grpScreen->hide();
     connect(grpScreen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
     mainLayout->addWidget(grpScreen);
 
-    cardScreen = new CardScreen(screenInfo,this);
+    //cardScreen = new CardScreen(screenInfo,this);
+    cardScreen = new CardScreen(screenInfo,appWidowSize,this);
     cardScreen->hide();
     connect(cardScreen,SIGNAL(backPressed(int)),this,SLOT(showGrpScreen(int)));
     mainLayout->addWidget(cardScreen);
 
-    cardInfoScreen = new CardInfoScreen(screenInfo,this);
+    //cardInfoScreen = new CardInfoScreen(screenInfo,this);
+    cardInfoScreen = new CardInfoScreen(screenInfo,appWidowSize,this);
+    cardInfoScreen->hide();
+    connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
+    mainLayout->addWidget(cardInfoScreen);
+
+    mainLayout->setMargin(0);
+    setLayout(mainLayout);
+
+    appState->setCurGrpType(LOCAL);
+    showScreen(LOCAL_GRP_SCREEN);
+}
+
+/*
+MainScreen::MainScreen(QScreen *screenInfo, QWidget *parent): QWidget(parent)
+{
+
+    this->screenInfo = screenInfo;
+    //screenSize = screenInfo->geometry().size();
+    //scaleFactor = screenSize.width()/defaultWidth;
+    dataM = new Data();
+    //qDebug()<<"scale = "<< scaleFactor;
+    //setMinimumSize(screenSize);
+
+    appState = new AppState();
+
+    mainLayout = new QVBoxLayout();
+
+    dataM->getLocalGroups();
+
+    //grpScreen = new GrpScreen(screenInfo,this);
+    grpScreen = new GrpScreen(screenInfo,appWidowSize,this);
+    grpScreen->setGrpLst(dataM->getLocalGroups());
+    grpScreen->hide();
+    connect(grpScreen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
+    mainLayout->addWidget(grpScreen);
+
+    //cardScreen = new CardScreen(screenInfo,this);
+    cardScreen = new CardScreen(screenInfo,appWidowSize,this);
+    cardScreen->hide();
+    connect(cardScreen,SIGNAL(backPressed(int)),this,SLOT(showGrpScreen(int)));
+    mainLayout->addWidget(cardScreen);
+
+    //cardInfoScreen = new CardInfoScreen(screenInfo,this);
+    cardInfoScreen = new CardInfoScreen(screenInfo,appWidowSize,this);
     cardInfoScreen->hide();
     connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
     mainLayout->addWidget(cardInfoScreen);
@@ -49,6 +113,7 @@ MainScreen::MainScreen(QScreen *screenInfo, QWidget *parent): QWidget(parent)
 
 
 }
+*/
 
 MainScreen::~MainScreen()
 {
@@ -80,7 +145,8 @@ void MainScreen::showCardScreen(int i)
 {
     Grp *grp;
     int grpId = appState->getCurGrpId();
-    CardScreen *screen = new CardScreen(screenInfo,this);
+    //CardScreen *screen = new CardScreen(screenInfo,this);
+    CardScreen *screen = new CardScreen(screenInfo,appWidowSize,this);
     if(appState->getCurGrpType()==LOCAL)
     {
         grp = dataM->getLocalGrp(grpId);
@@ -97,7 +163,8 @@ void MainScreen::showCardScreen(int i)
 void MainScreen::showCardInfoScreen(int cardId)
 {
     int grpId = appState->getCurGrpId();
-    CardInfoScreen *screen = new CardInfoScreen(screenInfo,this);
+    //CardInfoScreen *screen = new CardInfoScreen(screenInfo,this);
+    CardInfoScreen *screen = new CardInfoScreen(screenInfo,appWidowSize,this);
     if(appState->getCurGrpType()==LOCAL)
     {
         screen->showCardInfo(dataM->getLocalCard(grpId,cardId));
