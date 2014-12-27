@@ -3,6 +3,8 @@
 #include "blankscreen.h"
 #include "cardinfo.h"
 #include <QLineEdit>
+#include <QStandardPaths>
+#include <QDir>
 
 class CardInfoScreen : public BlankScreen
 {
@@ -12,7 +14,7 @@ public:
     explicit CardInfoScreen(QScreen *screenInfo, QSize appScrSize,QWidget *parent=0);
     ~CardInfoScreen();
     void showCardInfo(CardInfo *card);
-
+    QSize getCardIconSize(){return cardIconSize;}
 public slots:
     //void onCapBack(int i);
 private slots:
@@ -21,6 +23,8 @@ private slots:
 signals:
     void backPressed(int i);
     void editCard(QString name, QString src);
+    void editFrontSideImg();
+    void editBackSideImg();
 private:
     int capLeftIconOffset = 10;
 
@@ -44,6 +48,9 @@ private:
     QSize infoIconSize = QSize(110,110);
 
     QVBoxLayout *cardInfoListLayout;
+
+    QWidgetList childWidgets;
+    QList<QLayout*> childLayouts;
 };
 
 #endif // CARDINFOSCREEN_H

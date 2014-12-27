@@ -14,7 +14,11 @@ HEADERS       = button.h \
     cardscreen.h \
     cardinfo.h \
     cardinfoscreen.h \
-    appstate.h
+    appstate.h \
+    galeryscreen.h \
+    imgicon.h \
+    overlay.h \
+    newgrpmodal.h
 SOURCES       = button.cpp \
                 main.cpp \
     blankscreen.cpp \
@@ -28,7 +32,11 @@ SOURCES       = button.cpp \
     cardscreen.cpp \
     cardinfo.cpp \
     cardinfoscreen.cpp \
-    appstate.cpp
+    appstate.cpp \
+    galeryscreen.cpp \
+    imgicon.cpp \
+    overlay.cpp \
+    newgrpmodal.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/oneCard

@@ -2,7 +2,17 @@
 
 Data::Data()
 {
-
+    grpImgSrcLst.append(":/svg/grpIcons/car.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/fit.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/food.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/med.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/plane.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/rebild.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/shop.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/sun.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/different.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/star.svg");
+    //grpImgSrcLst.append();
 }
 
 Data::~Data()
@@ -104,4 +114,60 @@ CardInfo *Data::getLocalCard(int grpId, int cardId)
             }
     return new CardInfo();
 }
+
+void Data::saveImg(QString fromSrc, QString toSrc, QSize imgSaveSize)
+{
+    if(!QFile::exists(toSrc))
+    {
+        QFile file(toSrc);
+        if(file.open(QIODevice::WriteOnly))
+        {
+
+            QImage *picImg = new QImage(fromSrc);
+            if(picImg->height()>picImg->width())
+            {
+                QTransform trans;
+                QImage *picImgRotate = new QImage( picImg->transformed(trans.rotate(-90)));
+                delete(picImg);
+                picImg = picImgRotate;
+            }
+            QPixmap::fromImage(picImg->scaled(imgSaveSize,Qt::KeepAspectRatio)).save(&file, "jpeg");
+            delete(picImg);
+            file.close();
+
+            //pixmap.save(&file, "jpeg"/*,100*/);
+        }
+    }
+}
+
+void Data::cacheLastImg(QString cacheFromDir, QString cacheToDir, int num, QSize imgSaveSize )
+{
+    QStringList photoLst;
+
+    QDir dir(cacheToDir);
+    if (!dir.exists()) {
+        dir.mkpath(".");
+    }
+
+    QDir srcDir = QDir( cacheFromDir );
+    srcDir.setSorting(QDir::Time);
+    QStringList filters;
+    filters << "*.jpg";
+    srcDir.setNameFilters(filters);
+    photoLst = srcDir.entryList();
+
+    QString filePath="";
+    if(photoLst.length()>0)
+        filePath = srcDir.absoluteFilePath(photoLst.at(0));
+
+
+    for(int i= (photoLst.length()>=num)? num-1 : photoLst.length()-1; i>=0 ; i--)
+        saveImg(cacheFromDir+photoLst[i],cacheToDir+photoLst[i],imgSaveSize);
+}
+
+QStringList Data::getGrpImgSrc()
+{
+    return grpImgSrcLst;
+}
+
 

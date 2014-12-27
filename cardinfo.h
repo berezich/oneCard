@@ -12,6 +12,7 @@ private:
     QString name;
     QString comment;
     QString imgSrc;
+    QString imgBackSrc;
 
 public:
     int getId(){return id;}
@@ -19,8 +20,12 @@ public:
     QString getCardName(){return name;}
     QString getCardComment(){return comment;}
     QString getCardImgSrc(){return imgSrc;}
+    QString getCardImgBackSrc(){return imgBackSrc;}
+
     void setCardName(QString txt){name=txt;}
     void setCardImgSrc(QString path){imgSrc = path;}
+    void setCardImgBackSrc(QString path){imgBackSrc = path;}
+
 };
 
 #endif // CARDINFO_H

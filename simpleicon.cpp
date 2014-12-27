@@ -15,11 +15,11 @@ SimpleIcon::SimpleIcon(int id, QString imgScr,  QString imgPushScr, QSize imgSiz
 
 SimpleIcon::~SimpleIcon()
 {
-
+    delete(picIcon);
 }
 void SimpleIcon::mousePressEvent(QMouseEvent *)
 {
-    QPixmap pixmap=  picIcon->pixmap(imgSize,QIcon::Selected);
+    QPixmap pixmap =  picIcon->pixmap(imgSize,QIcon::Selected);
     setPixmap(pixmap);
     setEnabled(!pixmap.isNull());
     adjustSize();

@@ -40,5 +40,11 @@
         <file>cardsImg/other.png</file>
         <file>cardsImg/sun.png</file>
         <file>cardsImg/travel.png</file>
+        <file>svg/grpIcons/star.svg</file>
+        <file>svg/grpIcons/starPUSH.svg</file>
+        <file>svg/tools/arrowok.svg</file>
+        <file>svg/tools/arrowokPUSH.svg</file>
+        <file>svg/tools/modalline.svg</file>
+        <file>svg/tools/modalwindow.svg</file>
     </qresource>
 </RCC>

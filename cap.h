@@ -28,6 +28,8 @@ private:
     QLabel *titleLbl;
     QLabel *rightIcon;
     QLabel *leftIcon;
+    QWidgetList childWidgets;
+    QList<QLayout *> childLayouts;
 };
 
 #endif // CAP_H

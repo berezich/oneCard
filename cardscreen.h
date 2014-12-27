@@ -37,6 +37,8 @@ private:
     int rightNextIconOffset = 20;
 
     QVBoxLayout *cardListLayout;
+    QWidgetList childWidgets;
+    QList<QLayout *> childLayouts;
 };
 
 #endif // CARDSCREEN_H
