@@ -2,29 +2,8 @@
 
 Data::Data()
 {
-    grpImgSrcLst.append(":/svg/grpIcons/car.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/fit.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/food.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/med.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/plane.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/rebild.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/shop.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/sun.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/different.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/star.svg");
-    //grpImgSrcLst.append();
-}
-
-Data::~Data()
-{
-
-}
-
-QList<Grp> Data::getLocalGroups()
-{
-    //получение списка групп из файловой системы
-
     int i=1;
+    //получение списка групп из файловой системы
     localGrpLst.clear();
     Grp gr1(i++, "Транспорт", ":/svg/grpIcons/car.svg", ":/svg/grpIcons/carPUSH.svg");
     Grp gr2 (i++,"Спорт", ":/svg/grpIcons/fit.svg", ":/svg/grpIcons/fitPUSH.svg");
@@ -84,6 +63,28 @@ QList<Grp> Data::getLocalGroups()
             }
 
     }
+    //------------------------
+    grpImgSrcLst.append(":/svg/grpIcons/car.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/fit.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/food.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/med.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/plane.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/rebild.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/shop.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/sun.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/different.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/star.svg");
+}
+
+Data::~Data()
+{
+
+}
+
+QList<Grp> Data::getLocalGroups()
+{
+
+
     return localGrpLst;
 }
 
@@ -160,7 +161,6 @@ void Data::cacheLastImg(QString cacheFromDir, QString cacheToDir, int num, QSize
     if(photoLst.length()>0)
         filePath = srcDir.absoluteFilePath(photoLst.at(0));
 
-
     for(int i= (photoLst.length()>=num)? num-1 : photoLst.length()-1; i>=0 ; i--)
         saveImg(cacheFromDir+photoLst[i],cacheToDir+photoLst[i],imgSaveSize);
 }
@@ -169,5 +169,9 @@ QStringList Data::getGrpImgSrc()
 {
     return grpImgSrcLst;
 }
+void Data::addNewGrp(QString name, QString grpImgSrc)
+{
 
-
+    Grp gr1(localGrpLst.length(), name, grpImgSrc, "");
+    localGrpLst.insert(localGrpLst.length()-1,gr1);
+}

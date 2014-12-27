@@ -4,9 +4,11 @@ NewGrpModal::NewGrpModal(QSize size,double scale,QStringList grpIconLst, QWidget
 {
     scaleFactor = scale;
     screenSize = size;
+    setMinimumSize(size);
+    setMaximumSize(size);
     gridSpace = gridSpace*scale;
     rectSize = rectSize*scale;
-    rectPoint= QPoint((screenSize.width()-rectSize.width())/2,(screenSize.height()-rectSize.height())/2-yRound*scale);
+    rectPoint= QPoint((screenSize.width()-rectSize.width())/2,(screenSize.height()-rectSize.height())/2);
 
     xRound = xRound *scale;
     yRound = yRound *scale;
@@ -25,31 +27,6 @@ NewGrpModal::~NewGrpModal()
 void NewGrpModal::setIconLst()
 {
     SimpleIcon *icon;
-    for(int i=0; i<columnsNum*rowsNum; i++)
-    {
-        if(i < imgSrcLst.length())
-        {
-            //icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpLst[i].getImgSrc(), grpLst[i].getImgPushSrc(), QSize(190*scaleFactor,190*scaleFactor)/*,*new QSize(230*scaleFactor,210*scaleFactor)*/);
-            icon = new SimpleIcon(i,imgSrcLst[i],"",iconSize);
-            icon->setAlignment(Qt::AlignVCenter /*| Qt::AlignRight*/);
-            //icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpLst[i].getImgSrc(), grpLst[i].getImgPushSrc(), QSize(190*scaleFactor,190*scaleFactor)/*,*new QSize(230*scaleFactor,210*scaleFactor)*/);
-            connect(icon,SIGNAL(click(int)),this,SLOT(onClickGrpIcon(int)));
-            gridLayout->addWidget(icon, qFloor(i/columnsNum),i%columnsNum);
-        }
-        else
-            gridLayout->addWidget(new QWidget(), qFloor(i/columnsNum),i%columnsNum);
-
-    }
-    //this->hide();
-}
-
-void NewGrpModal::paintEvent(QPaintEvent *event)
-{
-    Overlay::paintEvent(event);
-    QPainter customPainter(this);
-    customPainter.setRenderHint(QPainter::Antialiasing);
-    customPainter.setBrush(QBrush(QColor(backGroundColor)));
-    customPainter.drawRoundedRect(QRect(rectPoint,rectSize),xRound,yRound/*,backGroundColor*/);
 
     QLabel *formWindow = new QLabel();
     QIcon *picIcon = new QIcon(":/svg/tools/modalwindow.svg");
@@ -58,11 +35,11 @@ void NewGrpModal::paintEvent(QPaintEvent *event)
     //formWindow->setMinimumSize(rectSize);
     //formWindow->setMaximumSize(rectSize);
     //formWindow->adjustSize();
-    formWindow->setContentsMargins(rectPoint.x(),rectPoint.y(),rectPoint.x(),rectPoint.y());
+    //formWindow->setContentsMargins(rectPoint.x(),rectPoint.y(),rectPoint.x(),rectPoint.y());
 
     formBasic = new QVBoxLayout();
     formWidget = new QWidget();
-    formBasic->setContentsMargins(rectPoint.x(),rectPoint.y(),rectPoint.x(),rectPoint.y());
+    formBasic->setContentsMargins(rectPoint.x()+10*scaleFactor,rectPoint.y(),rectPoint.x()+10*scaleFactor,rectPoint.y()-12*scaleFactor);
 
     formBasic->addWidget(formWidget);
     //formBasic->addWidget(formWindow);
@@ -84,10 +61,19 @@ void NewGrpModal::paintEvent(QPaintEvent *event)
     nameLbl->setStyleSheet("QLabel { color : "+lblTxtColor+"; }");
     formLayout->addWidget(nameLbl);
 
+    QWidget *editName = new QWidget();
+    QHBoxLayout *editNameLayout = new QHBoxLayout();
+    editName->setLayout(editNameLayout);
+    editNameLayout->addSpacing(20*scaleFactor);
     grpName = new QLineEdit();
     grpName->setFont(QFont("Calibri",lblTxtSize));
-    grpName->setStyleSheet("QLabel { color : "+lblTxtColor+"; }");
-    formLayout->addWidget(grpName);
+    grpName->setStyleSheet(" color : "+lblTxtColor+/*"; border: 0px solid gray; background: "+backGroundColor+*/";");
+    //nameEditLine->setStyleSheet("border: 0px solid gray; border-radius: 10px; padding: 0 8px; background: "+backGroundColor+"; selection-background-color: darkgray;");
+    grpName->setAlignment(Qt::AlignCenter);
+    editNameLayout->addWidget(grpName);
+    editNameLayout->addSpacing(20*scaleFactor);
+    //formLayout->addWidget(grpName);
+    formLayout->addWidget(editName);
 
     choiceLbl = new QLabel(lbl2);
     choiceLbl->setFont(QFont("Calibri",lblTxtSize));
@@ -109,28 +95,90 @@ void NewGrpModal::paintEvent(QPaintEvent *event)
     gridWidget->setLayout(gridLayout);
     formLayout->addWidget(lineWidget);
 
-    setIconLst();
+    for(int i=0; i<columnsNum*rowsNum; i++)
+    {
+        if(i < imgSrcLst.length())
+        {
+            //icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpLst[i].getImgSrc(), grpLst[i].getImgPushSrc(), QSize(190*scaleFactor,190*scaleFactor)/*,*new QSize(230*scaleFactor,210*scaleFactor)*/);
+            icon = new SimpleIcon(i,imgSrcLst[i],"",iconSize,true);
+            if(i==0)
+            {
+                icon->selectIcon();
+                selectedIcon = i;
 
+            }
+            iconsGrid.append(icon);
+            icon->setAlignment(Qt::AlignVCenter /*| Qt::AlignRight*/);
+            //icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpLst[i].getImgSrc(), grpLst[i].getImgPushSrc(), QSize(190*scaleFactor,190*scaleFactor)/*,*new QSize(230*scaleFactor,210*scaleFactor)*/);
+            connect(icon,SIGNAL(click(int)),this,SLOT(onClickGrpIcon(int)));
+            gridLayout->addWidget(icon, qFloor(i/columnsNum),i%columnsNum);
+        }
+        else
+            gridLayout->addWidget(new QWidget(), qFloor(i/columnsNum),i%columnsNum);
+
+    }
     formLayout->addStretch(1);
 
-    SimpleIcon *icon;
+    //SimpleIcon *icon;
+    QWidget *confLineWidget = new QWidget();
+    QHBoxLayout *confLineLayout = new QHBoxLayout();
+    confLineWidget->setContentsMargins(0,0,0,0);
+    confLineWidget->setLayout(confLineLayout);
+    confLineLayout->addStretch(1);
+    confLineLayout->setContentsMargins(0,0,0,0);
+
+    icon = new SimpleIcon(-1,":/svg/tools/close.svg","",iconOkSize);
+    icon->setAlignment(Qt::AlignHCenter|Qt::AlignBottom /*| Qt::AlignRight*/);
+    connect(icon,SIGNAL(click(int)),this,SLOT(onClickGrpCancel()));
+    icon->adjustSize();
+    confLineLayout->addWidget(icon);
+    confLineLayout->addStretch(1);
     icon = new SimpleIcon(-1,":/svg/tools/arrowok.svg","",iconOkSize);
     icon->setAlignment(Qt::AlignHCenter|Qt::AlignBottom /*| Qt::AlignRight*/);
+    icon->adjustSize();
+    connect(icon,SIGNAL(click(int)),this,SLOT(onClickGrpOk()));
+    confLineLayout->addWidget(icon);
+    confLineLayout->addStretch(1);
 
-    formLayout->addWidget(icon);
+    formLayout->addWidget(confLineWidget);
+    //this->hide();
+}
+
+void NewGrpModal::paintEvent(QPaintEvent *event)
+{
+    Overlay::paintEvent(event);
+    QPainter customPainter(this);
+    customPainter.setRenderHint(QPainter::Antialiasing);
+    customPainter.setBrush(QBrush(QColor(backGroundColor)));
+    //customPainter.setPen();
+    customPainter.drawRoundedRect(QRect(rectPoint,rectSize),xRound,yRound/*,backGroundColor*/);
+
+
+
+    //setIconLst();
+
+
 
 
 
 }
 
-void NewGrpModal::onClickGrpCreated()
+void NewGrpModal::onClickGrpOk()
 {
-    //emit newGrpConfigured(grpName->text(),grpImgSrcSelected);
+    this->hide();
+    emit newGrpConfigured(grpName->text(),iconsGrid[selectedIcon]->getImgSrc());
 }
 
 void NewGrpModal::onClickGrpIcon(int i)
 {
-    grpImgSrcSelected = imgSrcLst[i];
+    if(selectedIcon>=0)
+        iconsGrid[selectedIcon]->unselectIcon();
+    selectedIcon = i;
+}
+
+void NewGrpModal::onClickGrpCancel()
+{
+    this->hide();
 }
 
 

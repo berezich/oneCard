@@ -36,7 +36,7 @@ protected:
     Cap  *cap;
     QWidget *blankSpace;
     QSize screenSize;
-    int capSpacerH = 50;
+    int capSpacerH = 20;
     int capHeight = 120;
     int titleLeftMargin = 20;
     double textTitleSize = 20;

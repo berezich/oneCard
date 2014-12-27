@@ -46,5 +46,8 @@
         <file>svg/tools/arrowokPUSH.svg</file>
         <file>svg/tools/modalline.svg</file>
         <file>svg/tools/modalwindow.svg</file>
+        <file>svg/tools/close.svg</file>
+        <file>svg/tools/magnetno.svg</file>
+        <file>svg/tools/magnetyes.svg</file>
     </qresource>
 </RCC>

@@ -23,7 +23,7 @@ private slots:
 private:
     int columnsNum = 2;
     int rowsNum = 4;
-    QSize iconSize = QSize(350,262);
+    QSize iconSize = QSize(345,262);
     QSize imgSaveSize = QSize(480,360);
 
     //double textSize = 15;

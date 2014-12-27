@@ -24,7 +24,7 @@ private slots:
 private:
     int columnsNum = 3;
     int rowsNum = 4;
-    QSize iconSize = QSize(190,190);
+    QSize iconSize = QSize(170,170);
     double textSize = 15;
     QString title=tr("ВАШИ КАРТЫ");
 

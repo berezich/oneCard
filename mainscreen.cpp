@@ -103,61 +103,13 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     //overlay = new Overlay(this);
 
 }
+
 void MainScreen::resizeEvent(QResizeEvent *event)
 {
     //if(!initNewGrpModal)
       //  newGrpModal->resize(event->size());
     event->accept();
 }
-
-/*
-MainScreen::MainScreen(QScreen *screenInfo, QWidget *parent): QWidget(parent)
-{
-
-    this->screenInfo = screenInfo;
-    //screenSize = screenInfo->geometry().size();
-    //scaleFactor = screenSize.width()/defaultWidth;
-    dataM = new Data();
-    //qDebug()<<"scale = "<< scaleFactor;
-    //setMinimumSize(screenSize);
-
-    appState = new AppState();
-
-    mainLayout = new QVBoxLayout();
-
-    dataM->getLocalGroups();
-
-    //grpScreen = new GrpScreen(screenInfo,this);
-    grpScreen = new GrpScreen(screenInfo,appWidowSize,this);
-    grpScreen->setGrpLst(dataM->getLocalGroups());
-    grpScreen->hide();
-    connect(grpScreen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
-    mainLayout->addWidget(grpScreen);
-
-    //cardScreen = new CardScreen(screenInfo,this);
-    cardScreen = new CardScreen(screenInfo,appWidowSize,this);
-    cardScreen->hide();
-    connect(cardScreen,SIGNAL(backPressed(int)),this,SLOT(showGrpScreen(int)));
-    mainLayout->addWidget(cardScreen);
-
-    //cardInfoScreen = new CardInfoScreen(screenInfo,this);
-    cardInfoScreen = new CardInfoScreen(screenInfo,appWidowSize,this);
-    cardInfoScreen->hide();
-    connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
-    mainLayout->addWidget(cardInfoScreen);
-
-    mainLayout->setMargin(0);
-    setLayout(mainLayout);
-
-    appState->setCurGrpType(LOCAL);
-    showScreen(LOCAL_GRP_SCREEN);
-    //appState->setCurGrpId(1);
-    //appState->setCurCardId(100);
-    //showCardInfoScreen(appState->getCurCardId());
-
-
-}
-*/
 
 MainScreen::~MainScreen()
 {
@@ -179,6 +131,14 @@ void MainScreen::onGrpSelected(int grpId)
 
 void MainScreen::showGrpScreen(int i)
 {
+    GrpScreen *screen = new GrpScreen(screenInfo,appWidowSize,this);
+    screen->setGrpLst(dataM->getLocalGroups());
+    screen->hide();
+    connect(screen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
+    mainLayout->replaceWidget(grpScreen,screen);
+    delete(grpScreen);
+    grpScreen = screen;
+
     if(appState->getCurGrpType()==LOCAL)
         showScreen(LOCAL_GRP_SCREEN);
     else if(appState->getCurGrpType()==CLOUD)
@@ -292,6 +252,15 @@ void MainScreen::showGrpNewScreen()
     //newGrpModal->setIconLst();
     newGrpModal = new NewGrpModal(appWidowSize,scaleFactor,dataM->getGrpImgSrc(),this);
     newGrpModal->show();
+    newGrpModal->setIconLst();
+    connect(newGrpModal,SIGNAL(newGrpConfigured(QString,QString)),this,SLOT(newGrpConfigured(QString,QString)));
+}
+
+void MainScreen::newGrpConfigured(QString name, QString grpImgSrc)
+{
+    dataM->addNewGrp(name,grpImgSrc);
+    grpScreen->setGrpLst(dataM->getLocalGroups());
+    showGrpScreen(0);
 }
 
 void MainScreen::showScreen(SCREEN_TYPE scr)

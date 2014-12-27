@@ -10,6 +10,7 @@
 #include "simpleicon.h"
 class NewGrpModal : public Overlay
 {
+    Q_OBJECT
 public:
     NewGrpModal(QSize size, double scale,QStringList grpIconLst, QWidget *parent = 0);
     ~NewGrpModal();
@@ -20,15 +21,16 @@ protected:
     void paintEvent(QPaintEvent *event);
 private slots:
     void onClickGrpIcon(int i);
-    void onClickGrpCreated();
+    void onClickGrpOk();
+    void onClickGrpCancel();
 signals:
-    //void newGrpConfigured(QString name, QString src);
+    void newGrpConfigured(QString name, QString src);
 private:
 
     int columnsNum = 3;
     int rowsNum = 4;
-    QSize iconSize = QSize(140,140);
-    QSize iconOkSize = QSize(140,70);
+    QSize iconSize = QSize(135,135);
+    QSize iconOkSize = QSize(120,60);
     QSize screenSize = QSize(720,1280);
     int gridSpace = 30;
 
@@ -36,7 +38,7 @@ private:
     QVBoxLayout *formLayout;
     QString backGroundColor = "#e5e5e5";
     double scaleFactor = 1;
-    double lblTxtSize = 15;
+    double lblTxtSize = 18;
     QString lblTxtColor = "#000000";
     QPoint rectPoint;
     QSize rectSize = QSize(630,907);
@@ -51,7 +53,8 @@ private:
     QGridLayout *gridLayout;
     QWidget *gridWidget;
     QStringList imgSrcLst;
-    QString grpImgSrcSelected = "";
+    QList<SimpleIcon *> iconsGrid;
+    int selectedIcon=-1;
 };
 
 #endif // NEWGRPMODAL_H

@@ -38,6 +38,7 @@ public slots:
     void setCardImgSrc(QString dir, QString fileName);
     void onPressBackGalleryScreen();
     void showGrpNewScreen();
+    void newGrpConfigured(QString name, QString grpImgSrc);
 
 private:
     void resizeEvent(QResizeEvent *event);

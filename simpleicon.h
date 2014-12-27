@@ -9,10 +9,14 @@ class SimpleIcon : public QLabel
 {
     Q_OBJECT
 public:
-    SimpleIcon(int id, QString imgScr,  QString imgPushScr, QSize imgSize, QWidget *parent=0);
+    SimpleIcon(int id, QString imgScr,  QString imgPushScr, QSize imgSize, bool staySelected=false ,QWidget *parent=0);
     ~SimpleIcon();
+
 signals:
     void click(int iconId);
+public slots:
+    void unselectIcon();
+    void selectIcon();
 private:
     int id;
     QIcon *picIcon;
@@ -21,8 +25,11 @@ private:
     QString imgPushScr;
     QSize imgSize;
     QSize iconSize;
+    bool staySelected;
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+public:
+    QString getImgSrc(){return imgScr;}
 };
 
 #endif // SIMPLEICON_H

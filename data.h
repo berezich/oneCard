@@ -20,6 +20,7 @@ public:
     void saveImg(QString fromSrc, QString toSrc, QSize imgSaveSize);
     void cacheLastImg(QString cacheFromDir, QString cacheToDir, int num, QSize imgSaveSize);
     QStringList getGrpImgSrc();
+    void addNewGrp(QString name, QString grpImgSrc);
 
 private:
     QString cameraDir = "/storage/emulated/0/DCIM/camera/";
