@@ -162,6 +162,8 @@ void MainScreen::showCardScreen(int i)
     cardScreen = screen;
     connect(cardScreen,SIGNAL(backPressed(int)),this,SLOT(showGrpScreen(int)));
     connect(cardScreen,SIGNAL(cardSelected(int)),this,SLOT(showCardInfoScreen(int)));
+    connect(cardScreen,SIGNAL(addCardSelected()),this,SLOT(onNewCardSelected()));
+
     //cardScreen->hide();
     showScreen(CARD_LST_SCREEN);
 
@@ -261,6 +263,15 @@ void MainScreen::newGrpConfigured(QString name, QString grpImgSrc)
     dataM->addNewGrp(name,grpImgSrc);
     grpScreen->setGrpLst(dataM->getLocalGroups());
     showGrpScreen(0);
+}
+
+void MainScreen::onNewCardSelected()
+{
+    int grpId = appState->getCurGrpId();
+    Grp *grp = dataM->getLocalGrp(grpId);
+    CardInfo *card = grp->createNewCard();
+    appState->setCurCardId( card->getId());
+    showCardInfoScreen(card->getId());
 }
 
 void MainScreen::showScreen(SCREEN_TYPE scr)

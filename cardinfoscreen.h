@@ -20,6 +20,7 @@ public slots:
 private slots:
     void onEditName();
     void onEditCard(int i);
+    void editFlagMagnetLine();
 signals:
     void backPressed(int i);
     void editCard(QString name, QString src);
@@ -35,6 +36,7 @@ private:
     int spacingSize = 20;
     QSize cardIconSize = QSize(480,360);
     QString imgSrc;
+    QString imgNoPhotoSrc = ":/svg/tools/photono.svg";
     //int leftCardOffset = 20;
     CardInfo *cardInfo;
     //int leftNameCardOffset = 25;
@@ -51,6 +53,9 @@ private:
 
     QWidgetList childWidgets;
     QList<QLayout*> childLayouts;
+
+    SimpleIcon *iconMagnet;
+    QHBoxLayout *lineMagnetLayout;
 };
 
 #endif // CARDINFOSCREEN_H

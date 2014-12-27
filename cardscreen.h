@@ -20,6 +20,7 @@ public slots:
 signals:
     void backPressed(int i);
     void cardSelected(int cardId);
+    void addCardSelected();
 private:
     int capLeftIconOffset = 10;
 
@@ -28,6 +29,7 @@ private:
     int spacingSize = 20;
     QSize cardIconSize = QSize(160,90);
     int leftCardOffset = 20;
+    QString imgNoPhotoSrc = ":/svg/tools/photono.svg";
 
     int leftNameCardOffset = 25;
     double textCardNameSize = 15;

@@ -116,7 +116,10 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
 
     line->addStretch(1);
 
-    cardIcon = new SimpleIcon(0,card->getCardImgSrc(),"",cardIconSize);
+    if(card->getCardImgSrc()!="")
+        cardIcon = new SimpleIcon(0,card->getCardImgSrc(),"",cardIconSize);
+    else
+        cardIcon = new SimpleIcon(0,imgNoPhotoSrc,"",cardIconSize);
     cardIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
     line->addWidget(cardIcon);
     childWidgets.append(cardIcon);
@@ -141,7 +144,12 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
     //line->addSpacing(editIconSize.width());
     line->addStretch(1);
 
-    cardIcon = new SimpleIcon(0,card->getCardImgBackSrc(),"",cardIconSize);
+    //cardIcon = new SimpleIcon(0,card->getCardImgBackSrc(),"",cardIconSize);
+    if(card->getCardImgBackSrc()!="")
+        cardIcon = new SimpleIcon(0,card->getCardImgBackSrc(),"",cardIconSize);
+    else
+        cardIcon = new SimpleIcon(0,imgNoPhotoSrc,"",cardIconSize);
+
     cardIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
     line->addWidget(cardIcon);
     childWidgets.append(cardIcon);
@@ -160,19 +168,53 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
     childWidgets.append(widgetLine);
     //----------------------------------------
 
-
-    line = new QHBoxLayout();
-    childLayouts.append(line);
+    //magnet line-----------------------------
+    lineMagnetLayout = new QHBoxLayout();
+    childLayouts.append(lineMagnetLayout);
     //для симметричности
     //line->addSpacing(editIconSize.width());
 
-    //line->addStretch(1);
+    lineMagnetLayout->addStretch(1);
 
-    icon = new SimpleIcon(0,":/svg/tools/pen.svg",":/svg/tools/penPUSH.svg",infoIconSize);
+    if(card->getIsMagnetLine())
+        iconMagnet = new SimpleIcon(0,":/svg/tools/magnetyes.svg","",infoIconSize);
+    else
+        iconMagnet = new SimpleIcon(0,":/svg/tools/magnetno.svg","",infoIconSize);
+
+    iconMagnet->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
+    lineMagnetLayout->addWidget(iconMagnet);
+    childWidgets.append(iconMagnet);
+
+    //line->addSpacing(rightEditIconOffset + editIconSize.width());
+
+    lineMagnetLayout->addStretch(1);
+
+    icon = new SimpleIcon(0,":/svg/tools/pen.svg",":/svg/tools/penPUSH.svg",editIconSize);
+    icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
+    connect(icon,SIGNAL(click(int)),this,SLOT(editFlagMagnetLine()));
+    lineMagnetLayout->addWidget(icon);
+    childWidgets.append(icon);
+    lineMagnetLayout->addSpacing(rightEditIconOffset);
+
+    widgetLine = new QWidget();
+    widgetLine->setMinimumWidth(screenSize.width());
+    childWidgets.append(widgetLine);
+    widgetLine->setLayout(lineMagnetLayout);
+
+    cardInfoListLayout->addWidget(widgetLine);
+
+
+    /*
+    //save-------------------------------
+    line = new QHBoxLayout();
+    childLayouts.append(line);
+
+    icon = new SimpleIcon(0,":/svg/tools/save.svg","",infoIconSize);
+
     icon->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
     line->addWidget(icon);
     childWidgets.append(icon);
-    line->addSpacing(rightEditIconOffset + editIconSize.width());
+    line->addSpacing(editIconSize.width()+rightEditIconOffset);
 
     widgetLine = new QWidget();
     widgetLine->setMinimumWidth(screenSize.width());
@@ -181,6 +223,8 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
 
     cardInfoListLayout->addWidget(widgetLine);
 
+    //-----------------------------------
+*/
     cardInfoListLayout->addStretch(1);
     //childLayouts.append(cardInfoListLayout);
     childWidgets.append(blankSpace);
@@ -200,5 +244,22 @@ void CardInfoScreen::onEditCard(int i)
     cardInfo->setCardName(nameEditLine->text());
     cardInfo->setCardImgSrc(imgSrc);
     emit backPressed(0);
+}
+
+void CardInfoScreen::editFlagMagnetLine()
+{
+    SimpleIcon *icon;
+    cardInfo->setFlagMagnetLine(!cardInfo->getIsMagnetLine());
+    if(cardInfo->getIsMagnetLine() == true)
+        icon = new SimpleIcon(0,":/svg/tools/magnetyes.svg","",infoIconSize);
+    else
+        icon = new SimpleIcon(0,":/svg/tools/magnetno.svg","",infoIconSize);
+    icon->setObjectName("test");
+    icon->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
+    //childWidgets.append(icon);
+    lineMagnetLayout->replaceWidget(iconMagnet,icon);
+    childWidgets.removeOne(iconMagnet);
+    delete(iconMagnet);
+    iconMagnet = icon;
 }
 

@@ -19,6 +19,7 @@ CardScreen::CardScreen(QScreen *screenInfo,QSize appScrSize , QWidget *parent):B
     childWidgets.append(cap);
     SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/plus.svg",":/svg/tools/plusPUSH.svg",QSize(55,55)*scaleFactor);
     icon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
+    connect(icon,SIGNAL(click(int)),this,SIGNAL(addCardSelected()));
     cap->addRightIcon(icon,capRightIconOffset);
 
     childLayouts.append(blankLayout);
@@ -87,7 +88,10 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
 
         line->addSpacing(leftCardOffset);
         card = &(*cardList)[i];
-        cardIcon = new SimpleIcon(card->getId(),card->getCardImgSrc(),"",cardIconSize);
+        if(card->getCardImgSrc()!="")
+            cardIcon = new SimpleIcon(card->getId(),card->getCardImgSrc(),"",cardIconSize);
+        else
+            cardIcon = new SimpleIcon(card->getId(),imgNoPhotoSrc,"",cardIconSize);
         cardIcon-> setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
         line->addWidget(cardIcon);
         childWidgets.append(cardIcon);

@@ -41,6 +41,7 @@ public:
     QString getImgPushSrc();
 
     void addCard(CardInfo card){cardsLst->append(card);}
+    CardInfo *createNewCard();
     void delCard(int iCard){cardsLst->removeAt(iCard);}
     QList<CardInfo> *getCards(){return cardsLst;}
     CardInfo *getCardInfo(int cardId);

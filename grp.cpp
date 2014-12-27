@@ -42,6 +42,12 @@ QString Grp::getImgPushSrc(){
     return _imgPushSrc;
 }
 
+CardInfo *Grp::createNewCard()
+{
+    addCard(CardInfo(_id*100+cardsLst->length()+1,_id,"НАЗВАНИЕ"));
+    return &(cardsLst->last());
+}
+
 CardInfo *Grp::getCardInfo(int cardId)
 {
     for(int i=0; i<cardsLst->length(); i++)

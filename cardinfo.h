@@ -4,7 +4,7 @@
 class CardInfo
 {
 public:
-    CardInfo(int id=-1, int grpId=-1, QString cardName="", QString cardCom="", QString iSrc="");
+    CardInfo(int id=-1, int grpId=-1, QString cardName="", QString cardCom="", QString iSrc="",QString iBackSrc="", bool magnetLine=false);
     ~CardInfo();
 private:
     int id;
@@ -13,6 +13,7 @@ private:
     QString comment;
     QString imgSrc;
     QString imgBackSrc;
+    bool isMagnetLine;
 
 public:
     int getId(){return id;}
@@ -21,10 +22,12 @@ public:
     QString getCardComment(){return comment;}
     QString getCardImgSrc(){return imgSrc;}
     QString getCardImgBackSrc(){return imgBackSrc;}
+    bool getIsMagnetLine(){return isMagnetLine;}
 
     void setCardName(QString txt){name=txt;}
     void setCardImgSrc(QString path){imgSrc = path;}
     void setCardImgBackSrc(QString path){imgBackSrc = path;}
+    void setFlagMagnetLine(bool flag){isMagnetLine=flag;}
 
 };
 
