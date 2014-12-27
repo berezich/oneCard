@@ -16,7 +16,7 @@ GalleryScreen::GalleryScreen(QScreen *screenInfo,QSize appScrSize,QString fotoDi
     childLayouts.append(blankLayout);
 
     SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/backArrow.svg",":/svg/tools/backArrowPUSH.svg",QSize(55,55)*scaleFactor);
-    icon->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+    icon->setAlignment(Qt::AlignCenter | Qt::AlignLeft);
     connect(icon,SIGNAL(click(int)),this,SIGNAL(pressBack()));
     cap->addLeftIcon(icon,capLeftIconOffset);
 
@@ -34,7 +34,7 @@ GalleryScreen::GalleryScreen(QScreen *screenInfo,QSize appScrSize,QString fotoDi
     gridLayout = new QGridLayout(this);
     blankSpace->setLayout(gridLayout);
     childLayouts.append(gridLayout);
-
+    gridLayout->setSpacing(5*scaleFactor);
     blankLayout->addStretch();
 
 }
@@ -70,6 +70,7 @@ void GalleryScreen::setPhotoLst(QString path)
     cameraDir.setNameFilters(filters);
     photoLst = cameraDir.entryList();
 
+
     QString filePath="";
     if(photoLst.length()>0)
         filePath = cameraDir.absoluteFilePath(photoLst.at(0));
@@ -79,6 +80,7 @@ void GalleryScreen::setPhotoLst(QString path)
         if(i < photoLst.length())
         {
             photoIcon = new ImgIcon(i,cameraDir.absoluteFilePath(photoLst.at(i)),iconSize);
+            photoIcon->setAlignment(Qt::AlignCenter);
             connect(photoIcon,SIGNAL(click(int)),this,SLOT(onClickPhotoIcon(int)));
             gridLayout->addWidget(photoIcon, qFloor(i/columnsNum),i%columnsNum);
             childWidgets.append(photoIcon);

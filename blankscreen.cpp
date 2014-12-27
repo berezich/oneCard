@@ -58,6 +58,7 @@ BlankScreen::BlankScreen(QScreen *screenInfo, QSize appScrSize, QWidget *parent)
     capRightIconOffset = capRightIconOffset*scaleFactor;
 
     setMinimumSize(screenSize);
+    setMaximumSize(screenSize);
 
     blankLayout = new QBoxLayout(QBoxLayout::TopToBottom,this);
 

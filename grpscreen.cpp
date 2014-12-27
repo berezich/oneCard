@@ -54,10 +54,21 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst)
             gridLayout->addWidget(new QWidget(), qFloor(i/columnsNum),i%columnsNum);
 
     }
+    //overlay = new OverLay(blankSpace);
 }
 
 void GrpScreen::onClickGrpIcon(int grpId)
 {
     emit selectLocalGrp(grpId);
 }
+
+//void GrpScreen::resizeEvent(QResizeEvent *event)
+
+//{
+
+//    overlay->resize(event->size());
+
+//    event->accept();
+
+//}
 

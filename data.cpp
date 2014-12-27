@@ -2,7 +2,17 @@
 
 Data::Data()
 {
-
+    grpImgSrcLst.append(":/svg/grpIcons/car.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/fit.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/food.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/med.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/plane.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/rebild.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/shop.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/sun.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/different.svg");
+    grpImgSrcLst.append(":/svg/grpIcons/star.svg");
+    //grpImgSrcLst.append();
 }
 
 Data::~Data()
@@ -150,8 +160,14 @@ void Data::cacheLastImg(QString cacheFromDir, QString cacheToDir, int num, QSize
     if(photoLst.length()>0)
         filePath = srcDir.absoluteFilePath(photoLst.at(0));
 
-    for(int i= (photoLst.length()>=10)? 9 : photoLst.length(); i>=0 ; i--)
+
+    for(int i= (photoLst.length()>=num)? num-1 : photoLst.length()-1; i>=0 ; i--)
         saveImg(cacheFromDir+photoLst[i],cacheToDir+photoLst[i],imgSaveSize);
+}
+
+QStringList Data::getGrpImgSrc()
+{
+    return grpImgSrcLst;
 }
 
 

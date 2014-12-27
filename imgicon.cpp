@@ -16,7 +16,8 @@ ImgIcon::ImgIcon(int id, QString imgScr,  QSize imgSize, QWidget *parent)
         picImg = picImgRotate;
     }
 
-    pixmap = pixmap.fromImage(picImg->scaled(imgSize,Qt::KeepAspectRatio));
+    //pixmap = pixmap.fromImage(picImg->scaled(imgSize,Qt::KeepAspectRatio));
+    pixmap = pixmap.fromImage(picImg->scaled(imgSize,Qt::KeepAspectRatioByExpanding));
 
     delete(picImg);
     picIcon = new QIcon(pixmap);

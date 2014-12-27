@@ -18,6 +18,7 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     this->screenInfo = mainApp->primaryScreen();
 
 
+
     QStringList dirs = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
     for(int i=0; i<dirs.length(); i++)
         qDebug()<< "dir"<<i<<" = "<<dirs.at(i);
@@ -30,12 +31,15 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     appWidowSize.setWidth(screenAvailableGeometry.width());
     appWidowSize.setHeight(screenAvailableGeometry.height());
     if(appWidowSize != QSize(0,0))
-        appWidowSize = QSize(defaultWidth,defaultHeight)*0.65;
+        appWidowSize = QSize(defaultWidth,defaultHeight)*0.45;
     else
         appWidowSize = QSize(screenInfo->geometry().width(),screenInfo->geometry().height());
     //scaleFactor = screenSize.width()/defaultWidth;
 
+    double scaleFactorW = ((double)appWidowSize.width())/(double)defaultWidth;
+    double scaleFactorH = ((double)appWidowSize.height())/(double)defaultHeight;
 
+    scaleFactor = qMin(scaleFactorW,scaleFactorH);
 
     dataM = new Data();
     //qDebug()<<"scale = "<< scaleFactor;
@@ -55,6 +59,10 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     connect(grpScreen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
     mainLayout->addWidget(grpScreen);
 
+
+
+    //newGrpModal->hide();
+
     //cardScreen = new CardScreen(screenInfo,this);
     cardScreen = new CardScreen(screenInfo,appWidowSize,this);
     cardScreen->hide();
@@ -68,7 +76,9 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
     mainLayout->addWidget(cardInfoScreen);
 
+    // cache!!!!!!!!! !!!
     dataM->cacheLastImg(cameraDir,appDataLocation+cacheDir,cacheImgNum,imgSaveSize);
+    // cache!!!!!!!!! !!!
 
     /*
     galleryScreen = new GalleryScreen(screenInfo,appWidowSize,this);
@@ -78,12 +88,26 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     connect(galleryScreen,SIGNAL(selectPic(QString)),this,SLOT(setCardImgSrc(QString)));
     mainLayout->addWidget(galleryScreen);
     */
+
     mainLayout->setMargin(0);
     setLayout(mainLayout);
+
+    //newGrpModal = new NewGrpModal(scaleFactor,dataM->getGrpImgSrc(),this);
+
+
 
     appState->setCurGrpType(LOCAL);
     showScreen(LOCAL_GRP_SCREEN);
     //showScreen(GALLERY_SCREEN);
+
+    //overlay = new Overlay(this);
+
+}
+void MainScreen::resizeEvent(QResizeEvent *event)
+{
+    //if(!initNewGrpModal)
+      //  newGrpModal->resize(event->size());
+    event->accept();
 }
 
 /*
@@ -145,6 +169,7 @@ void MainScreen::onGrpSelected(int grpId)
     if(grpId==-1)
     {
         //добавление новой группы
+        showGrpNewScreen();
         return;
     }
     appState->setCurGrpId(grpId);
@@ -259,6 +284,14 @@ void MainScreen::onPressBackGalleryScreen()
 {
     delete(galleryScreen);
     showCardInfoScreen(appState->getCurCardId());
+}
+
+void MainScreen::showGrpNewScreen()
+{
+
+    //newGrpModal->setIconLst();
+    newGrpModal = new NewGrpModal(appWidowSize,scaleFactor,dataM->getGrpImgSrc(),this);
+    newGrpModal->show();
 }
 
 void MainScreen::showScreen(SCREEN_TYPE scr)

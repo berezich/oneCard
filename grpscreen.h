@@ -5,6 +5,9 @@
 #include <QApplication>
 #include "grp.h"
 #include "icon.h"
+//#include "overlay.h"
+#include <QResizeEvent>
+
 class GrpScreen : public BlankScreen
 {
     Q_OBJECT
@@ -26,6 +29,8 @@ private:
     QString title=tr("ВАШИ КАРТЫ");
 
     QGridLayout *gridLayout;
+    //OverLay *overlay;
+    //void resizeEvent(QResizeEvent *event);
 };
 
 #endif // GRPSCREEN_H

@@ -19,10 +19,12 @@ public:
     CardInfo *getLocalCard(int grpId, int cardId);
     void saveImg(QString fromSrc, QString toSrc, QSize imgSaveSize);
     void cacheLastImg(QString cacheFromDir, QString cacheToDir, int num, QSize imgSaveSize);
+    QStringList getGrpImgSrc();
 
 private:
     QString cameraDir = "/storage/emulated/0/DCIM/camera/";
     QList<Grp> localGrpLst;
+    QStringList grpImgSrcLst;
 
 };
 
