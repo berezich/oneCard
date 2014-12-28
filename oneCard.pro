@@ -20,7 +20,9 @@ HEADERS       = button.h \
     overlay.h \
     newgrpmodal.h \
     menu.h \
-    blankspace.h
+    blankspace.h \
+    menuitem.h \
+    titlemenu.h
 SOURCES       = button.cpp \
                 main.cpp \
     blankscreen.cpp \
@@ -40,7 +42,9 @@ SOURCES       = button.cpp \
     overlay.cpp \
     newgrpmodal.cpp \
     menu.cpp \
-    blankspace.cpp
+    blankspace.cpp \
+    menuitem.cpp \
+    titlemenu.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/oneCard

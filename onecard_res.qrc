@@ -52,5 +52,9 @@
         <file>svg/tools/photono.svg</file>
         <file>svg/tools/save.svg</file>
         <file>svg/tools/menuicon.svg</file>
+        <file>svg/tools/loginok.svg</file>
+        <file>svg/tools/syncin.svg</file>
+        <file>svg/tools/syncout.svg</file>
+        <file>svg/tools/bluetooth.svg</file>
     </qresource>
 </RCC>

@@ -59,7 +59,7 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst)
     {
         if(i < grpLst.length())
         {
-            icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpLst[i].getImgSrc(), grpLst[i].getImgPushSrc(), iconSize/*,*new QSize(230*scaleFactor,210*scaleFactor)*/);
+            icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpLst[i].getImgSrc(), grpLst[i].getImgPushSrc(), iconSize, QSize(screenSize.width()/3,0));
             connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickGrpIcon(int)));
             gridLayout->addWidget(icon, qFloor(i/columnsNum),i%columnsNum);
         }

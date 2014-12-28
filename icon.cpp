@@ -12,6 +12,7 @@ Icon::Icon(int id, QString name, int textSize,  QString imgScr,  QString imgPush
     this->imgScr = imgScr;
     this->imgPushScr = imgPushScr;
     this->imgSize = imgSize;
+    this->iconSize = iconSize;
     picIcon = new QIcon(imgScr);
 
     labelIcon = new QLabel();
@@ -38,7 +39,8 @@ Icon::Icon(int id, QString name, int textSize,  QString imgScr,  QString imgPush
     vLayout->setSpacing(0);
 
     setLayout(vLayout);
-    adjustSize();
+    //adjustSize();
+    setMaximumWidth(this->iconSize.width()+10);
 
     //setMinimumSize(width(),height());
     //labelIcon->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);

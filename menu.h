@@ -5,15 +5,23 @@
 #include <QtCore/qmath.h>
 #include <QLabel>
 #include <QMouseEvent>
+#include <QPushButton>
+#include <QLineEdit>
+#include "menuitem.h"
+#include "simpleicon.h"
+#include "titlemenu.h"
 
 class Menu : public Overlay
 {
+    Q_OBJECT
 public:
     Menu(QSize size,double scale, QWidget *parent);
     ~Menu();
+public slots:
+    void showMainMenu();
 protected:
 private:
-    //QVBoxLayout *formBasic;
+    bool menuExists = false;
     QSize blankSize;
     QVBoxLayout *menuLayout;
     QVBoxLayout *menuBasicLayout;
@@ -24,12 +32,26 @@ private:
     double menuItemTxtSize = 17;
     QString lblTxtColor = "#000000";
     QString titleColor = "#ffffff";
-    //QPoint rectPoint;
-    //QSize rectSize = QSize(630,907);
+    QSize arrowBackSize = QSize(40,40);
     int menuWidth = 500;
-    QStringList menuItemTxt; //{"НАСТРОЙКИ","синхронизация устройства","синхронизация с сервером","интерфейс","язык"};
-    QList<QLabel*> menuItemLst;
+    QStringList mainMenuItemTxt; //{"НАСТРОЙКИ","синхронизация устройства","синхронизация с сервером","интерфейс","язык"};
+    QStringList languages;
+    QStringList skins;
+    //123/158=0,78
+    QSize iconBluetoothSize = QSize(46,60)*2;
+    // 226/272=0,83
+    QSize iconDevSyncSize = QSize(50,60)*2;
+
+    QSize iconAuthOkSize = QSize(60,60)*1.5;
+
+    QLineEdit *login;
+    QLineEdit *pass;
+
+    //QList<MenuItem*> menuItemBLst;
     void mousePressEvent(QMouseEvent *event);
+
+private slots:
+    void showSubMenu(int mainItem);
 };
 
 #endif // MENU_H

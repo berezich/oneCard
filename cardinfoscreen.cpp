@@ -86,7 +86,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
     nameEditLine->setFont(QFont("Calibri",textCardNameSize));
     nameEditLine->setAlignment(Qt::AlignHCenter| Qt::AlignTop);
     nameEditLine->setReadOnly(true);
-    //nameEditLine->setMaxLength();
+    nameEditLine->setMaxLength(14);
     nameEditLine->setStyleSheet("border: 0px solid gray; border-radius: 10px; padding: 0 8px; background: "+backGroundColor+"; selection-background-color: darkgray;");
     connect( nameEditLine,SIGNAL(focusOutEvent(QFocusEvent*)),this,SLOT(onEditNameFinished));
 
@@ -234,7 +234,8 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
 
 void CardInfoScreen::onEditName()
 {
-    nameEditLine->setReadOnly(!nameEditLine->isReadOnly());
+    //nameEditLine->setReadOnly(!nameEditLine->isReadOnly());
+    nameEditLine->setReadOnly(false);
     nameEditLine->setFocus();
 }
 

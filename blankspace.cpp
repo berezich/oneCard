@@ -16,7 +16,7 @@ BlankSpace::~BlankSpace()
 
 void BlankSpace::showMenu()
 {
-    menuWidget->show();
+    menuWidget->showMainMenu();
 
 }
 

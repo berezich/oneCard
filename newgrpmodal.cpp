@@ -32,29 +32,16 @@ void NewGrpModal::setIconLst()
     QIcon *picIcon = new QIcon(":/svg/tools/modalwindow.svg");
     formWindow->setPixmap(picIcon->pixmap(rectSize));
     formWindow->setAlignment(Qt::AlignCenter);
-    //formWindow->setMinimumSize(rectSize);
-    //formWindow->setMaximumSize(rectSize);
-    //formWindow->adjustSize();
-    //formWindow->setContentsMargins(rectPoint.x(),rectPoint.y(),rectPoint.x(),rectPoint.y());
 
     formBasic = new QVBoxLayout();
     formWidget = new QWidget();
     formBasic->setContentsMargins(rectPoint.x()+10*scaleFactor,rectPoint.y(),rectPoint.x()+10*scaleFactor,rectPoint.y()-12*scaleFactor);
 
     formBasic->addWidget(formWidget);
-    //formBasic->addWidget(formWindow);
-
-    // set black background
-    //QPalette Pal(formWidget->palette());
-    //Pal.setColor(QPalette::Background, Qt::red);
-    //formWidget->setAutoFillBackground(true);
-    //formWidget->setPalette(Pal);
-
     setLayout(formBasic);
 
     formLayout = new QVBoxLayout();
     formWidget->setLayout(formLayout);
-    //formWindow->setLayout(formLayout);
 
     nameLbl = new QLabel(lbl1);
     nameLbl->setFont(QFont("Calibri",lblTxtSize));
@@ -67,9 +54,11 @@ void NewGrpModal::setIconLst()
     editNameLayout->addSpacing(20*scaleFactor);
     grpName = new QLineEdit();
     grpName->setFont(QFont("Calibri",lblTxtSize));
+
     grpName->setStyleSheet(" color : "+lblTxtColor+/*"; border: 0px solid gray; background: "+backGroundColor+*/";");
     //nameEditLine->setStyleSheet("border: 0px solid gray; border-radius: 10px; padding: 0 8px; background: "+backGroundColor+"; selection-background-color: darkgray;");
     grpName->setAlignment(Qt::AlignCenter);
+    grpName->setMaxLength(10);
     editNameLayout->addWidget(grpName);
     editNameLayout->addSpacing(20*scaleFactor);
     //formLayout->addWidget(grpName);
