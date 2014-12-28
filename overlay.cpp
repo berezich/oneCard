@@ -7,17 +7,7 @@ Overlay::Overlay(QWidget *parent) : QWidget(parent)
 
     setPalette(Qt::transparent);
 
-    //setAttribute(Qt::WA_TransparentForMouseEvents);
-}
-
-Overlay::~Overlay()
-{
-
-}
-
-void Overlay::paintEvent(QPaintEvent *event)
-{
-    QSize size = ((QWidget*)parent())->size();
+    QSize size = ((QWidget*)this->parent())->size();
     this->setMinimumHeight(size.height());
     this->setMinimumWidth(size.width());
     QColor backgroundColor = "#191a1b" /*palette().light().color()*/;
@@ -29,6 +19,29 @@ void Overlay::paintEvent(QPaintEvent *event)
     Pal.setColor(QPalette::Background, backgroundColor);
     setAutoFillBackground(true);
     setPalette(Pal);
+
+    //setAttribute(Qt::WA_TransparentForMouseEvents);
+}
+
+Overlay::~Overlay()
+{
+
+}
+
+void Overlay::paintEvent(QPaintEvent *event)
+{
+//    QSize size = ((QWidget*)parent())->size();
+//    this->setMinimumHeight(size.height());
+//    this->setMinimumWidth(size.width());
+//    QColor backgroundColor = "#191a1b" /*palette().light().color()*/;
+
+//    backgroundColor.setAlpha(200);
+
+//    QPalette Pal(palette());
+//    // set black background
+//    Pal.setColor(QPalette::Background, backgroundColor);
+//    setAutoFillBackground(true);
+//    setPalette(Pal);
 
     //QPainter customPainter(this);
     //customPainter.fillRect(rect(),backgroundColor);

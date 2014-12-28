@@ -55,6 +55,7 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     //grpScreen = new GrpScreen(screenInfo,this);
     grpScreen = new GrpScreen(screenInfo,appWidowSize,this);
     grpScreen->setGrpLst(dataM->getLocalGroups());
+    grpScreen->initMenu();
     grpScreen->hide();
     connect(grpScreen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
     mainLayout->addWidget(grpScreen);
@@ -98,6 +99,7 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
 
     appState->setCurGrpType(LOCAL);
     showScreen(LOCAL_GRP_SCREEN);
+
     //showScreen(GALLERY_SCREEN);
 
     //overlay = new Overlay(this);
@@ -133,6 +135,7 @@ void MainScreen::showGrpScreen(int i)
 {
     GrpScreen *screen = new GrpScreen(screenInfo,appWidowSize,this);
     screen->setGrpLst(dataM->getLocalGroups());
+    screen->initMenu();
     screen->hide();
     connect(screen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
     mainLayout->replaceWidget(grpScreen,screen);

@@ -35,6 +35,8 @@ private:
     //QString cameraDir = "file:///D:/BEREZ/Фоты/";
     QWidgetList childWidgets;
     QList<QLayout *> childLayouts;
+protected:
+    QWidget *blankSpace;
 
 };
 

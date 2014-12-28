@@ -34,7 +34,6 @@ protected:
     QBoxLayout *blankLayout;
     QHBoxLayout *capLayout;
     Cap  *cap;
-    QWidget *blankSpace;
     QSize screenSize;
     int capSpacerH = 20;
     int capHeight = 120;

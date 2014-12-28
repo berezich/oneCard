@@ -30,6 +30,7 @@ private:
     QSize cardIconSize = QSize(160,90);
     int leftCardOffset = 20;
     QString imgNoPhotoSrc = ":/svg/tools/photono.svg";
+    QWidget *blankSpace;
 
     int leftNameCardOffset = 25;
     double textCardNameSize = 15;

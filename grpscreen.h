@@ -7,6 +7,8 @@
 #include "icon.h"
 //#include "overlay.h"
 #include <QResizeEvent>
+#include "menu.h"
+#include "blankspace.h"
 
 class GrpScreen : public BlankScreen
 {
@@ -14,13 +16,17 @@ class GrpScreen : public BlankScreen
 public:
     //explicit GrpScreen(QScreen *screenInfo,QWidget *parent=0);
     explicit GrpScreen(QScreen *screenInfo,QSize appScrSize,QWidget *parent=0);
-
+    void showMenu();
+    void initMenu();
     ~GrpScreen();
     void setGrpLst(QList<Grp> grpLst);
+protected:
+    BlankSpace *blankSpace;
 signals:
     void selectLocalGrp(int grpId);
 private slots:
     void onClickGrpIcon(int grpId);
+    void onMenuClick();
 private:
     int columnsNum = 3;
     int rowsNum = 4;

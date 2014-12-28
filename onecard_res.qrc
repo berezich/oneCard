@@ -51,5 +51,6 @@
         <file>svg/tools/magnetyes.svg</file>
         <file>svg/tools/photono.svg</file>
         <file>svg/tools/save.svg</file>
+        <file>svg/tools/menuicon.svg</file>
     </qresource>
 </RCC>

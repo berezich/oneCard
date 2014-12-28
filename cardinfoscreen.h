@@ -56,6 +56,8 @@ private:
 
     SimpleIcon *iconMagnet;
     QHBoxLayout *lineMagnetLayout;
+protected:
+    QWidget *blankSpace;
 };
 
 #endif // CARDINFOSCREEN_H
