@@ -40,8 +40,9 @@ Icon::Icon(int id, QString name, int textSize,  QString imgScr,  QString imgPush
 
     setLayout(vLayout);
     //adjustSize();
-    setMaximumWidth(this->iconSize.width()+10);
 
+    //setMaximumWidth(this->iconSize.width());
+    setFixedSize(iconSize);
     //setMinimumSize(width(),height());
     //labelIcon->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     //connect(this,SINGAL(mousePressEvent(QMouseEvent *)),this,SLOT(pushIcon(QMouseEvent *)));

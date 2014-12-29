@@ -17,8 +17,9 @@ class Menu : public Overlay
 public:
     Menu(QSize size,double scale, QWidget *parent);
     ~Menu();
+    bool isMenuOpen(){return menuExists;}
 public slots:
-    void showMainMenu();
+    void showMainMenu(bool showInAnyway=false);
 protected:
 private:
     bool menuExists = false;
@@ -52,6 +53,7 @@ private:
 
 private slots:
     void showSubMenu(int mainItem);
+    void backToMainMenu();
 };
 
 #endif // MENU_H

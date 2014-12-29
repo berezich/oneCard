@@ -134,3 +134,9 @@ void CardScreen::onCapBack(int i)
 
 }
 
+void CardScreen::keyPressEvent(QKeyEvent *event)
+{
+    if( event->key() == Qt::Key_Back )
+        emit backPressed(0);
+}
+

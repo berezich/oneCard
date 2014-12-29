@@ -6,6 +6,7 @@
 #include "cardinfo.h"
 #include "simpleicon.h"
 #include <QSpacerItem>
+#include <QKeyEvent>
 class CardScreen : public BlankScreen
 {
     Q_OBJECT
@@ -42,6 +43,8 @@ private:
     QVBoxLayout *cardListLayout;
     QWidgetList childWidgets;
     QList<QLayout *> childLayouts;
+
+     void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // CARDSCREEN_H

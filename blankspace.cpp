@@ -5,7 +5,8 @@ BlankSpace::BlankSpace(QSize availSize,double scale, QWidget *parent) : QWidget(
     scaleFactor = scale;
     this->availSize = availSize;
     this->setContentsMargins(0,0,0,0);
-    this->setMinimumSize(availSize);
+    //this->setMinimumSize(availSize);
+    this->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Expanding);
 }
 
 BlankSpace::~BlankSpace()

@@ -2,6 +2,8 @@
 #define BLANKSPACE_H
 
 #include <QWidget>
+#include <QScrollArea>
+#include <QScrollBar>
 #include "menu.h"
 
 class BlankSpace : public QWidget
@@ -12,7 +14,7 @@ public:
     ~BlankSpace();
     void showMenu();
     void initMenu();
-
+    QScrollArea *scroll;
 signals:
 
 public slots:

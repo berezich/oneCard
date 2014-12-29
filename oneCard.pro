@@ -20,7 +20,6 @@ HEADERS       = button.h \
     overlay.h \
     newgrpmodal.h \
     menu.h \
-    blankspace.h \
     menuitem.h \
     titlemenu.h
 SOURCES       = button.cpp \
@@ -42,7 +41,6 @@ SOURCES       = button.cpp \
     overlay.cpp \
     newgrpmodal.cpp \
     menu.cpp \
-    blankspace.cpp \
     menuitem.cpp \
     titlemenu.cpp
 

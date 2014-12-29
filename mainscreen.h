@@ -42,7 +42,6 @@ public slots:
     void onNewCardSelected();
 
 private:
-    void resizeEvent(QResizeEvent *event);
     QSize appWidowSize;
     int defaultWidth = 720;
     int defaultHeight = 1280;
@@ -74,6 +73,8 @@ private:
 
     void showScreen(SCREEN_TYPE scr);
     void hideAllScreens();
+
+    void keyPressEvent(QKeyEvent *event);
 
 };
 

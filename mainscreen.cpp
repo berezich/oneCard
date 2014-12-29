@@ -100,17 +100,6 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     appState->setCurGrpType(LOCAL);
     showScreen(LOCAL_GRP_SCREEN);
 
-    //showScreen(GALLERY_SCREEN);
-
-    //overlay = new Overlay(this);
-
-}
-
-void MainScreen::resizeEvent(QResizeEvent *event)
-{
-    //if(!initNewGrpModal)
-      //  newGrpModal->resize(event->size());
-    event->accept();
 }
 
 MainScreen::~MainScreen()
@@ -253,7 +242,7 @@ void MainScreen::onPressBackGalleryScreen()
 
 void MainScreen::showGrpNewScreen()
 {
-
+    appState->setCurScreen(NEW_GRP_SCREEN);
     //newGrpModal->setIconLst();
     newGrpModal = new NewGrpModal(appWidowSize,scaleFactor,dataM->getGrpImgSrc(),this);
     newGrpModal->show();
@@ -280,7 +269,7 @@ void MainScreen::onNewCardSelected()
 void MainScreen::showScreen(SCREEN_TYPE scr)
 {
     hideAllScreens();
-
+    appState->setCurScreen(scr);
     switch (scr) {
     case LOCAL_GRP_SCREEN:
         grpScreen->show();
@@ -308,5 +297,35 @@ void MainScreen::hideAllScreens()
     cardScreen->hide();
     cardInfoScreen->hide();
     //galleryScreen->hide();
+}
+
+void MainScreen::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key()==Qt::Key_Back)
+    {
+        switch (appState->getCurScreen()) {
+        case LOCAL_GRP_SCREEN:
+            grpScreen->onKeyBackPressed(event);
+            return;
+        case CARD_LST_SCREEN:
+            showGrpScreen(0);
+            return;
+        case CLOUD_LST_SCREEN:
+            break;
+        case CARD_INFO_SCREEN:
+            showCardScreen(0);
+            return;
+        case GALLERY_SCREEN:
+            showCardInfoScreen(appState->getCurCardId());
+            return;
+        case NEW_GRP_SCREEN:
+            showGrpScreen(0);
+            return;
+        default:
+
+            break;
+        }
+    }
+    QWidget::keyPressEvent(event);
 }
 

@@ -56,14 +56,15 @@ void Menu::mousePressEvent(QMouseEvent *event)
 
 }
 
-void Menu::showMainMenu()
+void Menu::showMainMenu(bool showInAnyway)
 {
-    if(menuExists)
-    {
-        menuExists=false;
-        this->hide();
-        return;
-    }
+    if(!showInAnyway)
+        if(menuExists)
+        {
+            menuExists=false;
+            this->hide();
+            return;
+        }
     menuExists=true;
     QWidget *menuWidget1 = new QWidget();
     menuBasicLayout->replaceWidget(menuWidget,menuWidget1);
@@ -121,14 +122,14 @@ void Menu::showSubMenu(int mainItem)
 
     SimpleIcon *arrowIcon = new SimpleIcon(-1,":/svg/tools/backArrow.svg","",arrowBackSize);
     arrowIcon->setAlignment(Qt::AlignLeft| Qt::AlignVCenter);
-    connect(arrowIcon,SIGNAL(click(int)),this,SLOT(showMainMenu()));
+    connect(arrowIcon,SIGNAL(click(int)),this,SLOT(backToMainMenu()));
     titleLayout->addWidget(arrowIcon);
 
     TitleMenu *title = new TitleMenu(0,mainMenuItemTxt[mainItem],menuTitleTxtSize,0,0);
     title->setAlignment(Qt::AlignLeft|Qt::AlignTop);
     titleLayout->addWidget(title);
     titleLayout->addStretch(1);
-    connect(title,SIGNAL(click(int)),this,SLOT(showMainMenu()));
+    connect(title,SIGNAL(click(int)),this,SLOT(backToMainMenu()));
 
     menuLayout->addWidget(titleWidget);
     menuLayout->addSpacing(10*scaleFactor);
@@ -221,5 +222,10 @@ void Menu::showSubMenu(int mainItem)
         }
     }
     menuLayout->addStretch(1);
+}
+
+void Menu::backToMainMenu()
+{
+    showMainMenu(true);
 }
 
