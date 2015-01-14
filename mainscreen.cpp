@@ -33,10 +33,11 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     appState = new AppState();
     if(appWidowSize != QSize(0,0))
     {
-        if(appWidowSize.height()*0.90<defaultHeight*0.60)
-            appWidowSize = QSize(defaultWidth*appWidowSize.height()*0.90/defaultHeight,appWidowSize.height()*0.90);
+        double k = 0.85;
+        if(appWidowSize.height()*k<defaultHeight)
+            appWidowSize = QSize(defaultWidth*appWidowSize.height()*k/defaultHeight,appWidowSize.height()*k);
         else
-            appWidowSize = QSize(defaultWidth,defaultHeight)*0.60;
+            appWidowSize = QSize(defaultWidth,defaultHeight);
 
         appState->setCurOS(WINDOWS);
     }
@@ -295,7 +296,7 @@ void MainScreen::resizeEvent(QResizeEvent *event)
 {
     if(appState->getCurOS() == WINDOWS)
     {
-        window()->move(screenAvailableGeometry.width()/4,(screenAvailableGeometry.height()-appWidowSize.height())/3);
+        window()->move(screenAvailableGeometry.width()/4,(screenAvailableGeometry.height()-appWidowSize.height())/5);
     }
 }
 
