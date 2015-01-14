@@ -33,7 +33,11 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     appState = new AppState();
     if(appWidowSize != QSize(0,0))
     {
-        appWidowSize = QSize(defaultWidth,defaultHeight)*0.60;
+        if(appWidowSize.height()*0.90<defaultHeight*0.60)
+            appWidowSize = QSize(defaultWidth*appWidowSize.height()*0.90/defaultHeight,appWidowSize.height()*0.90);
+        else
+            appWidowSize = QSize(defaultWidth,defaultHeight)*0.60;
+
         appState->setCurOS(WINDOWS);
     }
     else
