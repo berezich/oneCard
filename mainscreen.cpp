@@ -9,7 +9,7 @@ MainScreen::MainScreen(QWidget *parent) : QWidget(parent)
 MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
 {
     QDesktopWidget *desktop = mainApp->desktop();
-    QRect screenAvailableGeometry = desktop->availableGeometry();
+    screenAvailableGeometry = desktop->availableGeometry();
     int dpiY = desktop->physicalDpiY();
     int dpiX = desktop->physicalDpiX();
     double displayWidthInch = screenAvailableGeometry.width() / dpiX;
@@ -30,11 +30,19 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
 
     appWidowSize.setWidth(screenAvailableGeometry.width());
     appWidowSize.setHeight(screenAvailableGeometry.height());
+    appState = new AppState();
     if(appWidowSize != QSize(0,0))
-        appWidowSize = QSize(defaultWidth,defaultHeight)*0.45;
+    {
+        appWidowSize = QSize(defaultWidth,defaultHeight)*0.60;
+        appState->setCurOS(WINDOWS);
+    }
     else
+    {
         appWidowSize = QSize(screenInfo->geometry().width(),screenInfo->geometry().height());
-    //scaleFactor = screenSize.width()/defaultWidth;
+        appState->setCurOS(NONE);
+    }
+
+    setMaximumSize(appWidowSize);
 
     double scaleFactorW = ((double)appWidowSize.width())/(double)defaultWidth;
     double scaleFactorH = ((double)appWidowSize.height())/(double)defaultHeight;
@@ -46,7 +54,7 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
 
     //setMinimumSize(screenSize);
 
-    appState = new AppState();
+
 
     mainLayout = new QVBoxLayout();
 
@@ -81,21 +89,8 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     dataM->cacheLastImg(cameraDir,appDataLocation+cacheDir,cacheImgNum,imgSaveSize);
     // cache!!!!!!!!! !!!
 
-    /*
-    galleryScreen = new GalleryScreen(screenInfo,appWidowSize,this);
-    //galleryScreen->showCameraPhotos();
-    galleryScreen->hide();
-    connect(galleryScreen,SIGNAL(pressBack()),this,SLOT(onPressBackGalleryScreen()));
-    connect(galleryScreen,SIGNAL(selectPic(QString)),this,SLOT(setCardImgSrc(QString)));
-    mainLayout->addWidget(galleryScreen);
-    */
-
     mainLayout->setMargin(0);
     setLayout(mainLayout);
-
-    //newGrpModal = new NewGrpModal(scaleFactor,dataM->getGrpImgSrc(),this);
-
-
 
     appState->setCurGrpType(LOCAL);
     showScreen(LOCAL_GRP_SCREEN);
@@ -193,13 +188,6 @@ void MainScreen::showGalleryScreenB()
 }
 void MainScreen::showGalleryScreen(int i)
 {
-    /*
-    GalleryScreen *screen = new GalleryScreen(screenInfo,appWidowSize,this);
-    screen->showCameraPhotos();
-    mainLayout->replaceWidget(galleryScreen,screen);
-    delete(galleryScreen);
-    galleryScreen = screen;
-    */
 
     galleryScreen = new GalleryScreen(screenInfo,appWidowSize,appDataLocation+cacheDir,this);
     galleryScreen->hide();
@@ -297,6 +285,14 @@ void MainScreen::hideAllScreens()
     cardScreen->hide();
     cardInfoScreen->hide();
     //galleryScreen->hide();
+}
+
+void MainScreen::resizeEvent(QResizeEvent *event)
+{
+    if(appState->getCurOS() == WINDOWS)
+    {
+        window()->move(screenAvailableGeometry.width()/4,(screenAvailableGeometry.height()-appWidowSize.height())/3);
+    }
 }
 
 void MainScreen::keyPressEvent(QKeyEvent *event)

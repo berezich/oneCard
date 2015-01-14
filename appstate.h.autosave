@@ -12,7 +12,7 @@ private:
     GRP_SOURCE curGrpType;
     CARD_SIDE curSideCard;
     int curGrpId;
-    int curCardId
+    int curCardId;
     SCREEN_TYPE curScreen;
     OS curOS;
 public:

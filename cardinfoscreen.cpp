@@ -19,9 +19,11 @@ CardInfoScreen::CardInfoScreen(QScreen *screenInfo,QSize appScrSize, QWidget *pa
     cap->setTitle(title,textTitleSize,titleLeftMargin);
     //-------
 
+    /*
     SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/sync.svg",":/svg/tools/syncPUSH.svg",QSize(55,55)*scaleFactor);
     icon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
     cap->addRightIcon(icon,capRightIconOffset);
+    */
 
     blankLayout->addWidget(cap);
     childWidgets.append(cap);

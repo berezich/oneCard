@@ -29,7 +29,7 @@ private:
 
     int columnsNum = 3;
     int rowsNum = 4;
-    QSize iconSize = QSize(135,135)*0.98;
+    QSize iconSize = QSize(135,135)*0.985;
     QSize iconOkSize = QSize(120,60);
     QSize screenSize = QSize(720,1280);
     int gridSpace = 30;

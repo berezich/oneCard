@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QDesktopWidget>
 #include <QScreen>
+#include <QWindow>
+#include <QPoint>
 #include "grpscreen.h"
 #include "grp.h"
 #include "cardscreen.h"
@@ -48,6 +50,7 @@ private:
     double scaleFactor=1;
 
     QScreen *screenInfo;
+    QRect screenAvailableGeometry;
     //double scaleFactor = 1;
     QLayout *mainLayout;
 
@@ -73,7 +76,7 @@ private:
 
     void showScreen(SCREEN_TYPE scr);
     void hideAllScreens();
-
+    void resizeEvent(QResizeEvent *event);
     void keyPressEvent(QKeyEvent *event);
 
 };
