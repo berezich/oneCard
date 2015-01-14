@@ -41,7 +41,6 @@ void NewGrpModal::setIconLst()
     setLayout(formBasic);
 
     formLayout = new QVBoxLayout();
-    formLayout->setSpacing(0);
     formWidget->setLayout(formLayout);
 
     nameLbl = new QLabel(lbl1);
@@ -75,7 +74,6 @@ void NewGrpModal::setIconLst()
     lineWidget->setLayout(lineGridLayout);
 
     gridWidget = new QWidget();
-    //gridWidget->setContentsMargins(0,0,0,0);
     gridLayout = new QGridLayout();
     //gridWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::MinimumExpanding);
     gridLayout->setSpacing(gridSpace);
@@ -113,6 +111,7 @@ void NewGrpModal::setIconLst()
     //SimpleIcon *icon;
     QWidget *confLineWidget = new QWidget();
     QHBoxLayout *confLineLayout = new QHBoxLayout();
+    confLineWidget->setContentsMargins(0,0,0,0);
     confLineWidget->setLayout(confLineLayout);
     confLineLayout->addStretch(1);
     confLineLayout->setContentsMargins(0,0,0,0);
