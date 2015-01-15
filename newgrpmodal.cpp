@@ -140,17 +140,8 @@ void NewGrpModal::paintEvent(QPaintEvent *event)
     QPainter customPainter(this);
     customPainter.setRenderHint(QPainter::Antialiasing);
     customPainter.setBrush(QBrush(QColor(backGroundColor)));
-    //customPainter.setPen();
-    customPainter.drawRoundedRect(QRect(rectPoint,rectSize),xRound,yRound/*,backGroundColor*/);
-
-
-
+    customPainter.drawRoundedRect(QRect(rectPoint,rectSize),xRound,yRound);
     //setIconLst();
-
-
-
-
-
 }
 
 void NewGrpModal::onClickGrpOk()
@@ -161,7 +152,7 @@ void NewGrpModal::onClickGrpOk()
 
 void NewGrpModal::onClickGrpIcon(int i)
 {
-    if(selectedIcon>=0)
+    if(selectedIcon>=0 && selectedIcon!=i)
         iconsGrid[selectedIcon]->unselectIcon();
     selectedIcon = i;
 }
