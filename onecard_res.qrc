@@ -56,5 +56,6 @@
         <file>svg/tools/syncin.svg</file>
         <file>svg/tools/syncout.svg</file>
         <file>svg/tools/bluetooth.svg</file>
+        <file>rect.qml</file>
     </qresource>
 </RCC>

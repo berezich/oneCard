@@ -175,7 +175,9 @@ void MainScreen::showCardInfoScreen(int cardId)
     cardInfoScreen = screen;
     connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
     connect(cardInfoScreen,SIGNAL(editFrontSideImg()),this,SLOT(showGalleryScreenF()));
-    connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showGalleryScreenB()));
+    //--------TEST----------
+    //connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showGalleryScreenB()));
+    connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showCameraQmlScreenB()));
 
     showScreen(CARD_INFO_SCREEN);
 
@@ -233,6 +235,34 @@ void MainScreen::onPressBackGalleryScreen()
     showCardInfoScreen(appState->getCurCardId());
 }
 
+void MainScreen::showCameraQmlScreenF()
+{
+    appState->setCurCardSideState(FRONTSIDE);
+    showCameraQmlScreen(0);
+}
+void MainScreen::showCameraQmlScreenB()
+{
+    appState->setCurCardSideState(BACKSIDE);
+    showCameraQmlScreen(0);
+}
+void MainScreen::showCameraQmlScreen(int i)
+{
+
+    cameraQmlScreen = new CameraQmlScreen();
+    mainLayout->addWidget(cameraQmlScreen);
+
+    connect(cameraQmlScreen,SIGNAL(pressBack()),this,SLOT(onPressBackCameraQmlScreen()));
+    //connect(cameraQmlScreen,SIGNAL(selectPic(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
+
+    showScreen(CAMERAQML_SCREEN);
+
+}
+void MainScreen::onPressBackCameraQmlScreen()
+{
+    delete(cameraQmlScreen);
+    showCardInfoScreen(appState->getCurCardId());
+}
+
 void MainScreen::showGrpNewScreen()
 {
     appState->setCurScreen(NEW_GRP_SCREEN);
@@ -278,6 +308,9 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
     case GALLERY_SCREEN:
         galleryScreen->show();
         break;
+    case CAMERAQML_SCREEN:
+        cameraQmlScreen->show();
+        break;
     default:
 
         break;
@@ -319,9 +352,13 @@ void MainScreen::keyPressEvent(QKeyEvent *event)
         case GALLERY_SCREEN:
             showCardInfoScreen(appState->getCurCardId());
             return;
+        case CAMERAQML_SCREEN:
+            showCardInfoScreen(appState->getCurCardId());
+            return;
         case NEW_GRP_SCREEN:
             showGrpScreen(0);
             return;
+
         default:
 
             break;

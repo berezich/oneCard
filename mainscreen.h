@@ -12,6 +12,7 @@
 #include "cardscreen.h"
 #include "cardinfoscreen.h"
 #include "galeryscreen.h"
+#include "cameraqmlscreen.h"
 #include "icon.h"
 #include "data.h"
 #include "appstate.h"
@@ -39,6 +40,10 @@ public slots:
     void showGalleryScreen(int i);
     void setCardImgSrc(QString dir, QString fileName);
     void onPressBackGalleryScreen();
+    void showCameraQmlScreenF();
+    void showCameraQmlScreenB();
+    void showCameraQmlScreen(int i);
+    void onPressBackCameraQmlScreen();
     void showGrpNewScreen();
     void newGrpConfigured(QString name, QString grpImgSrc);
     void onNewCardSelected();
@@ -67,6 +72,7 @@ private:
     CardScreen *cardScreen;
     CardInfoScreen *cardInfoScreen;
     GalleryScreen *galleryScreen;
+    CameraQmlScreen *cameraQmlScreen;
     NewGrpModal *newGrpModal;
     bool initNewGrpModal = false;
     Overlay *overlay;
