@@ -53,16 +53,16 @@ FocusScope {
 
     Rectangle {
         id: buttonPaneShadow
-        width: buttonsColumn.width + 16
-        height: parent.height
-        anchors.top: parent.top
-        anchors.right: parent.right
+        height: buttonsColumn.height + 16
+        width: parent.height
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
         color: Qt.rgba(0.08, 0.08, 0.08, 1)
 
-        Column {
+        Row {
             anchors {
-                right: parent.right
-                top: parent.top
+                horizontalCenter: parent.horizontalCenter
+                bottom: parent.bottom
                 margins: 8
             }
 

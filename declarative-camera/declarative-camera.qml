@@ -107,16 +107,16 @@ Rectangle {
         focus: visible
     }
 
-    VideoPreview {
-        id : videoPreview
-        anchors.fill : parent
-        onClosed: cameraUI.state = "VideoCapture"
-        visible: cameraUI.state == "VideoPreview"
-        focus: visible
+//    VideoPreview {
+//        id : videoPreview
+//        anchors.fill : parent
+//        onClosed: cameraUI.state = "VideoCapture"
+//        visible: cameraUI.state == "VideoPreview"
+//        focus: visible
 
-        //don't load recorded video if preview is invisible
-        source: visible ? camera.videoRecorder.actualLocation : ""
-    }
+//        //don't load recorded video if preview is invisible
+//        source: visible ? camera.videoRecorder.actualLocation : ""
+//    }
 
     VideoOutput {
         id: viewfinder
@@ -124,7 +124,8 @@ Rectangle {
 
         x: 0
         y: 0
-        width: parent.width - stillControls.buttonsPanelWidth
+        //width: parent.width - stillControls.buttonsPanelWidth
+        width: parent.width
         height: parent.height
 
         source: camera
@@ -140,12 +141,12 @@ Rectangle {
         onVideoModeSelected: cameraUI.state = "VideoCapture"
     }
 
-    VideoCaptureControls {
-        id: videoControls
-        anchors.fill: parent
-        camera: camera
-        visible: cameraUI.state == "VideoCapture"
-        onPreviewSelected: cameraUI.state = "VideoPreview"
-        onPhotoModeSelected: cameraUI.state = "PhotoCapture"
-    }
+//    VideoCaptureControls {
+//        id: videoControls
+//        anchors.fill: parent
+//        camera: camera
+//        visible: cameraUI.state == "VideoCapture"
+//        onPreviewSelected: cameraUI.state = "VideoPreview"
+//        onPhotoModeSelected: cameraUI.state = "PhotoCapture"
+//    }
 }
