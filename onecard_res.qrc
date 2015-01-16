@@ -57,5 +57,27 @@
         <file>svg/tools/syncout.svg</file>
         <file>svg/tools/bluetooth.svg</file>
         <file>rect.qml</file>
+        <file>declarative-camera/CameraButton.qml</file>
+        <file>declarative-camera/CameraPropertyButton.qml</file>
+        <file>declarative-camera/CameraPropertyPopup.qml</file>
+        <file>declarative-camera/declarative-camera.qml</file>
+        <file>declarative-camera/FocusButton.qml</file>
+        <file>declarative-camera/PhotoCaptureControls.qml</file>
+        <file>declarative-camera/PhotoPreview.qml</file>
+        <file>declarative-camera/VideoCaptureControls.qml</file>
+        <file>declarative-camera/VideoPreview.qml</file>
+        <file>declarative-camera/ZoomControl.qml</file>
+        <file>declarative-camera/images/camera_auto_mode.png</file>
+        <file>declarative-camera/images/camera_camera_setting.png</file>
+        <file>declarative-camera/images/camera_flash_auto.png</file>
+        <file>declarative-camera/images/camera_flash_fill.png</file>
+        <file>declarative-camera/images/camera_flash_off.png</file>
+        <file>declarative-camera/images/camera_flash_redeye.png</file>
+        <file>declarative-camera/images/camera_white_balance_cloudy.png</file>
+        <file>declarative-camera/images/camera_white_balance_flourescent.png</file>
+        <file>declarative-camera/images/camera_white_balance_incandescent.png</file>
+        <file>declarative-camera/images/camera_white_balance_sunny.png</file>
+        <file>declarative-camera/images/toolbutton.png</file>
+        <file>declarative-camera/images/toolbutton.sci</file>
     </qresource>
 </RCC>

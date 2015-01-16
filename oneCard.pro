@@ -1,4 +1,4 @@
-QT += widgets quick core gui xml svg
+QT += widgets quick quickwidgets core gui xml svg multimedia
 QTPLUGIN += qsvg
 
 HEADERS       = button.h \

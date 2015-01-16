@@ -94,6 +94,10 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     dataM->cacheLastImg(cameraDir,appDataLocation+cacheDir,cacheImgNum,imgSaveSize);
     // cache!!!!!!!!! !!!
 
+    cameraQmlScreen = new CameraQmlScreen(appWidowSize);
+    mainLayout->addWidget(cameraQmlScreen);
+    connect(cameraQmlScreen,SIGNAL(pressBack()),this,SLOT(onPressBackCameraQmlScreen()));
+
     mainLayout->setMargin(0);
     setLayout(mainLayout);
 
@@ -248,10 +252,9 @@ void MainScreen::showCameraQmlScreenB()
 void MainScreen::showCameraQmlScreen(int i)
 {
 
-    cameraQmlScreen = new CameraQmlScreen();
-    mainLayout->addWidget(cameraQmlScreen);
-
-    connect(cameraQmlScreen,SIGNAL(pressBack()),this,SLOT(onPressBackCameraQmlScreen()));
+//    cameraQmlScreen = new CameraQmlScreen();
+//    mainLayout->addWidget(cameraQmlScreen);
+//    connect(cameraQmlScreen,SIGNAL(pressBack()),this,SLOT(onPressBackCameraQmlScreen()));
     //connect(cameraQmlScreen,SIGNAL(selectPic(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
 
     showScreen(CAMERAQML_SCREEN);
@@ -310,6 +313,7 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
         break;
     case CAMERAQML_SCREEN:
         cameraQmlScreen->show();
+        cameraQmlScreen->showQML();
         break;
     default:
 
@@ -322,6 +326,7 @@ void MainScreen::hideAllScreens()
     grpScreen->hide();
     cardScreen->hide();
     cardInfoScreen->hide();
+    cameraQmlScreen->hide();
     //galleryScreen->hide();
 }
 
