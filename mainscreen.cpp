@@ -184,13 +184,11 @@ void MainScreen::showCardInfoScreen(int cardId)
     delete(cardInfoScreen);
     cardInfoScreen = screen;
     connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
-    connect(cardInfoScreen,SIGNAL(editFrontSideGalleryImg()),this,SLOT(showGalleryScreenF()));
-    connect(cardInfoScreen,SIGNAL(editFrontSideCameraImg()),this,SLOT(showCameraQmlScreenF()));
-    connect(cardInfoScreen,SIGNAL(editBackSideGalleryImg()),this,SLOT(showGalleryScreenB()));
-    connect(cardInfoScreen,SIGNAL(editBackSideCameraImg()),this,SLOT(showCameraQmlScreenB()));
+    connect(cardInfoScreen,SIGNAL(editFrontSideImg()),this,SLOT(showGalleryScreenF()));
+
     //--------TEST----------
     //connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showGalleryScreenB()));
-    //connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showCameraQmlScreenB()));
+    connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showCameraQmlScreenB()));
 
     showScreen(CARD_INFO_SCREEN);
 
