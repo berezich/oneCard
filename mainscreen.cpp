@@ -183,6 +183,7 @@ void MainScreen::showCardInfoScreen(int cardId)
     mainLayout->replaceWidget(cardInfoScreen,screen);
     delete(cardInfoScreen);
     cardInfoScreen = screen;
+
     connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
     connect(cardInfoScreen,SIGNAL(editFrontSideImg()),this,SLOT(showGalleryScreenF()));
 
@@ -213,16 +214,23 @@ void MainScreen::showGalleryScreen(int i)
     mainLayout->addWidget(galleryScreen);
 
     connect(galleryScreen,SIGNAL(pressBack()),this,SLOT(onPressBackGalleryScreen()));
+
+    connect(galleryScreen,SIGNAL(selectPic(QString,QString)),this,SLOT(closeGallery()));
     connect(galleryScreen,SIGNAL(selectPic(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
 
     showScreen(GALLERY_SCREEN);
 
 }
 
+void MainScreen::closeGallery()
+{
+    delete(galleryScreen);
+}
+
 void MainScreen::setCardImgSrc(QString dir, QString fileName)
 {
-    if(galleryScreen!=NULL)
-        delete(galleryScreen);
+    //if(galleryScreen!=NULL)
+    //    delete(galleryScreen);
 
     int cardId = appState->getCurCardId();
     int grpId = appState->getCurGrpId();
