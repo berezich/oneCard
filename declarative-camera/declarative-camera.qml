@@ -45,7 +45,8 @@ Rectangle {
     id : cameraUI
     width: 800
     height: 480
-
+    property double scaleFactor: width/720
+    //property string preview
     color: "black"
     state: "PhotoCapture"
 
@@ -84,12 +85,22 @@ Rectangle {
     Camera {
         id: camera
         captureMode: Camera.CaptureStillImage
-
         imageCapture {
             onImageCaptured: {
-                photoPreview.source = preview
+                photoPreview.source = preview;
                 stillControls.previewAvailable = true
                 cameraUI.state = "PhotoPreview"
+                //cameraUI.preview = preview
+                console.log("preview = " , preview);
+
+            }
+            onImageSaved:{
+                //photoPreview.source = camera.imageCapture.capture()
+                photoPreview.localSrcPic = camera.imageCapture.capturedImagePath
+                //stillControls.previewAvailable = true
+                //cameraUI.state = "PhotoPreview"
+                console.log("capturedImagePath = " , camera.imageCapture.capturedImagePath)
+
             }
         }
 
@@ -102,7 +113,13 @@ Rectangle {
     PhotoPreview {
         id : photoPreview
         anchors.fill : parent
+        scaleFactor: cameraUI.scaleFactor
         onClosed: cameraUI.state = "PhotoCapture"
+//        onOkAndClose: {
+//            cameraUI.state = "PhotoCapture"
+//            myApp.onPhotoOk(photoPreview.localSrcPic);
+
+//        }
         visible: cameraUI.state == "PhotoPreview"
         focus: visible
     }
@@ -126,7 +143,8 @@ Rectangle {
         y: 0
         //width: parent.width - stillControls.buttonsPanelWidth
         width: parent.width
-        height: parent.height
+        height: parent.height// - stillControls.buttonsPanelWidth
+
 
         source: camera
         autoOrientation: true
@@ -136,6 +154,7 @@ Rectangle {
         id: stillControls
         anchors.fill: parent
         camera: camera
+        scaleFactor: cameraUI.scaleFactor
         visible: cameraUI.state == "PhotoCapture"
         onPreviewSelected: cameraUI.state = "PhotoPreview"
         onVideoModeSelected: cameraUI.state = "VideoCapture"

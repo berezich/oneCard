@@ -3,9 +3,10 @@
 CameraQmlScreen::CameraQmlScreen(QSize appScrSize, QWidget *parent) : QWidget(parent)
 {
     this->appScrSize = appScrSize;
-    setMinimumSize(appScrSize);
-    setMaximumSize(appScrSize);
-    setContentsMargins(0,0,0,0);
+    //setWindowState(Qt::WindowMaximized);
+    //setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    setMaximumSize(window()->geometry().size());
+    //setMaximumSize(appScrSize);
 //    QQuickView *view = new QQuickView();
 //    QWidget *container = QWidget::createWindowContainer(view, this);
 //    container->setContentsMargins(0,0,0,0);
@@ -18,8 +19,13 @@ CameraQmlScreen::CameraQmlScreen(QSize appScrSize, QWidget *parent) : QWidget(pa
     mQQuickWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
     mQQuickWidget->setAttribute(Qt::WA_AlwaysStackOnTop);
     mQQuickWidget->setClearColor(Qt::transparent);
-    mQQuickWidget->resize(appScrSize);
+    mQQuickWidget->resize(window()->geometry().size());
+    mQQuickWidget->rootContext()->setContextProperty("myApp", this);
+    //mQQuickWidget->setProperty("tempPicLocation", appDataLocation+"/tempPic");
+    //mQQuickWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
     mQQuickWidget->raise();
+    //mQQuickWidget->setUpdatesEnabled(true);
 }
 
 CameraQmlScreen::~CameraQmlScreen()
@@ -30,6 +36,23 @@ CameraQmlScreen::~CameraQmlScreen()
 
 void CameraQmlScreen::showQML()
 {
-    //mQQuickWidget->raise();
+    show();
+    setMaximumSize(window()->geometry().size());
+    mQQuickWidget->resize(window()->geometry().size());
+}
+
+void CameraQmlScreen::onPhotoOk(QString file)
+{
+    qDebug()<< "onPhotoOk file!!! = "<<file;
+    QString fileName =  file.split('/').last();
+    QString dir = file.left(file.lastIndexOf("/")+1);
+
+    emit selectPhoto(dir,fileName);
+}
+
+void CameraQmlScreen::closeCamera()
+{
+    qDebug()<< "closeCamera!!!";
+    emit pressedCancel();
 }
 

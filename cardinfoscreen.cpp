@@ -127,11 +127,32 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
     childWidgets.append(cardIcon);
     line->addStretch(1);
 
-    icon = new SimpleIcon(0,":/svg/tools/pen.svg",":/svg/tools/penPUSH.svg",editIconSize);
+
+    QWidget *vLineWidget = new QWidget();
+
+    QVBoxLayout *vLine = new QVBoxLayout(vLineWidget);
+    vLineWidget->setLayout(vLine);
+    childLayouts.append(vLine);
+
+
+    icon = new SimpleIcon(0,":/svg/tools/infophoto.svg",":/svg/tools/infophoto.svg",editIconSize);
     icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
-    connect(icon,SIGNAL(click(int)),this,SIGNAL(editFrontSideImg()));
-    line->addWidget(icon);
+    connect(icon,SIGNAL(click(int)),this,SIGNAL(editFrontSideCameraImg()));
     childWidgets.append(icon);
+    vLine->addWidget(icon);
+
+//    icon = new SimpleIcon(0,":/svg/tools/gallery.sv",":/svg/tools/gallery.svg",editIconSize);
+//    icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
+//    connect(icon,SIGNAL(click(int)),this,SIGNAL(editFrontSideGalleryImg()));
+//    childWidgets.append(icon);
+//    vLine->addWidget(icon);
+
+    childWidgets.append(vLineWidget);
+
+
+    line->addWidget(vLineWidget);
+    childLayouts.append(line);
+
     line->addSpacing(rightEditIconOffset);
     widgetLine = new QWidget();
     widgetLine->setMinimumWidth(screenSize.width());

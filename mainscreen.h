@@ -64,7 +64,7 @@ private:
 
     QString appDataLocation="/data/data/com.berezich.oneCard/files";
     QString cameraDir="/storage/emulated/0/DCIM/camera/";
-    QString cacheDir="cameraCache/";
+    QString cacheDir="/cameraCache/";
 
     Data *dataM;
 

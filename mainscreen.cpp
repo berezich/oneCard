@@ -23,7 +23,10 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     for(int i=0; i<dirs.length(); i++)
         qDebug()<< "dir"<<i<<" = "<<dirs.at(i);
     if(dirs.length()>0)
+    {
         appDataLocation = dirs.at(0);
+        qDebug() << "appDataLocation = " <<appDataLocation;
+    }
 
 
     //this->screenInfo = screenInfo;
@@ -45,9 +48,11 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     {
         appWidowSize = QSize(screenInfo->geometry().width(),screenInfo->geometry().height());
         appState->setCurOS(NONE);
+        //setWindowState(Qt::WindowMaximized);
     }
 
-    setMaximumSize(appWidowSize);
+    //setMaximumSize(appWidowSize);
+
 
     double scaleFactorW = ((double)appWidowSize.width())/(double)defaultWidth;
     double scaleFactorH = ((double)appWidowSize.height())/(double)defaultHeight;
@@ -96,7 +101,8 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
 
     cameraQmlScreen = new CameraQmlScreen(appWidowSize);
     mainLayout->addWidget(cameraQmlScreen);
-    connect(cameraQmlScreen,SIGNAL(pressBack()),this,SLOT(onPressBackCameraQmlScreen()));
+    connect(cameraQmlScreen,SIGNAL(pressedCancel()),this,SLOT(onPressBackCameraQmlScreen()));
+    connect(cameraQmlScreen,SIGNAL(selectPhoto(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
 
     mainLayout->setMargin(0);
     setLayout(mainLayout);
@@ -178,10 +184,13 @@ void MainScreen::showCardInfoScreen(int cardId)
     delete(cardInfoScreen);
     cardInfoScreen = screen;
     connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
-    connect(cardInfoScreen,SIGNAL(editFrontSideImg()),this,SLOT(showGalleryScreenF()));
+    connect(cardInfoScreen,SIGNAL(editFrontSideGalleryImg()),this,SLOT(showGalleryScreenF()));
+    connect(cardInfoScreen,SIGNAL(editFrontSideCameraImg()),this,SLOT(showCameraQmlScreenF()));
+    connect(cardInfoScreen,SIGNAL(editBackSideGalleryImg()),this,SLOT(showGalleryScreenB()));
+    connect(cardInfoScreen,SIGNAL(editBackSideCameraImg()),this,SLOT(showCameraQmlScreenB()));
     //--------TEST----------
     //connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showGalleryScreenB()));
-    connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showCameraQmlScreenB()));
+    //connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showCameraQmlScreenB()));
 
     showScreen(CARD_INFO_SCREEN);
 
@@ -220,9 +229,15 @@ void MainScreen::setCardImgSrc(QString dir, QString fileName)
     int cardId = appState->getCurCardId();
     int grpId = appState->getCurGrpId();
     CardInfo *cardInf = dataM->getLocalCard(grpId, cardId);
-    QString imgName = cardInf->getCardName()+"_"+fileName;
+    //QString imgName = cardInf->getCardName()+"_"+fileName;
+    QString imgName;
+    if(appState->getCurCardSideState()==FRONTSIDE)
+        imgName= cardInf->getCardName()+"_front";
+    else
+        imgName= cardInf->getCardName()+"_back";
     QString saveSrc = appDataLocation+"/"+imgName;
-
+    qDebug()<<"dir+fileName = "<<dir+fileName;
+    qDebug()<<"saveSrc = "<<saveSrc;
     dataM->saveImg(dir+fileName,saveSrc,imgSaveSize);
 
     if(appState->getCurCardSideState()==FRONTSIDE)
@@ -251,18 +266,20 @@ void MainScreen::showCameraQmlScreenB()
 }
 void MainScreen::showCameraQmlScreen(int i)
 {
+    delete(cameraQmlScreen);
+    cameraQmlScreen = new CameraQmlScreen(appWidowSize);
+    mainLayout->addWidget(cameraQmlScreen);
+    connect(cameraQmlScreen,SIGNAL(pressedCancel()),this,SLOT(onPressBackCameraQmlScreen()));
+    connect(cameraQmlScreen,SIGNAL(selectPhoto(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
 
-//    cameraQmlScreen = new CameraQmlScreen();
-//    mainLayout->addWidget(cameraQmlScreen);
-//    connect(cameraQmlScreen,SIGNAL(pressBack()),this,SLOT(onPressBackCameraQmlScreen()));
-    //connect(cameraQmlScreen,SIGNAL(selectPic(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
-
+    //window()->setUpdatesEnabled(true);
+    window()->update();
     showScreen(CAMERAQML_SCREEN);
 
 }
 void MainScreen::onPressBackCameraQmlScreen()
 {
-    delete(cameraQmlScreen);
+    //delete(cameraQmlScreen);
     showCardInfoScreen(appState->getCurCardId());
 }
 
@@ -296,6 +313,7 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
 {
     hideAllScreens();
     appState->setCurScreen(scr);
+
     switch (scr) {
     case LOCAL_GRP_SCREEN:
         grpScreen->show();
@@ -312,7 +330,7 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
         galleryScreen->show();
         break;
     case CAMERAQML_SCREEN:
-        cameraQmlScreen->show();
+
         cameraQmlScreen->showQML();
         break;
     default:
@@ -332,9 +350,15 @@ void MainScreen::hideAllScreens()
 
 void MainScreen::resizeEvent(QResizeEvent *event)
 {
+
     if(appState->getCurOS() == WINDOWS)
     {
         window()->move(screenAvailableGeometry.width()/4,(screenAvailableGeometry.height()-appWidowSize.height())/5);
+    }
+    if(!appState->getIsFixedWinSize() || appState->getCurOS() != WINDOWS)
+    {
+        setMinimumSize(this->window()->geometry().width(),this->window()->geometry().height());
+        setMaximumSize(this->window()->geometry().width(),this->window()->geometry().height());
     }
 }
 

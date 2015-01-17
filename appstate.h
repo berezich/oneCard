@@ -15,6 +15,7 @@ private:
     int curCardId;
     SCREEN_TYPE curScreen;
     OS curOS;
+    bool isFixedWinSize=false;
 public:
     AppState();
 
@@ -35,6 +36,9 @@ public:
 
     OS getCurOS(){return curOS;}
     void setCurOS(OS os){curOS = os;}
+
+    bool getIsFixedWinSize(){return isFixedWinSize;}
+    void setIsFixedWinSize(bool val){isFixedWinSize = val;}
 };
 
 #endif // APPSTATE_H

@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QQuickWidget>
 #include <QQuickView>
+#include <QQmlContext>
+#include <QDebug>
 
 class CameraQmlScreen : public QWidget
 {
@@ -13,10 +15,13 @@ public:
     ~CameraQmlScreen();
 
 signals:
-    void pressBack();
+    void pressedCancel();
+    void selectPhoto(QString,QString);
 
 public slots:
     void showQML();
+    void onPhotoOk(QString file);
+    void closeCamera();
 private:
     QQuickWidget *mQQuickWidget;
     QSize appScrSize;

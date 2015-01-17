@@ -44,105 +44,51 @@ import QtMultimedia 5.0
 FocusScope {
     property Camera camera
     property bool previewAvailable : false
-
-    property int buttonsPanelWidth: buttonPaneShadow.width
-
+    property int buttonsPanelWidth: buttonPaneShadow.height
+    property double scaleFactor
     signal previewSelected
     signal videoModeSelected
     id : captureControls
 
     Rectangle {
         id: buttonPaneShadow
-        height: buttonsColumn.height + 16
-        width: parent.height
+        height: buttonsColumn.height + 20*scaleFactor
+        width: parent.width
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        color: Qt.rgba(0.08, 0.08, 0.08, 1)
+        color: Qt.rgba(0.08, 0.08, 0.08, 0)
 
         Row {
             anchors {
                 horizontalCenter: parent.horizontalCenter
-                bottom: parent.bottom
+                top: parent.top
                 margins: 8
             }
 
             id: buttonsColumn
             spacing: 8
 
-            FocusButton {
-                camera: captureControls.camera
-                visible: camera.cameraStatus == Camera.ActiveStatus && camera.focus.isFocusModeSupported(Camera.FocusAuto)
-            }
-
-            CameraButton {
-                text: "Capture"
-                visible: camera.imageCapture.ready
-                onClicked: camera.imageCapture.capture()
-            }
-
-//            CameraPropertyButton {
-//                id : wbModesButton
-//                value: CameraImageProcessing.WhiteBalanceAuto
-//                model: ListModel {
-//                    ListElement {
-//                        icon: "images/camera_auto_mode.png"
-//                        value: CameraImageProcessing.WhiteBalanceAuto
-//                        text: "Auto"
-//                    }
-//                    ListElement {
-//                        icon: "images/camera_white_balance_sunny.png"
-//                        value: CameraImageProcessing.WhiteBalanceSunlight
-//                        text: "Sunlight"
-//                    }
-//                    ListElement {
-//                        icon: "images/camera_white_balance_cloudy.png"
-//                        value: CameraImageProcessing.WhiteBalanceCloudy
-//                        text: "Cloudy"
-//                    }
-//                    ListElement {
-//                        icon: "images/camera_white_balance_incandescent.png"
-//                        value: CameraImageProcessing.WhiteBalanceTungsten
-//                        text: "Tungsten"
-//                    }
-//                    ListElement {
-//                        icon: "images/camera_white_balance_flourescent.png"
-//                        value: CameraImageProcessing.WhiteBalanceFluorescent
-//                        text: "Fluorescent"
-//                    }
-//                }
-//                onValueChanged: captureControls.camera.imageProcessing.whiteBalanceMode = wbModesButton.value
+//            FocusButton {
+//                camera: captureControls.camera
+//                visible: camera.cameraStatus == Camera.ActiveStatus && camera.focus.isFocusModeSupported(Camera.FocusAuto)
 //            }
 
             CameraButton {
-                text: "View"
-                onClicked: captureControls.previewSelected()
-                visible: captureControls.previewAvailable
+                //text: "Back"
+                scaleFactor: captureControls.scaleFactor
+                srcImg: "qrc:/svg/tools/NOcamera.svg"
+                visible: camera.imageCapture.ready
+                onClicked: myApp.closeCamera()
             }
-        }
-
-        Column {
-            anchors {
-                bottom: parent.bottom
-                right: parent.right
-                margins: 8
-            }
-
-            id: bottomColumn
-            spacing: 8
 
             CameraButton {
-                text: "Switch to Video"
-                onClicked: captureControls.videoModeSelected()
-            }
-
-
-            CameraButton {
-                id: quitButton
-                text: "Quit"
-                onClicked: Qt.quit()
+                scaleFactor: captureControls.scaleFactor
+                srcImg: "qrc:/svg/tools/camera.svg"
+                visible: camera.imageCapture.ready
+                onClicked: camera.imageCapture.capture()
+                //onClicked: camera.imageCapture.captureToLocation("C:/Users/Sashka/Documents/GitHub/build-oneCard-Desktop_Qt_5_4_0_MinGW_32bit-Release/release/data.jpg")
             }
         }
-
 
     }
 

@@ -42,7 +42,10 @@ import QtQuick 2.0
 import QtMultimedia 5.0
 
 Item {
+    id: imgView
+    property string localSrcPic
     property alias source : preview.source
+    property double scaleFactor
     signal closed
 
     Image {
@@ -51,12 +54,42 @@ Item {
         fillMode: Image.PreserveAspectFit
         smooth: true
     }
+    Rectangle {
+        id: buttonPaneShadow
+        height: buttonsColumn.height + 20*scaleFactor
+        width: parent.width
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: Qt.rgba(0.08, 0.08, 0.08, 0)
 
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            parent.closed();
+        Row {
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                top: parent.top
+                margins: 8
+            }
+
+            id: buttonsColumn
+            spacing: 8
+
+            CameraButton {
+                srcImg: "qrc:/svg/tools/NOcamera.svg"
+                visible: camera.imageCapture.ready
+                scaleFactor: imgView.scaleFactor
+                onClicked: {
+                    imgView.closed();
+                }
+            }
+            CameraButton {
+                scaleFactor: imgView.scaleFactor
+                srcImg: "qrc:/svg/tools/OKcamera.svg"
+                visible: camera.imageCapture.ready
+                onClicked: {
+                    myApp.onPhotoOk(imgView.localSrcPic);
+                }
+            }
         }
     }
+
 }
 

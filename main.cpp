@@ -62,5 +62,6 @@ int main(int argc, char *argv[])
 
     MainScreen mainScreen(&app);
     mainScreen.show();
+
     return app.exec();
 }
