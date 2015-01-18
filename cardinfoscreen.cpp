@@ -112,7 +112,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
 
     //frontside of card-------------------
     line = new QHBoxLayout();
-    childLayouts.append(line);
+
     //для симметричности
     //line->addSpacing(editIconSize.width());
 
@@ -127,11 +127,30 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
     childWidgets.append(cardIcon);
     line->addStretch(1);
 
-    icon = new SimpleIcon(0,":/svg/tools/pen.svg",":/svg/tools/penPUSH.svg",editIconSize);
+    QWidget *vLineWidget = new QWidget();
+    QVBoxLayout *vLine = new QVBoxLayout();
+    vLineWidget->setLayout(vLine);
+    vLine->setContentsMargins(0,0,0,0);
+    childLayouts.append(vLine);
+    childLayouts.append(line);
+
+    icon = new SimpleIcon(0,":/svg/tools/infophoto.svg",":/svg/tools/infophotoPUSH.svg",editIconSize);
     icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
-    connect(icon,SIGNAL(click(int)),this,SIGNAL(editFrontSideImg()));
-    line->addWidget(icon);
+    connect(icon,SIGNAL(click(int)),this,SIGNAL(editFrontSideCameraImg()));
+    vLine->addWidget(icon);
     childWidgets.append(icon);
+
+    icon = new SimpleIcon(0,":/svg/tools/gallery.svg",":/svg/tools/galleryPUSH.svg",editIconSize);
+    icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
+    connect(icon,SIGNAL(click(int)),this,SIGNAL(editFrontSideGalleryImg()));
+    vLine->addWidget(icon);
+    line->addWidget(vLineWidget);
+    childWidgets.append(icon);
+
+
+    vLine->addStretch(1);
+    childWidgets.append(vLineWidget);
+
     line->addSpacing(rightEditIconOffset);
     widgetLine = new QWidget();
     widgetLine->setMinimumWidth(screenSize.width());
@@ -141,7 +160,6 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
 
     //backside of card-----------------
     line = new QHBoxLayout();
-    childLayouts.append(line);
     //для симметричности
     //line->addSpacing(editIconSize.width());
     line->addStretch(1);
@@ -157,11 +175,36 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
     childWidgets.append(cardIcon);
     line->addStretch(1);
 
-    icon = new SimpleIcon(0,":/svg/tools/pen.svg",":/svg/tools/penPUSH.svg",editIconSize);
+    vLineWidget = new QWidget();
+    vLine = new QVBoxLayout();
+    vLineWidget->setLayout(vLine);
+    vLine->setContentsMargins(0,0,0,0);
+    childLayouts.append(vLine);
+    childLayouts.append(line);
+
+    icon = new SimpleIcon(0,":/svg/tools/infophoto.svg",":/svg/tools/infophotoPUSH.svg",editIconSize);
     icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
-    connect(icon,SIGNAL(click(int)),this,SIGNAL(editBackSideImg()));
-    line->addWidget(icon);
+    connect(icon,SIGNAL(click(int)),this,SIGNAL(editBackSideCameraImg()));
+    vLine->addWidget(icon);
     childWidgets.append(icon);
+
+    icon = new SimpleIcon(0,":/svg/tools/gallery.svg",":/svg/tools/galleryPUSH.svg",editIconSize);
+    icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
+    connect(icon,SIGNAL(click(int)),this,SIGNAL(editBackSideGalleryImg()));
+    vLine->addWidget(icon);
+    line->addWidget(vLineWidget);
+    childWidgets.append(icon);
+
+    vLine->addStretch(1);
+    childWidgets.append(vLineWidget);
+
+//    icon = new SimpleIcon(0,":/svg/tools/infophoto.svg",":/svg/tools/infophotoPUSH.svg",editIconSize);
+//    icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
+//    connect(icon,SIGNAL(click(int)),this,SIGNAL(editBackSideCameraImg()));
+//    line->addWidget(icon);
+//    childWidgets.append(icon);
+
+
     line->addSpacing(rightEditIconOffset);
     widgetLine = new QWidget();
     widgetLine->setMinimumWidth(screenSize.width());

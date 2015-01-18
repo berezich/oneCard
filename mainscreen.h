@@ -38,7 +38,7 @@ public slots:
     void showGalleryScreenF();
     void showGalleryScreenB();
     void showGalleryScreen(int i);
-    void closeGallery();
+    void setCardImgSrcGallery(QString dir, QString fileName);
     void setCardImgSrc(QString dir, QString fileName);
     void onPressBackGalleryScreen();
     void showCameraQmlScreenF();

@@ -185,11 +185,17 @@ void MainScreen::showCardInfoScreen(int cardId)
     cardInfoScreen = screen;
 
     connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
-    connect(cardInfoScreen,SIGNAL(editFrontSideImg()),this,SLOT(showGalleryScreenF()));
+    connect(cardInfoScreen,SIGNAL(editFrontSideGalleryImg()),this,SLOT(showGalleryScreenF()));
+    connect(cardInfoScreen,SIGNAL(editFrontSideCameraImg()),this,SLOT(showCameraQmlScreenF()));
+    connect(cardInfoScreen,SIGNAL(editBackSideGalleryImg()),this,SLOT(showGalleryScreenB()));
+    connect(cardInfoScreen,SIGNAL(editBackSideCameraImg()),this,SLOT(showCameraQmlScreenB()));
 
-    //--------TEST----------
-    //connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showGalleryScreenB()));
-    connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showCameraQmlScreenB()));
+//    connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
+//    connect(cardInfoScreen,SIGNAL(editFrontSideImg()),this,SLOT(showGalleryScreenF()));
+
+//    //--------TEST----------
+//    //connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showGalleryScreenB()));
+//    connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showCameraQmlScreenB()));
 
     showScreen(CARD_INFO_SCREEN);
 
@@ -215,16 +221,17 @@ void MainScreen::showGalleryScreen(int i)
 
     connect(galleryScreen,SIGNAL(pressBack()),this,SLOT(onPressBackGalleryScreen()));
 
-    connect(galleryScreen,SIGNAL(selectPic(QString,QString)),this,SLOT(closeGallery()));
-    connect(galleryScreen,SIGNAL(selectPic(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
+    connect(galleryScreen,SIGNAL(selectPic(QString,QString)),this,SLOT(setCardImgSrcGallery(QString,QString)));
 
     showScreen(GALLERY_SCREEN);
 
 }
 
-void MainScreen::closeGallery()
+void MainScreen::setCardImgSrcGallery(QString dir, QString fileName)
 {
-    delete(galleryScreen);
+    if(galleryScreen != NULL)
+        delete(galleryScreen);
+    setCardImgSrc(dir,fileName);
 }
 
 void MainScreen::setCardImgSrc(QString dir, QString fileName)
