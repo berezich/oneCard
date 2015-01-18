@@ -7,6 +7,7 @@
 #include <QScreen>
 #include <QWindow>
 #include <QPoint>
+#include <QFileDialog>
 #include "grpscreen.h"
 #include "grp.h"
 #include "cardscreen.h"
@@ -39,6 +40,7 @@ public slots:
     void showGalleryScreenB();
     void showGalleryScreen(int i);
     void setCardImgSrcGallery(QString dir, QString fileName);
+    void setCardImgSrc(QString file);
     void setCardImgSrc(QString dir, QString fileName);
     void onPressBackGalleryScreen();
     void showCameraQmlScreenF();
@@ -48,6 +50,7 @@ public slots:
     void showGrpNewScreen();
     void newGrpConfigured(QString name, QString grpImgSrc);
     void onNewCardSelected();
+    void showFileDialog();
 
 private:
     QSize appWidowSize;

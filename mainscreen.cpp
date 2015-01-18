@@ -214,16 +214,21 @@ void MainScreen::showGalleryScreenB()
 void MainScreen::showGalleryScreen(int i)
 {
 
-    galleryScreen = new GalleryScreen(screenInfo,appWidowSize,appDataLocation+cacheDir,this);
-    galleryScreen->hide();
-    galleryScreen->showCameraPhotos();
-    mainLayout->addWidget(galleryScreen);
+    if(appState->getCurOS()==WINDOWS)
+        showFileDialog();
+    else
+    {
+        galleryScreen = new GalleryScreen(screenInfo,appWidowSize,appDataLocation+cacheDir,this);
+        galleryScreen->hide();
+        galleryScreen->showCameraPhotos();
+        mainLayout->addWidget(galleryScreen);
 
-    connect(galleryScreen,SIGNAL(pressBack()),this,SLOT(onPressBackGalleryScreen()));
+        connect(galleryScreen,SIGNAL(pressBack()),this,SLOT(onPressBackGalleryScreen()));
 
-    connect(galleryScreen,SIGNAL(selectPic(QString,QString)),this,SLOT(setCardImgSrcGallery(QString,QString)));
+        connect(galleryScreen,SIGNAL(selectPic(QString,QString)),this,SLOT(setCardImgSrcGallery(QString,QString)));
 
-    showScreen(GALLERY_SCREEN);
+        showScreen(GALLERY_SCREEN);
+    }
 
 }
 
@@ -235,6 +240,11 @@ void MainScreen::setCardImgSrcGallery(QString dir, QString fileName)
 }
 
 void MainScreen::setCardImgSrc(QString dir, QString fileName)
+{
+    setCardImgSrc(dir+fileName);
+}
+
+void MainScreen::setCardImgSrc(QString file)
 {
     //if(galleryScreen!=NULL)
     //    delete(galleryScreen);
@@ -249,9 +259,9 @@ void MainScreen::setCardImgSrc(QString dir, QString fileName)
     else
         imgName= cardInf->getCardName()+"_back";
     QString saveSrc = appDataLocation+"/"+imgName;
-    qDebug()<<"dir+fileName = "<<dir+fileName;
+    qDebug()<<"dir+fileName = "<<file;
     qDebug()<<"saveSrc = "<<saveSrc;
-    dataM->saveImg(dir+fileName,saveSrc,imgSaveSize);
+    dataM->saveImg(file,saveSrc,imgSaveSize);
 
     if(appState->getCurCardSideState()==FRONTSIDE)
         dataM->getLocalCard(grpId,cardId)->setCardImgSrc(saveSrc);
@@ -320,6 +330,22 @@ void MainScreen::onNewCardSelected()
     CardInfo *card = grp->createNewCard();
     appState->setCurCardId( card->getId());
     showCardInfoScreen(card->getId());
+}
+
+void MainScreen::showFileDialog()
+{
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setNameFilter(tr("Images (*.png *.bmp *.jpg)"));
+    dialog.setViewMode(QFileDialog::Detail);
+    QStringList fileNames;
+    if (dialog.exec())
+    {
+        fileNames = dialog.selectedFiles();
+        if(fileNames.length()>0)
+            setCardImgSrc(fileNames.first());
+
+    }
 }
 
 void MainScreen::showScreen(SCREEN_TYPE scr)
