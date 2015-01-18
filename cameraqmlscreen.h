@@ -11,7 +11,7 @@ class CameraQmlScreen : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CameraQmlScreen(QSize appScrSize, QWidget *parent = 0);
+    explicit CameraQmlScreen(QSize appScrSize,QString os, QWidget *parent = 0);
     ~CameraQmlScreen();
 
 signals:

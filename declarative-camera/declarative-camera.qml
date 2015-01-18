@@ -87,9 +87,9 @@ Rectangle {
         captureMode: Camera.CaptureStillImage
         imageCapture {
             onImageCaptured: {
-                photoPreview.source = preview;
-                stillControls.previewAvailable = true
-                cameraUI.state = "PhotoPreview"
+                //photoPreview.source = preview;
+                //stillControls.previewAvailable = true
+                //cameraUI.state = "PhotoPreview"
                 //cameraUI.preview = preview
                 console.log("preview = " , preview);
 
@@ -97,8 +97,9 @@ Rectangle {
             onImageSaved:{
                 //photoPreview.source = camera.imageCapture.capture()
                 photoPreview.localSrcPic = camera.imageCapture.capturedImagePath
-                //stillControls.previewAvailable = true
-                //cameraUI.state = "PhotoPreview"
+                stillControls.previewAvailable = true
+                cameraUI.state = "PhotoPreview"
+                photoPreview.source = "file:///"+camera.imageCapture.capturedImagePath;
                 console.log("capturedImagePath = " , camera.imageCapture.capturedImagePath)
 
             }

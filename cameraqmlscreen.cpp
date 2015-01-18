@@ -1,6 +1,6 @@
 #include "cameraqmlscreen.h"
 
-CameraQmlScreen::CameraQmlScreen(QSize appScrSize, QWidget *parent) : QWidget(parent)
+CameraQmlScreen::CameraQmlScreen(QSize appScrSize, QString os, QWidget *parent) : QWidget(parent)
 {
     this->appScrSize = appScrSize;
     //setWindowState(Qt::WindowMaximized);
@@ -21,7 +21,7 @@ CameraQmlScreen::CameraQmlScreen(QSize appScrSize, QWidget *parent) : QWidget(pa
     mQQuickWidget->setClearColor(Qt::transparent);
     mQQuickWidget->resize(window()->geometry().size());
     mQQuickWidget->rootContext()->setContextProperty("myApp", this);
-    //mQQuickWidget->setProperty("tempPicLocation", appDataLocation+"/tempPic");
+    //mQQuickWidget->setProperty("os", os);
     //mQQuickWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
     mQQuickWidget->raise();

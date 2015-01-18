@@ -99,7 +99,11 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     dataM->cacheLastImg(cameraDir,appDataLocation+cacheDir,cacheImgNum,imgSaveSize);
     // cache!!!!!!!!! !!!
 
-    cameraQmlScreen = new CameraQmlScreen(appWidowSize);
+    //cameraQmlScreen = new CameraQmlScreen(appWidowSize);
+    if(appState->getCurOS()==WINDOWS)
+        cameraQmlScreen = new CameraQmlScreen(appWidowSize,"WINDOWS");
+    else
+        cameraQmlScreen = new CameraQmlScreen(appWidowSize,"NONE");
     mainLayout->addWidget(cameraQmlScreen);
     connect(cameraQmlScreen,SIGNAL(pressedCancel()),this,SLOT(onPressBackCameraQmlScreen()));
     connect(cameraQmlScreen,SIGNAL(selectPhoto(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
@@ -290,7 +294,10 @@ void MainScreen::showCameraQmlScreenB()
 void MainScreen::showCameraQmlScreen(int i)
 {
     delete(cameraQmlScreen);
-    cameraQmlScreen = new CameraQmlScreen(appWidowSize);
+    if(appState->getCurOS()==WINDOWS)
+        cameraQmlScreen = new CameraQmlScreen(appWidowSize,"WINDOWS");
+    else
+        cameraQmlScreen = new CameraQmlScreen(appWidowSize,"NONE");
     mainLayout->addWidget(cameraQmlScreen);
     connect(cameraQmlScreen,SIGNAL(pressedCancel()),this,SLOT(onPressBackCameraQmlScreen()));
     connect(cameraQmlScreen,SIGNAL(selectPhoto(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
