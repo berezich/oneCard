@@ -18,6 +18,7 @@
 #include "data.h"
 #include "appstate.h"
 #include "newgrpmodal.h"
+#include "server.h"
 class MainScreen : public QWidget
 {
     Q_OBJECT
@@ -34,6 +35,8 @@ signals:
 public slots:
     void onGrpSelected(int grpId);
     void showGrpScreen(int i);
+    void showGrpSrvScreen(int i);
+    void updateGrpSrvScreen(int i);
     void showCardScreen(int i);
     void showCardInfoScreen(int i);
     void showGalleryScreenF();
@@ -51,6 +54,8 @@ public slots:
     void newGrpConfigured(QString name, QString grpImgSrc);
     void onNewCardSelected();
     void showFileDialog();
+
+
 
 private:
     QSize appWidowSize;
@@ -70,7 +75,15 @@ private:
     QString cameraDir="/storage/emulated/0/DCIM/camera/";
     QString cacheDir="/cameraCache/";
 
+    QString ip = "http://onecard.bsv-grip.com";
+    int port = -1;
+    QString path = "";
+
+    QString login = "oneCard";
+    QString pass = "123456";
+
     Data *dataM;
+    Server *server;
 
     GrpScreen *grpScreen;
     CardScreen *cardScreen;

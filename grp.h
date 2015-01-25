@@ -14,6 +14,7 @@ class Grp
 //    Q_PROPERTY(QString _imgPushSrc READ getImgPushSrc WRITE setImgPushSrc)
 private:
     int _id;
+    int _idSrv;
     QString _name;
     QString _imgSrc;
     QString _imgPushSrc;
@@ -22,11 +23,16 @@ protected:
 public:
     QList<CardInfo> *cardsLst;
     Grp();
-    Grp(int id, QString name, QString imgSrc, QString imgPushSrc);
+    Grp(int id, QString name, QString imgSrc, QString imgPushSrc, int idSrv=-1);
+    // if idSrv == -1 this is no the group on server
 
     void setId(int val);
 
     int getId();
+
+    void setIdSrv(int val){_idSrv = val;}
+
+    int getIdSrv(){return _idSrv;}
 
     void setName(QString val);
 
@@ -39,6 +45,7 @@ public:
     void setImgPushSrc(QString val);
 
     QString getImgPushSrc();
+
 
     void addCard(CardInfo card){cardsLst->append(card);}
     CardInfo *createNewCard();

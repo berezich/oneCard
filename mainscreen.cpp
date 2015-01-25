@@ -64,13 +64,14 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
 
     //setMinimumSize(screenSize);
 
-
+    server = new Server();
+    server->setEndPoint(ip);
+    server->setLgnPwd(login,pass);
 
     mainLayout = new QVBoxLayout();
 
     dataM->getLocalGroups();
 
-    //grpScreen = new GrpScreen(screenInfo,this);
     grpScreen = new GrpScreen(screenInfo,appWidowSize,this);
     grpScreen->setGrpLst(dataM->getLocalGroups());
     grpScreen->initMenu();
@@ -112,7 +113,9 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     setLayout(mainLayout);
 
     appState->setCurGrpType(LOCAL);
-    showScreen(LOCAL_GRP_SCREEN);
+
+    //showScreen(LOCAL_GRP_SCREEN);
+    showGrpSrvScreen(0);
 
 }
 
@@ -149,6 +152,26 @@ void MainScreen::showGrpScreen(int i)
         showScreen(LOCAL_GRP_SCREEN);
     else if(appState->getCurGrpType()==CLOUD)
         showScreen(CLOUD_LST_SCREEN);
+
+}
+
+void MainScreen::showGrpSrvScreen(int i)
+{
+    GrpScreen *screen = new GrpScreen(screenInfo,appWidowSize,this);
+    //connect(screen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
+    connect(server,SIGNAL(getGrpLstFinish()),this,SLOT(updateGrpSrvScreen()));
+    appState->setCurGrpType(CLOUD);
+    showScreen(CLOUD_LST_SCREEN);
+    mainLayout->replaceWidget(grpScreen,screen);
+    delete(grpScreen);
+    grpScreen = screen;
+}
+
+void MainScreen::updateGrpSrvScreen(int i)
+{
+    grpScreen->setGrpLst(*(server->getGrpLastLst()));
+    grpScreen->initMenu();
+    //grpScreen->hide();
 
 }
 
@@ -368,6 +391,7 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
         cardScreen->show();
         break;
     case CLOUD_LST_SCREEN:
+        grpScreen->show();
         break;
     case CARD_INFO_SCREEN:
         cardInfoScreen->show();

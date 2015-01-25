@@ -1,12 +1,13 @@
 #include "grp.h"
 
 
-Grp::Grp(int id, QString name, QString imgSrc, QString imgPushSrc){
+Grp::Grp(int id, QString name, QString imgSrc, QString imgPushSrc, int idSrv){
     _id = id;
     _name = name;
     _imgSrc = imgSrc;
     _imgPushSrc = imgPushSrc;
     cardsLst = new QList<CardInfo>();
+    _idSrv = idSrv;
 }
 
 
