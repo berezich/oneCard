@@ -1,6 +1,11 @@
 #include "grp.h"
 
 
+Grp::Grp()
+{
+
+}
+
 Grp::Grp(int id, QString name, QString imgSrc, QString imgPushSrc, int idSrv){
     _id = id;
     _name = name;

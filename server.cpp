@@ -3,7 +3,7 @@
 Server::Server(QObject *parent):QObject(parent)
 {
     grpLstTmp = new QList<Grp>();
-    connect(httpManager,SIGNAL(fileErrDownload(int, QString)),this,SLOT(onProcReqError(int, QString)));
+    connect(&httpManager,SIGNAL(fileErrDownload(int, QString)),this,SLOT(onProcReqError(int, QString)));
 }
 
 Server::~Server()
@@ -26,7 +26,7 @@ void Server::getGrpLstStart()
     QString url = endPoint+"/?action=getgrp&login="+login+"&pass="+pass;
     httpManager.startdownloadFile(url);
 
-    connect(httpManager,SIGNAL(fileDownloaded(QFile*)),this,SLOT(onGrpLstDownloaded(QFile*)));
+    connect(&httpManager,SIGNAL(fileDownloaded(QFile*)),this,SLOT(onGrpLstDownloaded(QFile*)));
 
 }
 
@@ -57,18 +57,18 @@ void Server::onGrpLstDownloaded(QFile *fileResponse)
                         if (xml.name() == "ID_MOB")
                             grp->setId(xml.text().toInt());
                         if (xml.name() == "NAME")
-                            grp->setName(xml.text());
+                            grp->setName(xml.text().toString());
                         if (xml.name() == "ICON_ID")
-                            grp->setImgSrc(xml.text());
+                            grp->setImgSrc(xml.text().toString());
                     }
                     xml.readNext();
                 }
-                grpLst->append(grp);
+                grpLstTmp->append(*grp);
             }
 
         }
     }
-    emit getGrpLstFinish(grpLst,-1,"OK");
+    emit getGrpLstFinish(grpLstTmp,-1,"OK");
 }
 
 void Server::onProcReqError(int errCode, QString errMsg)
@@ -79,8 +79,10 @@ void Server::onProcReqError(int errCode, QString errMsg)
         break;
     case GET_CARDS:
         emit getCardLstFinish(idGrp,NULL,errCode,errMsg);
+        break;
     case GET_CARD_DATA:
         emit downloadCardDataFinish(idGrp,idCard,"","",errCode,errMsg);
+        break;
     default:
         break;
     }

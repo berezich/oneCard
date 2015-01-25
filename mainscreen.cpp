@@ -165,6 +165,7 @@ void MainScreen::showGrpSrvScreen(int i)
     mainLayout->replaceWidget(grpScreen,screen);
     delete(grpScreen);
     grpScreen = screen;
+    server->getGrpLstStart();
 }
 
 void MainScreen::updateGrpSrvScreen(int i)

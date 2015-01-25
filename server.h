@@ -23,15 +23,15 @@ public:
     QList <Grp> *getGrpLastLst(){return grpLstTmp;}
 signals:
     getGrpLstFinish(QList<Grp> *grpLst, int errCode, QString errMsg);
-    getCardLstFinish(int idGrpSrv, QList<CardInfo> cardLst, int errCode, QString errMsg);
+    getCardLstFinish(int idGrpSrv, QList<CardInfo> *cardLst, int errCode, QString errMsg);
     downloadCardDataFinish(int idGrp, int idCard, QString fImgSrvName, QString bImgSrvName, int errCode, QString errMsg);
 
 private slots:
     void onGrpLstDownloaded(QFile *fileResponse);
-    void onCardLstDownloaded(QFile *fileResponse);
-    void onCardDataDownloaded(QFile *fileResponse);
-    void onFImgDownloaded(QFile *fileImg);
-    void onBImgDownLoaded(QFile *fileImg);
+//    void onCardLstDownloaded(QFile *fileResponse);
+//    void onCardDataDownloaded(QFile *fileResponse);
+//    void onFImgDownloaded(QFile *fileImg);
+//    void onBImgDownLoaded(QFile *fileImg);
     void onProcReqError(int errCode, QString errMsg);
 private:
     REQ_TYPE reqType;
