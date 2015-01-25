@@ -38,30 +38,35 @@
 **
 ****************************************************************************/
 
-#include <QApplication>
+import QtQuick 2.0
+import QtMultimedia 5.0
 
-#include "mainscreen.h"
-#include <QScreen>
-#include <QWidget>
+Item {
+    id: videoPreview
+    property alias source : player.source
+    signal closed
 
-int main(int argc, char *argv[])
-{
-    QScreen *screenInfo;
-    QApplication app(argc, argv);
+    MediaPlayer {
+        id: player
+        autoPlay: true
 
-    QRect screenGeometry = app.desktop()->availableGeometry();
-//    int dpiY = app.desktop()->physicalDpiY();
-//    int dpiX = app.desktop()->physicalDpiX();
-//    double displayWidthInch = screenGeometry.width() / dpiX;
-//    double displayHeightInch = screenGeometry.height() / dpiY;
-//    double displayDiagonalInch = sqrt(displayWidthInch*displayWidthInch + displayHeightInch*displayHeightInch); // screen diagonal size in inches
+        //switch back to viewfinder after playback finished
+        onStatusChanged: {
+            if (status == MediaPlayer.EndOfMedia)
+                videoPreview.closed();
+        }
+    }
 
-//    qDebug()<< "display inches = " <<displayDiagonalInch;
+    VideoOutput {
+        source: player
+        anchors.fill : parent
+    }
 
-//    screenInfo = (QScreen *) app.screens().first();
-
-    MainScreen mainScreen(&app);
-    mainScreen.show();
-
-    return app.exec();
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            videoPreview.closed();
+        }
+    }
 }
+

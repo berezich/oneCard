@@ -38,30 +38,69 @@
 **
 ****************************************************************************/
 
-#include <QApplication>
+import QtQuick 2.0
+import QtMultimedia 5.0
 
-#include "mainscreen.h"
-#include <QScreen>
-#include <QWidget>
+Item {
+    id: propertyButton
+    property alias value : popup.currentValue
+    property alias model : popup.model
 
-int main(int argc, char *argv[])
-{
-    QScreen *screenInfo;
-    QApplication app(argc, argv);
+    width : 144
+    height: 70
 
-    QRect screenGeometry = app.desktop()->availableGeometry();
-//    int dpiY = app.desktop()->physicalDpiY();
-//    int dpiX = app.desktop()->physicalDpiX();
-//    double displayWidthInch = screenGeometry.width() / dpiX;
-//    double displayHeightInch = screenGeometry.height() / dpiY;
-//    double displayDiagonalInch = sqrt(displayWidthInch*displayWidthInch + displayHeightInch*displayHeightInch); // screen diagonal size in inches
+    BorderImage {
+        id: buttonImage
+        source: "images/toolbutton.sci"
+        width: propertyButton.width; height: propertyButton.height
+    }
 
-//    qDebug()<< "display inches = " <<displayDiagonalInch;
+    CameraButton {
+        anchors.fill: parent
+        Image {
+            anchors.centerIn: parent
+            source: popup.currentItem.icon
+        }
 
-//    screenInfo = (QScreen *) app.screens().first();
+        onClicked: popup.toggle()
+    }
 
-    MainScreen mainScreen(&app);
-    mainScreen.show();
+    CameraPropertyPopup {
+        id: popup
+        anchors.right: parent.left
+        anchors.rightMargin: 16
+        anchors.top: parent.top
+        state: "invisible"
+        visible: opacity > 0
 
-    return app.exec();
+        currentValue: propertyButton.value
+
+        states: [
+            State {
+                name: "invisible"
+                PropertyChanges { target: popup; opacity: 0 }
+            },
+
+            State {
+                name: "visible"
+                PropertyChanges { target: popup; opacity: 1.0 }
+            }
+        ]
+
+        transitions: Transition {
+            NumberAnimation { properties: "opacity"; duration: 100 }
+        }
+
+        function toggle() {
+            if (state == "visible")
+                state = "invisible";
+            else
+                state = "visible";
+        }
+
+        onSelected: {
+            popup.state = "invisible"
+        }
+    }
 }
+

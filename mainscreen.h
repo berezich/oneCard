@@ -7,11 +7,13 @@
 #include <QScreen>
 #include <QWindow>
 #include <QPoint>
+#include <QFileDialog>
 #include "grpscreen.h"
 #include "grp.h"
 #include "cardscreen.h"
 #include "cardinfoscreen.h"
 #include "galeryscreen.h"
+#include "cameraqmlscreen.h"
 #include "icon.h"
 #include "data.h"
 #include "appstate.h"
@@ -37,11 +39,18 @@ public slots:
     void showGalleryScreenF();
     void showGalleryScreenB();
     void showGalleryScreen(int i);
+    void setCardImgSrcGallery(QString dir, QString fileName);
+    void setCardImgSrc(QString file);
     void setCardImgSrc(QString dir, QString fileName);
     void onPressBackGalleryScreen();
+    void showCameraQmlScreenF();
+    void showCameraQmlScreenB();
+    void showCameraQmlScreen(int i);
+    void onPressBackCameraQmlScreen();
     void showGrpNewScreen();
     void newGrpConfigured(QString name, QString grpImgSrc);
     void onNewCardSelected();
+    void showFileDialog();
 
 private:
     QSize appWidowSize;
@@ -59,7 +68,7 @@ private:
 
     QString appDataLocation="/data/data/com.berezich.oneCard/files";
     QString cameraDir="/storage/emulated/0/DCIM/camera/";
-    QString cacheDir="cameraCache/";
+    QString cacheDir="/cameraCache/";
 
     Data *dataM;
 
@@ -67,6 +76,7 @@ private:
     CardScreen *cardScreen;
     CardInfoScreen *cardInfoScreen;
     GalleryScreen *galleryScreen;
+    CameraQmlScreen *cameraQmlScreen;
     NewGrpModal *newGrpModal;
     bool initNewGrpModal = false;
     Overlay *overlay;

@@ -38,30 +38,81 @@
 **
 ****************************************************************************/
 
-#include <QApplication>
+import QtQuick 2.0
 
-#include "mainscreen.h"
-#include <QScreen>
-#include <QWidget>
+Rectangle {
+    id: propertyPopup
 
-int main(int argc, char *argv[])
-{
-    QScreen *screenInfo;
-    QApplication app(argc, argv);
+    property alias model : view.model
+    property variant currentValue
+    property variant currentItem : model.get(view.currentIndex)
 
-    QRect screenGeometry = app.desktop()->availableGeometry();
-//    int dpiY = app.desktop()->physicalDpiY();
-//    int dpiX = app.desktop()->physicalDpiX();
-//    double displayWidthInch = screenGeometry.width() / dpiX;
-//    double displayHeightInch = screenGeometry.height() / dpiY;
-//    double displayDiagonalInch = sqrt(displayWidthInch*displayWidthInch + displayHeightInch*displayHeightInch); // screen diagonal size in inches
+    property int itemWidth : 100
+    property int itemHeight : 70
+    property int columns : 2
 
-//    qDebug()<< "display inches = " <<displayDiagonalInch;
+    width: columns*itemWidth + view.anchors.margins*2
+    height: Math.ceil(model.count/columns)*itemHeight + view.anchors.margins*2 + 25
 
-//    screenInfo = (QScreen *) app.screens().first();
+    radius: 5
+    border.color: "#000000"
+    border.width: 2
+    smooth: true
+    color: "#5e5e5e"
 
-    MainScreen mainScreen(&app);
-    mainScreen.show();
+    signal selected
 
-    return app.exec();
+    function indexForValue(value) {
+        for (var i = 0; i < view.count; i++) {
+            if (model.get(i).value == value) {
+                return i;
+            }
+        }
+
+        return 0;
+    }
+
+    GridView {
+        id: view
+        anchors.fill: parent
+        anchors.margins: 5
+        cellWidth: propertyPopup.itemWidth
+        cellHeight: propertyPopup.itemHeight
+        snapMode: ListView.SnapOneItem
+        highlightFollowsCurrentItem: true
+        highlight: Rectangle { color: "gray"; radius: 5 }
+        currentIndex: indexForValue(propertyPopup.currentValue)
+
+        delegate: Item {
+            width: propertyPopup.itemWidth
+            height: 70
+
+            Image {
+                anchors.centerIn: parent
+                source: icon
+            }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    propertyPopup.currentValue = value
+                    propertyPopup.selected(value)
+                }
+            }
+        }
+    }
+
+    Text {
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 8
+        anchors.left: parent.left
+        anchors.leftMargin: 16
+
+        color: "#ffffff"
+        font.bold: true
+        style: Text.Raised;
+        styleColor: "black"
+        font.pixelSize: 14
+
+        text: view.model.get(view.currentIndex).text
+    }
 }

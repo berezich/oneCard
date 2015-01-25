@@ -56,5 +56,18 @@
         <file>svg/tools/syncin.svg</file>
         <file>svg/tools/syncout.svg</file>
         <file>svg/tools/bluetooth.svg</file>
+        <file>declarative-camera/CameraButton.qml</file>
+        <file>declarative-camera/declarative-camera.qml</file>
+        <file>declarative-camera/FocusButton.qml</file>
+        <file>declarative-camera/PhotoCaptureControls.qml</file>
+        <file>declarative-camera/PhotoPreview.qml</file>
+        <file>declarative-camera/ZoomControl.qml</file>
+        <file>svg/tools/camera.svg</file>
+        <file>svg/tools/NOcamera.svg</file>
+        <file>svg/tools/OKcamera.svg</file>
+        <file>svg/tools/gallery.svg</file>
+        <file>svg/tools/galleryPUSH.svg</file>
+        <file>svg/tools/infophoto.svg</file>
+        <file>svg/tools/infophotoPUSH.svg</file>
     </qresource>
 </RCC>

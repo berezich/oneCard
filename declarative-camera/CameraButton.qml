@@ -38,30 +38,30 @@
 **
 ****************************************************************************/
 
-#include <QApplication>
+import QtQuick 2.0
 
-#include "mainscreen.h"
-#include <QScreen>
-#include <QWidget>
+Item {
+    id: button
 
-int main(int argc, char *argv[])
-{
-    QScreen *screenInfo;
-    QApplication app(argc, argv);
+    signal clicked
 
-    QRect screenGeometry = app.desktop()->availableGeometry();
-//    int dpiY = app.desktop()->physicalDpiY();
-//    int dpiX = app.desktop()->physicalDpiX();
-//    double displayWidthInch = screenGeometry.width() / dpiX;
-//    double displayHeightInch = screenGeometry.height() / dpiY;
-//    double displayDiagonalInch = sqrt(displayWidthInch*displayWidthInch + displayHeightInch*displayHeightInch); // screen diagonal size in inches
+    property string text
+    property color color: "white"
+    property string srcImg
+    property double scaleFactor: 1.0
 
-//    qDebug()<< "display inches = " <<displayDiagonalInch;
+    width : 100*scaleFactor
+    height: 100*scaleFactor
 
-//    screenInfo = (QScreen *) app.screens().first();
-
-    MainScreen mainScreen(&app);
-    mainScreen.show();
-
-    return app.exec();
+    BorderImage {
+        id: buttonImage
+        source: button.srcImg
+        width: button.width
+        height: button.height
+    }
+    MouseArea {
+        id: mouseRegion
+        anchors.fill: buttonImage
+        onClicked: { button.clicked(); }
+    }
 }

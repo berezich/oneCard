@@ -38,30 +38,69 @@
 **
 ****************************************************************************/
 
-#include <QApplication>
+import QtQuick 2.0
+import QtMultimedia 5.0
 
-#include "mainscreen.h"
-#include <QScreen>
-#include <QWidget>
+FocusScope {
+    property Camera camera
+    property bool previewAvailable : false
+    property int buttonsPanelWidth: buttonPaneShadow.height
+    property double scaleFactor
+    signal previewSelected
+    signal videoModeSelected
+    id : captureControls
 
-int main(int argc, char *argv[])
-{
-    QScreen *screenInfo;
-    QApplication app(argc, argv);
+    Rectangle {
+        id: buttonPaneShadow
+        height: buttonsColumn.height + 20*scaleFactor
+        width: parent.width
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: Qt.rgba(0.08, 0.08, 0.08, 0)
 
-    QRect screenGeometry = app.desktop()->availableGeometry();
-//    int dpiY = app.desktop()->physicalDpiY();
-//    int dpiX = app.desktop()->physicalDpiX();
-//    double displayWidthInch = screenGeometry.width() / dpiX;
-//    double displayHeightInch = screenGeometry.height() / dpiY;
-//    double displayDiagonalInch = sqrt(displayWidthInch*displayWidthInch + displayHeightInch*displayHeightInch); // screen diagonal size in inches
+        Row {
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                top: parent.top
+                margins: 8
+            }
 
-//    qDebug()<< "display inches = " <<displayDiagonalInch;
+            id: buttonsColumn
+            spacing: 8
 
-//    screenInfo = (QScreen *) app.screens().first();
+//            FocusButton {
+//                camera: captureControls.camera
+//                visible: camera.cameraStatus == Camera.ActiveStatus && camera.focus.isFocusModeSupported(Camera.FocusAuto)
+//            }
 
-    MainScreen mainScreen(&app);
-    mainScreen.show();
+            CameraButton {
+                //text: "Back"
+                scaleFactor: captureControls.scaleFactor
+                srcImg: "qrc:/svg/tools/NOcamera.svg"
+                visible: camera.imageCapture.ready
+                onClicked: myApp.closeCamera()
+            }
 
-    return app.exec();
+            CameraButton {
+                scaleFactor: captureControls.scaleFactor
+                srcImg: "qrc:/svg/tools/camera.svg"
+                visible: camera.imageCapture.ready
+                onClicked: camera.imageCapture.capture()
+                //onClicked: camera.imageCapture.captureToLocation("C:/Users/Sashka/Documents/GitHub/build-oneCard-Desktop_Qt_5_4_0_MinGW_32bit-Release/release/data.jpg")
+            }
+        }
+
+    }
+
+
+    ZoomControl {
+        x : 0
+        y : 0
+        width : 100
+        height: parent.height
+
+        currentZoom: camera.digitalZoom
+        maximumZoom: Math.min(4.0, camera.maximumDigitalZoom)
+        onZoomTo: camera.setDigitalZoom(value)
+    }
 }

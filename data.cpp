@@ -116,9 +116,10 @@ CardInfo *Data::getLocalCard(int grpId, int cardId)
     return new CardInfo();
 }
 
-void Data::saveImg(QString fromSrc, QString toSrc, QSize imgSaveSize)
+void Data::saveImg(QString fromSrc, QString toSrc, QSize imgSaveSize, bool replace)
 {
-    if(!QFile::exists(toSrc))
+
+    if(replace || !QFile::exists(toSrc))
     {
         QFile file(toSrc);
         if(file.open(QIODevice::WriteOnly))
@@ -162,7 +163,7 @@ void Data::cacheLastImg(QString cacheFromDir, QString cacheToDir, int num, QSize
         filePath = srcDir.absoluteFilePath(photoLst.at(0));
 
     for(int i= (photoLst.length()>=num)? num-1 : photoLst.length()-1; i>=0 ; i--)
-        saveImg(cacheFromDir+photoLst[i],cacheToDir+photoLst[i],imgSaveSize);
+        saveImg(cacheFromDir+photoLst[i],cacheToDir+photoLst[i],imgSaveSize,false);
 }
 
 QStringList Data::getGrpImgSrc()

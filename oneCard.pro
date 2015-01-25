@@ -1,5 +1,4 @@
-QT += widgets
-QT += xml svg
+QT += widgets quick qml quickwidgets core gui xml svg multimedia
 QTPLUGIN += qsvg
 
 HEADERS       = button.h \
@@ -21,7 +20,8 @@ HEADERS       = button.h \
     newgrpmodal.h \
     menu.h \
     menuitem.h \
-    titlemenu.h
+    titlemenu.h \
+    cameraqmlscreen.h
 SOURCES       = button.cpp \
                 main.cpp \
     blankscreen.cpp \
@@ -42,7 +42,8 @@ SOURCES       = button.cpp \
     newgrpmodal.cpp \
     menu.cpp \
     menuitem.cpp \
-    titlemenu.cpp
+    titlemenu.cpp \
+    cameraqmlscreen.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/oneCard

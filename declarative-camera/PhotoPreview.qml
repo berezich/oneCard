@@ -38,30 +38,58 @@
 **
 ****************************************************************************/
 
-#include <QApplication>
+import QtQuick 2.0
+import QtMultimedia 5.0
 
-#include "mainscreen.h"
-#include <QScreen>
-#include <QWidget>
+Item {
+    id: imgView
+    property string localSrcPic
+    property alias source : preview.source
+    property double scaleFactor
+    signal closed
 
-int main(int argc, char *argv[])
-{
-    QScreen *screenInfo;
-    QApplication app(argc, argv);
+    Image {
+        id: preview
+        anchors.fill : parent
+        fillMode: Image.PreserveAspectFit
+        smooth: true
+    }
+    Rectangle {
+        id: buttonPaneShadow
+        height: buttonsColumn.height + 20*scaleFactor
+        width: parent.width
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: Qt.rgba(0.08, 0.08, 0.08, 0)
 
-    QRect screenGeometry = app.desktop()->availableGeometry();
-//    int dpiY = app.desktop()->physicalDpiY();
-//    int dpiX = app.desktop()->physicalDpiX();
-//    double displayWidthInch = screenGeometry.width() / dpiX;
-//    double displayHeightInch = screenGeometry.height() / dpiY;
-//    double displayDiagonalInch = sqrt(displayWidthInch*displayWidthInch + displayHeightInch*displayHeightInch); // screen diagonal size in inches
+        Row {
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                top: parent.top
+                margins: 8
+            }
 
-//    qDebug()<< "display inches = " <<displayDiagonalInch;
+            id: buttonsColumn
+            spacing: 8
 
-//    screenInfo = (QScreen *) app.screens().first();
+            CameraButton {
+                srcImg: "qrc:/svg/tools/NOcamera.svg"
+                visible: camera.imageCapture.ready
+                scaleFactor: imgView.scaleFactor
+                onClicked: {
+                    imgView.closed();
+                }
+            }
+            CameraButton {
+                scaleFactor: imgView.scaleFactor
+                srcImg: "qrc:/svg/tools/OKcamera.svg"
+                visible: camera.imageCapture.ready
+                onClicked: {
+                    myApp.onPhotoOk(imgView.localSrcPic);
+                }
+            }
+        }
+    }
 
-    MainScreen mainScreen(&app);
-    mainScreen.show();
-
-    return app.exec();
 }
+

@@ -38,30 +38,80 @@
 **
 ****************************************************************************/
 
-#include <QApplication>
+import QtQuick 2.0
+import QtMultimedia 5.0
 
-#include "mainscreen.h"
-#include <QScreen>
-#include <QWidget>
+Item {
+    id : zoomControl
+    property real currentZoom : 1
+    property real maximumZoom : 1
+    signal zoomTo(real value)
 
-int main(int argc, char *argv[])
-{
-    QScreen *screenInfo;
-    QApplication app(argc, argv);
+    visible: zoomControl.maximumZoom > 1
 
-    QRect screenGeometry = app.desktop()->availableGeometry();
-//    int dpiY = app.desktop()->physicalDpiY();
-//    int dpiX = app.desktop()->physicalDpiX();
-//    double displayWidthInch = screenGeometry.width() / dpiX;
-//    double displayHeightInch = screenGeometry.height() / dpiY;
-//    double displayDiagonalInch = sqrt(displayWidthInch*displayWidthInch + displayHeightInch*displayHeightInch); // screen diagonal size in inches
+    MouseArea {
+        id : mouseArea
+        anchors.fill: parent
 
-//    qDebug()<< "display inches = " <<displayDiagonalInch;
+        property real initialZoom : 0
+        property real initialPos : 0
 
-//    screenInfo = (QScreen *) app.screens().first();
+        onPressed: {
+            initialPos = mouseY
+            initialZoom = zoomControl.currentZoom
+        }
 
-    MainScreen mainScreen(&app);
-    mainScreen.show();
+        onPositionChanged: {
+            if (pressed) {
+                var target = initialZoom * Math.pow(5, (initialPos-mouseY)/zoomControl.height);
+                target = Math.max(1, Math.min(target, zoomControl.maximumZoom))
+                zoomControl.zoomTo(target)
+            }
+        }
+    }
 
-    return app.exec();
+    Item {
+        id : bar
+        x : 16
+        y : parent.height/4
+        width : 24
+        height : parent.height/2
+
+        Rectangle {
+            anchors.fill: parent
+
+            smooth: true
+            radius: 8
+            border.color: "white"
+            border.width: 2
+            color: "black"
+            opacity: 0.3
+        }
+
+        Rectangle {
+            id: groove
+            x : 0
+            y : parent.height * (1.0 - (zoomControl.currentZoom-1.0) / (zoomControl.maximumZoom-1.0))
+            width: parent.width
+            height: parent.height - y
+            smooth: true
+            radius: 8
+            color: "white"
+            opacity: 0.5
+        }
+
+        Text {
+            id: zoomText
+            anchors {
+                left: bar.right; leftMargin: 16
+            }
+            y: Math.min(parent.height - height, Math.max(0, groove.y - height / 2))
+            text: "x" + Math.round(zoomControl.currentZoom * 100) / 100
+            font.bold: true
+            color: "white"
+            style: Text.Raised; styleColor: "black"
+            opacity: 0.85
+            font.pixelSize: 18
+        }
+    }
 }

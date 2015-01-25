@@ -24,6 +24,10 @@ private slots:
 signals:
     void backPressed(int i);
     void editCard(QString name, QString src);
+    void editFrontSideCameraImg();
+    void editFrontSideGalleryImg();
+    void editBackSideCameraImg();
+    void editBackSideGalleryImg();
     void editFrontSideImg();
     void editBackSideImg();
 private:

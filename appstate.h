@@ -2,7 +2,7 @@
 #define APPSTATE_H
 
 
-enum SCREEN_TYPE{LOCAL_GRP_SCREEN,CLOUD_LST_SCREEN,CARD_LST_SCREEN,CARD_INFO_SCREEN,GALLERY_SCREEN, NEW_GRP_SCREEN};
+enum SCREEN_TYPE{LOCAL_GRP_SCREEN,CLOUD_LST_SCREEN,CARD_LST_SCREEN,CARD_INFO_SCREEN,GALLERY_SCREEN, CAMERAQML_SCREEN, NEW_GRP_SCREEN};
 enum GRP_SOURCE{LOCAL, CLOUD};
 enum CARD_SIDE{FRONTSIDE, BACKSIDE};
 enum OS{NONE, WINDOWS, Android, IOS};
@@ -15,6 +15,7 @@ private:
     int curCardId;
     SCREEN_TYPE curScreen;
     OS curOS;
+    bool isFixedWinSize=false;
 public:
     AppState();
 
@@ -35,6 +36,9 @@ public:
 
     OS getCurOS(){return curOS;}
     void setCurOS(OS os){curOS = os;}
+
+    bool getIsFixedWinSize(){return isFixedWinSize;}
+    void setIsFixedWinSize(bool val){isFixedWinSize = val;}
 };
 
 #endif // APPSTATE_H
