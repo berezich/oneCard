@@ -23,9 +23,9 @@ private slots:
     void httpFinished();
     void httpReadyRead();
 signals:
-    fileDownloaded(QFile *file);
-    fileErrDownload(int errCode, QString errMsg);
-    updateDataReadProgress(qint64 bytesRead, qint64 totalBytes);
+    void fileDownloaded(QString fileName);
+    void fileErrDownload(int errCode, QString errMsg);
+    void updateDataReadProgress(qint64 bytesRead, qint64 totalBytes);
 private:
     QUrl url;
     QNetworkAccessManager qnam;

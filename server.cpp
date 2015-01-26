@@ -26,40 +26,68 @@ void Server::getGrpLstStart()
     QString url = endPoint+"/?action=getgrp&login="+login+"&pass="+pass;
     httpManager.startdownloadFile(url);
 
-    connect(&httpManager,SIGNAL(fileDownloaded(QFile*)),this,SLOT(onGrpLstDownloaded(QFile*)));
+    connect(&httpManager,SIGNAL(fileDownloaded(QString)),this,SLOT(onGrpLstDownloaded(QString)));
 
 }
 
-void Server::onGrpLstDownloaded(QFile *fileResponse)
+void Server::onGrpLstDownloaded(QString fileName)
 {
     grpLstTmp->clear();
     Grp *grp;
-    QXmlStreamReader xml(fileResponse);
+    qDebug() << "fileName = " << fileName;
+    //QFile *file = new QFile("index2.html");
+    QFile *file = new QFile(fileName);
+    if (!file->open(QIODevice::ReadOnly | QIODevice::Text)) {
+        //emit getGrpLstFinish(NULL,5,tr("НЕВОЗМОЖНО ОТКРЫТЬ ФАЙЛ"));
+        emit getGrpLstFinish(5,tr("НЕВОЗМОЖНО ОТКРЫТЬ ФАЙЛ"));
+        delete file;
+        file = 0;
+        return;
+    }
+
+    QXmlStreamReader xml(file);
+
     while (!xml.atEnd() && !xml.hasError())
     {
         QXmlStreamReader::TokenType token = xml.readNext();
         if (token == QXmlStreamReader::StartDocument)
-            continue;
-        if (token == QXmlStreamReader::StartElement)
         {
+            qDebug() << "Encoding: " << xml.documentEncoding().toString() ;
+            continue;
+
+        }if (token == QXmlStreamReader::StartElement)
+        {
+            qDebug() << "xml curElem name = " << xml.name();
             if (xml.name() == "groups")
                 continue;
             if (xml.name() == "grp")
             {
                 grp = new Grp();
                 xml.readNext();
-                while (!(xml.tokenType() == QXmlStreamReader::EndElement && xml.name() == "etap"))
+                while (!(xml.tokenType() == QXmlStreamReader::EndElement && xml.name() == "grp"))
                 {
                     if (xml.tokenType() == QXmlStreamReader::StartElement)
                     {
-                        if (xml.name() == "ID")
-                            grp->setIdSrv(xml.text().toInt());
-                        if (xml.name() == "ID_MOB")
-                            grp->setId(xml.text().toInt());
-                        if (xml.name() == "NAME")
-                            grp->setName(xml.text().toString());
-                        if (xml.name() == "ICON_ID")
-                            grp->setImgSrc(xml.text().toString());
+                        if (xml.name().toString() == "ID")
+                        {
+                            QString txt = xml.readElementText();
+                            grp->setIdSrv(txt.toInt());
+                            qDebug()<<txt;
+                        }
+                        if (xml.name().toString() == "ID_MOB")
+                            grp->setId(xml.readElementText().toInt());
+                        if (xml.name().toString() == "NAME")
+                        {
+                            QString txt = xml.readElementText();
+                            grp->setName(txt);
+                            qDebug()<<txt;
+                        }
+                        if (xml.name().toString() == "ICON")
+                        {
+                            QString txt = ":/svg/grpIcons/"+xml.readElementText();
+                            qDebug()<<txt;
+                            grp->setImgSrc(txt);
+                        }
                     }
                     xml.readNext();
                 }
@@ -68,14 +96,16 @@ void Server::onGrpLstDownloaded(QFile *fileResponse)
 
         }
     }
-    emit getGrpLstFinish(grpLstTmp,-1,"OK");
+    emit getGrpLstFinish(-1,"OK");
+    //emit getGrpLstFinish()
 }
 
 void Server::onProcReqError(int errCode, QString errMsg)
 {
     switch (reqType) {
     case GET_GRPS:
-        emit getGrpLstFinish(NULL,errCode,errMsg);
+        //emit getGrpLstFinish(NULL,errCode,errMsg);
+        emit getGrpLstFinish(errCode,errMsg);
         break;
     case GET_CARDS:
         emit getCardLstFinish(idGrp,NULL,errCode,errMsg);

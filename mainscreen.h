@@ -36,7 +36,7 @@ public slots:
     void onGrpSelected(int grpId);
     void showGrpScreen(int i);
     void showGrpSrvScreen(int i);
-    void updateGrpSrvScreen(int i);
+    void updateGrpSrvScreen();
     void showCardScreen(int i);
     void showCardInfoScreen(int i);
     void showGalleryScreenF();

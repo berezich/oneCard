@@ -22,12 +22,13 @@ public:
     void cancelDownloading(){httpManager.cancelDownload();}
     QList <Grp> *getGrpLastLst(){return grpLstTmp;}
 signals:
-    getGrpLstFinish(QList<Grp> *grpLst, int errCode, QString errMsg);
-    getCardLstFinish(int idGrpSrv, QList<CardInfo> *cardLst, int errCode, QString errMsg);
-    downloadCardDataFinish(int idGrp, int idCard, QString fImgSrvName, QString bImgSrvName, int errCode, QString errMsg);
+    void getGrpLstFinish(int errCode, QString errMsg);
+    //getGrpLstFinish();
+    void getCardLstFinish(int idGrpSrv, QList<CardInfo> *cardLst, int errCode, QString errMsg);
+    void downloadCardDataFinish(int idGrp, int idCard, QString fImgSrvName, QString bImgSrvName, int errCode, QString errMsg);
 
 private slots:
-    void onGrpLstDownloaded(QFile *fileResponse);
+    void onGrpLstDownloaded(QString fileName);
 //    void onCardLstDownloaded(QFile *fileResponse);
 //    void onCardDataDownloaded(QFile *fileResponse);
 //    void onFImgDownloaded(QFile *fileImg);

@@ -62,7 +62,7 @@ void HttpManager::httpFinished()
     }
 
     file->flush();
-    //file->close();
+    file->close();
 
     /*
     QVariant redirectionTarget = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
@@ -82,9 +82,10 @@ void HttpManager::httpFinished()
 
     reply->deleteLater();
     reply = 0;
-    //delete file;
-    //file = 0;
-    emit fileDownloaded(file);
+    emit fileDownloaded(file->fileName());
+    delete file;
+    file = 0;
+
 }
 
 void HttpManager::httpReadyRead()

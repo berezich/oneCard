@@ -159,7 +159,7 @@ void MainScreen::showGrpSrvScreen(int i)
 {
     GrpScreen *screen = new GrpScreen(screenInfo,appWidowSize,this);
     //connect(screen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
-    connect(server,SIGNAL(getGrpLstFinish()),this,SLOT(updateGrpSrvScreen()));
+    connect(server,SIGNAL(getGrpLstFinish(int, QString)),this,SLOT(updateGrpSrvScreen()));
     appState->setCurGrpType(CLOUD);
     showScreen(CLOUD_LST_SCREEN);
     mainLayout->replaceWidget(grpScreen,screen);
@@ -168,7 +168,7 @@ void MainScreen::showGrpSrvScreen(int i)
     server->getGrpLstStart();
 }
 
-void MainScreen::updateGrpSrvScreen(int i)
+void MainScreen::updateGrpSrvScreen()
 {
     grpScreen->setGrpLst(*(server->getGrpLastLst()));
     grpScreen->initMenu();
