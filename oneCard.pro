@@ -25,7 +25,8 @@ HEADERS       = button.h \
     server.h \
     httpmanager.h \
     servererrors.h \
-    interface.h
+    interface.h \
+    datalocationtype.h
 SOURCES       = button.cpp \
                 main.cpp \
     blankscreen.cpp \

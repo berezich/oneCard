@@ -81,6 +81,21 @@ Data::~Data()
 
 }
 
+QList<Grp> Data::getGroups(DATA_SOURCE src)
+{
+    switch (src) {
+    case LOCAL:
+        return localGrpLst;
+    case SERVER:
+        return serverGrpLst;
+    case DEVICE:
+        return deviceGrpLst;
+
+    default:
+        break;
+    }
+}
+
 QList<Grp> Data::getLocalGroups()
 {
 

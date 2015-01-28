@@ -30,6 +30,7 @@ protected:
 signals:
     void selectLocalGrp(int grpId);
 private slots:
+    void clearGrid();
     void onClickGrpIcon(int grpId);
     void onMenuClick();
 private:

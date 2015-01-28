@@ -6,13 +6,14 @@
 #include <QImage>
 #include <QPixmap>
 #include <QDir>
-
+#include "datalocationtype.h"
 class Data
 {
 public:
     Data();
     ~Data();
 
+    QList<Grp> getGroups(DATA_SOURCE src);
     QList<Grp> getLocalGroups();
     QList<CardInfo> *getLocalCards(int grpId);
     Grp *getLocalGrp(int grpId);
@@ -25,6 +26,9 @@ public:
 private:
     QString cameraDir = "/storage/emulated/0/DCIM/camera/";
     QList<Grp> localGrpLst;
+    QList<Grp> serverGrpLst;
+    QList<Grp> deviceGrpLst;
+
     QStringList grpImgSrcLst;
 
 };

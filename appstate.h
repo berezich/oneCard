@@ -1,15 +1,15 @@
 #ifndef APPSTATE_H
 #define APPSTATE_H
 #include "interface.h"
+#include "datalocationtype.h"
 
-enum SCREEN_TYPE{LOCAL_GRP_SCREEN,CLOUD_LST_SCREEN,CARD_LST_SCREEN,CARD_INFO_SCREEN,GALLERY_SCREEN, CAMERAQML_SCREEN, NEW_GRP_SCREEN};
-enum GRP_SOURCE{LOCAL, CLOUD};
+enum SCREEN_TYPE{GRP_SCREEN,CARD_LST_SCREEN,CARD_INFO_SCREEN,GALLERY_SCREEN, CAMERAQML_SCREEN, NEW_GRP_SCREEN};
 enum CARD_SIDE{FRONTSIDE, BACKSIDE};
 enum OS{NONE, WINDOWS, Android, IOS};
 class AppState
 {
 private:
-    GRP_SOURCE curGrpType;
+    DATA_SOURCE curGrpType;
     CARD_SIDE curSideCard;
     int curGrpId;
     int curCardId;
@@ -20,8 +20,8 @@ private:
 public:
     AppState();
 
-    GRP_SOURCE getCurGrpType(){return curGrpType;}
-    void setCurGrpType(GRP_SOURCE type){curGrpType=type;}
+    DATA_SOURCE getCurGrpType(){return curGrpType;}
+    void setCurGrpType(DATA_SOURCE type){curGrpType=type;}
 
     int getCurGrpId(){return curGrpId;}
     void setCurGrpId(int grpId){curGrpId=grpId;}

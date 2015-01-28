@@ -49,13 +49,16 @@ GrpScreen::GrpScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME color
 
 GrpScreen::~GrpScreen()
 {
-
+    while(children().length()>0)
+        if(children().last())
+            delete(children().last());
 }
 
 void GrpScreen::setGrpLst(QList<Grp> grpLst)
 {
     Icon *icon;
     int numItems = columnsNum*rowsNum;
+    clearGrid();
     if(numItems < grpLst.length())
         numItems = grpLst.length();
     QSize gridItemSize = QSize(screenSize.width()/columnsNum,(screenSize.height()-capHeight)/rowsNum - 10*scaleFactor);
@@ -74,6 +77,17 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst)
     }
 
     //blankSpace->adjustSize();
+}
+
+void GrpScreen::clearGrid()
+{
+    while(gridWidget->children().length()>0)
+        if(gridWidget->children().last())
+            delete(gridWidget->children().last());
+
+    gridLayout = new QGridLayout(gridWidget);
+    gridLayout->setSpacing(0);
+    gridWidget->setLayout(gridLayout);
 }
 
 void GrpScreen::initMenu()

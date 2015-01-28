@@ -27,9 +27,6 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
         qDebug() << "appDataLocation = " <<appDataLocation;
     }
 
-
-    //this->screenInfo = screenInfo;
-
     appWidowSize.setWidth(screenAvailableGeometry.width());
     appWidowSize.setHeight(screenAvailableGeometry.height());
 
@@ -49,10 +46,7 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     {
         appWidowSize = QSize(screenInfo->geometry().width(),screenInfo->geometry().height());
         appState->setCurOS(NONE);
-        //setWindowState(Qt::WindowMaximized);
     }
-
-    //setMaximumSize(appWidowSize);
 
 
     double scaleFactorW = ((double)appWidowSize.width())/(double)defaultWidth;
@@ -61,22 +55,22 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     scaleFactor = qMin(scaleFactorW,scaleFactorH);
 
 
-    //appState->setCurSkinColor(RED);
-    //appState->setCurSkinColor(PINK);
-    //appState->setCurSkinColor(DEEP_PURPLE);
-    //appState->setCurSkinColor(INDIGO);
-    //appState->setCurSkinColor(BLUE);
+    appState->setCurSkinColor(RED);
+    appState->setCurSkinColor(PINK);
+    appState->setCurSkinColor(DEEP_PURPLE);
+    appState->setCurSkinColor(INDIGO);
+    appState->setCurSkinColor(BLUE);
     appState->setCurSkinColor(CYAN);
-    //appState->setCurSkinColor(TEAL);
-    //appState->setCurSkinColor(GREEN);
-    //appState->setCurSkinColor(DEEP_ORANGE);
-    //appState->setCurSkinColor(BROWN);
-    //appState->setCurSkinColor(GRAY);
+    appState->setCurSkinColor(TEAL);
+    appState->setCurSkinColor(GREEN);
+    appState->setCurSkinColor(DEEP_ORANGE);
+    appState->setCurSkinColor(BROWN);
+    appState->setCurSkinColor(GRAY);
+
+    //appState->setCurGrpType(LOCAL);
+    appState->setCurGrpType(SERVER);
 
     dataM = new Data();
-    //qDebug()<<"scale = "<< scaleFactor;
-
-    //setMinimumSize(screenSize);
 
     server = new Server();
     server->setEndPoint(ip);
@@ -84,26 +78,24 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
 
     mainLayout = new QVBoxLayout();
 
-    dataM->getLocalGroups();
 
     grpScreen = new GrpScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
-    grpScreen->setGrpLst(dataM->getLocalGroups());
+    grpScreen->setGrpLst(dataM->getGroups(appState->getCurGrpType()));
     grpScreen->initMenu();
     grpScreen->hide();
     connect(grpScreen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
+    if(appState->getCurGrpType()==SERVER)
+    {
+        connect(server,SIGNAL(getGrpLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
+        server->getGrpLstStart();
+    }
     mainLayout->addWidget(grpScreen);
 
-
-
-    //newGrpModal->hide();
-
-    //cardScreen = new CardScreen(screenInfo,this);
     cardScreen = new CardScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
     cardScreen->hide();
-    connect(cardScreen,SIGNAL(backPressed(int)),this,SLOT(showGrpScreen(int)));
+    connect(cardScreen,SIGNAL(backPressed(int)),this,SLOT(showGrpScreen()));
     mainLayout->addWidget(cardScreen);
 
-    //cardInfoScreen = new CardInfoScreen(screenInfo,this);
     cardInfoScreen = new CardInfoScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
     imgSaveSize = cardInfoScreen->getCardIconSize();
     cardInfoScreen->hide();
@@ -114,7 +106,6 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     dataM->cacheLastImg(cameraDir,appDataLocation+cacheDir,cacheImgNum,imgSaveSize);
     // cache!!!!!!!!! !!!
 
-    //cameraQmlScreen = new CameraQmlScreen(appWidowSize);
     if(appState->getCurOS()==WINDOWS)
         cameraQmlScreen = new CameraQmlScreen(appWidowSize,"WINDOWS");
     else
@@ -126,10 +117,10 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     mainLayout->setMargin(0);
     setLayout(mainLayout);
 
-    appState->setCurGrpType(LOCAL);
 
-    //showScreen(LOCAL_GRP_SCREEN);
-    showGrpSrvScreen(0);
+
+    showScreen(GRP_SCREEN);
+    //showGrpSrvScreen(0);
 
 }
 
@@ -151,24 +142,31 @@ void MainScreen::onGrpSelected(int grpId)
 
 }
 
-void MainScreen::showGrpScreen(int i)
+void MainScreen::showGrpScreen()
 {
     GrpScreen *screen = new GrpScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
-    screen->setGrpLst(dataM->getLocalGroups());
+    //screen->setGrpLst(dataM->getLocalGroups());
+    screen->setGrpLst(dataM->getGroups(appState->getCurGrpType()));
     screen->initMenu();
     screen->hide();
     connect(screen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
+    if(appState->getCurGrpType()==SERVER)
+        connect(server,SIGNAL(getGrpLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
     mainLayout->replaceWidget(grpScreen,screen);
     delete(grpScreen);
     grpScreen = screen;
 
+    showScreen(GRP_SCREEN);
+
+    /*
     if(appState->getCurGrpType()==LOCAL)
         showScreen(LOCAL_GRP_SCREEN);
     else if(appState->getCurGrpType()==CLOUD)
         showScreen(CLOUD_LST_SCREEN);
+        */
 
 }
-
+/*
 void MainScreen::showGrpSrvScreen(int i)
 {
     GrpScreen *screen = new GrpScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
@@ -176,18 +174,21 @@ void MainScreen::showGrpSrvScreen(int i)
     //connect(server,SIGNAL(getGrpLstFinish(int, QString)),this,SLOT(updateGrpSrvScreen()));
     connect(server,SIGNAL(getGrpLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
 
-    appState->setCurGrpType(CLOUD);
+    appState->setCurGrpType(SERVER);
     showScreen(CLOUD_LST_SCREEN);
     mainLayout->replaceWidget(grpScreen,screen);
     delete(grpScreen);
     grpScreen = screen;
     server->getGrpLstStart();
 }
-
-void MainScreen::updateGrpSrvScreen()
+*/
+void MainScreen::updateGrpScreen()
 {
-    grpScreen->setGrpLst(*(server->getGrpLastLst()));
-    grpScreen->initMenu();
+    if(appState->getCurGrpType()==SERVER)
+    {
+        grpScreen->setGrpLst(*(server->getGrpLastLst()));
+        grpScreen->initMenu();
+    }
     //grpScreen->hide();
 
 }
@@ -206,7 +207,7 @@ void MainScreen::showCardScreen(int i)
     mainLayout->replaceWidget(cardScreen,screen);
     delete(cardScreen);
     cardScreen = screen;
-    connect(cardScreen,SIGNAL(backPressed(int)),this,SLOT(showGrpScreen(int)));
+    connect(cardScreen,SIGNAL(backPressed(int)),this,SLOT(showGrpScreen()));
     connect(cardScreen,SIGNAL(cardSelected(int)),this,SLOT(showCardInfoScreen(int)));
     connect(cardScreen,SIGNAL(addCardSelected()),this,SLOT(onNewCardSelected()));
 
@@ -366,8 +367,9 @@ void MainScreen::showGrpNewScreen()
 void MainScreen::newGrpConfigured(QString name, QString grpImgSrc)
 {
     dataM->addNewGrp(name,grpImgSrc);
-    grpScreen->setGrpLst(dataM->getLocalGroups());
-    showGrpScreen(0);
+    //grpScreen->setGrpLst(dataM->getLocalGroups());
+    grpScreen->setGrpLst(dataM->getGroups(LOCAL));
+    showGrpScreen();
 }
 
 void MainScreen::onNewCardSelected()
@@ -397,10 +399,10 @@ void MainScreen::showFileDialog()
 
 void MainScreen::onGetGrpFinished(SERVER_ERRORS servError, QString errorMsg)
 {
-    qDebug()<< "gerGrpResp: "+errorMsg;
+    qDebug()<< "getGrpResp: "+errorMsg;
     switch (servError) {
     case REQ_OK:
-        updateGrpSrvScreen();
+        updateGrpScreen();
         break;
     case TIMEOUT:
         //qDebug()<< "gerGrpResp: "+errorMsg;
@@ -415,14 +417,11 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
     appState->setCurScreen(scr);
 
     switch (scr) {
-    case LOCAL_GRP_SCREEN:
+    case GRP_SCREEN:
         grpScreen->show();
         break;
     case CARD_LST_SCREEN:
         cardScreen->show();
-        break;
-    case CLOUD_LST_SCREEN:
-        grpScreen->show();
         break;
     case CARD_INFO_SCREEN:
         cardInfoScreen->show();
@@ -468,14 +467,12 @@ void MainScreen::keyPressEvent(QKeyEvent *event)
     if(event->key()==Qt::Key_Back)
     {
         switch (appState->getCurScreen()) {
-        case LOCAL_GRP_SCREEN:
+        case GRP_SCREEN:
             grpScreen->onKeyBackPressed(event);
             return;
         case CARD_LST_SCREEN:
-            showGrpScreen(0);
+            showGrpScreen();
             return;
-        case CLOUD_LST_SCREEN:
-            break;
         case CARD_INFO_SCREEN:
             showCardScreen(0);
             return;
@@ -486,7 +483,7 @@ void MainScreen::keyPressEvent(QKeyEvent *event)
             showCardInfoScreen(appState->getCurCardId());
             return;
         case NEW_GRP_SCREEN:
-            showGrpScreen(0);
+            showGrpScreen();
             return;
 
         default:
