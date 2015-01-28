@@ -5,13 +5,14 @@
 #include <QLineEdit>
 #include <QStandardPaths>
 #include <QDir>
+#include "interface.h"
 
 class CardInfoScreen : public BlankScreen
 {
     Q_OBJECT
 public:
     //explicit CardInfoScreen(QScreen *screenInfo,QWidget *parent=0);
-    explicit CardInfoScreen(QScreen *screenInfo, QSize appScrSize,QWidget *parent=0);
+    explicit CardInfoScreen(QScreen *screenInfo, QSize appScrSize, SKIN_COLOR_NAME colorName,QWidget *parent=0);
     ~CardInfoScreen();
     void showCardInfo(CardInfo *card);
     QSize getCardIconSize(){return cardIconSize;}

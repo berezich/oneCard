@@ -1,13 +1,13 @@
 #include "galeryscreen.h"
 
-GalleryScreen::GalleryScreen(QScreen *screenInfo,QSize appScrSize,QString fotoDir, QWidget *parent):BlankScreen(screenInfo,appScrSize,parent)
+GalleryScreen::GalleryScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName,QString fotoDir, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
 {
     //iconHeight = iconHeight*scaleFactor;
     //iconWidth = iconWidth*scaleFactor;
 
     cameraDir = fotoDir;
     //шапка
-    cap = new Cap(capHeight);
+    cap = new Cap(capHeight, skinColor);
     childWidgets.append(cap);
     cap->setTitle(title,textTitleSize,titleLeftMargin);
 

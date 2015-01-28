@@ -1,11 +1,11 @@
 #include "menu.h"
 
-Menu::Menu(QSize size,double scale, QWidget *parent):Overlay(parent)
+Menu::Menu(QSize size, double scale, SKIN_COLOR_NAME colorName, QWidget *parent):Overlay(parent)
 {
 
     scaleFactor = scale;
     blankSize = size;
-
+    backGroundColor = InterFace::getSkinColor(colorName).options();
     setMinimumSize(size);
     setMaximumSize(size);
 

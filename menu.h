@@ -10,12 +10,13 @@
 #include "menuitem.h"
 #include "simpleicon.h"
 #include "titlemenu.h"
+#include "interface.h"
 
 class Menu : public Overlay
 {
     Q_OBJECT
 public:
-    Menu(QSize size,double scale, QWidget *parent);
+    Menu(QSize size,double scale, SKIN_COLOR_NAME colorName, QWidget *parent);
     ~Menu();
     bool isMenuOpen(){return menuExists;}
 public slots:
@@ -28,6 +29,7 @@ private:
     QVBoxLayout *menuBasicLayout;
     QWidget *menuWidget;
     QString backGroundColor = "#b2dfdb";
+
     double scaleFactor = 1;
     double menuTitleTxtSize = 20;
     double menuItemTxtSize = 17;

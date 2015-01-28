@@ -18,7 +18,7 @@ class GrpScreen : public BlankScreen
     Q_OBJECT
 public:
     //explicit GrpScreen(QScreen *screenInfo,QWidget *parent=0);
-    explicit GrpScreen(QScreen *screenInfo,QSize appScrSize,QWidget *parent=0);
+    explicit GrpScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName,QWidget *parent=0);
     void showMenu();
     void initMenu();
     void onKeyBackPressed(QKeyEvent *event);

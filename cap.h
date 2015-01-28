@@ -5,11 +5,13 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include "simpleicon.h"
+#include "interface.h"
 class Cap : public QWidget
 {
 Q_OBJECT
 public:
-    explicit Cap(int height, QString color = "#80bab7", QWidget *parent = 0);
+    //explicit Cap(int height, QString color = "#80bab7", QWidget *parent = 0);
+    explicit Cap(int height, SKIN_COLOR_NAME colorName, QWidget *parent = 0);
     ~Cap();
 
 

@@ -1,7 +1,7 @@
 #include "cardinfoscreen.h"
 
 //CardInfoScreen::CardInfoScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenInfo,parent)
-CardInfoScreen::CardInfoScreen(QScreen *screenInfo,QSize appScrSize, QWidget *parent):BlankScreen(screenInfo,appScrSize,parent)
+CardInfoScreen::CardInfoScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
 
 {
     spacingSize = spacingSize*scaleFactorH;
@@ -15,7 +15,7 @@ CardInfoScreen::CardInfoScreen(QScreen *screenInfo,QSize appScrSize, QWidget *pa
     capSpacerH = capSpacerH*scaleFactorH;
 
     //шапка
-    cap = new Cap(capHeight);
+    cap = new Cap(capHeight, skinColor);
     cap->setTitle(title,textTitleSize,titleLeftMargin);
     //-------
 

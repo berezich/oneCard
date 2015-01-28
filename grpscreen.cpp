@@ -1,6 +1,6 @@
 #include "grpscreen.h"
 
-GrpScreen::GrpScreen(QScreen *screenInfo,QSize appScrSize, QWidget *parent):BlankScreen(screenInfo,appScrSize,parent)
+GrpScreen::GrpScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
 
 {
 
@@ -8,7 +8,7 @@ GrpScreen::GrpScreen(QScreen *screenInfo,QSize appScrSize, QWidget *parent):Blan
     textSize = textSize*qSqrt(qSqrt(scaleFactor));
 
     //шапка
-    cap = new Cap(capHeight);
+    cap = new Cap(capHeight, skinColor);
     cap->setTitle(title,textTitleSize,titleLeftMargin);
 
 
@@ -78,7 +78,7 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst)
 
 void GrpScreen::initMenu()
 {
-    menuWidget = new Menu(QSize(screenSize.width(),screenSize.height()-capHeight),scaleFactor,blankSpace);
+    menuWidget = new Menu(QSize(screenSize.width(),screenSize.height()-capHeight),scaleFactor,skinColor,blankSpace);
     menuWidget->hide();
 }
 

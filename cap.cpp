@@ -32,10 +32,10 @@ void Cap::addLeftIcon(SimpleIcon *icon, int leftOffset)
     childWidgets.append(icon);
 }
 
-Cap::Cap(int height, QString color , QWidget *parent)
+Cap::Cap(int height, SKIN_COLOR_NAME colorName , QWidget *parent)
 {
     this->height = height;
-    this->color = color;
+    this->color = InterFace::getSkinColor(colorName).head();
 
     setMaximumHeight(height);
     setMinimumHeight(height);

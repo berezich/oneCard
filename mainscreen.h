@@ -20,6 +20,7 @@
 #include "newgrpmodal.h"
 #include "server.h"
 #include "servererrors.h"
+#include "interface.h"
 class MainScreen : public QWidget
 {
     Q_OBJECT

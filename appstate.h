@@ -1,6 +1,6 @@
 #ifndef APPSTATE_H
 #define APPSTATE_H
-
+#include "interface.h"
 
 enum SCREEN_TYPE{LOCAL_GRP_SCREEN,CLOUD_LST_SCREEN,CARD_LST_SCREEN,CARD_INFO_SCREEN,GALLERY_SCREEN, CAMERAQML_SCREEN, NEW_GRP_SCREEN};
 enum GRP_SOURCE{LOCAL, CLOUD};
@@ -16,6 +16,7 @@ private:
     SCREEN_TYPE curScreen;
     OS curOS;
     bool isFixedWinSize=false;
+    SKIN_COLOR_NAME _curSkinColor;
 public:
     AppState();
 
@@ -39,6 +40,10 @@ public:
 
     bool getIsFixedWinSize(){return isFixedWinSize;}
     void setIsFixedWinSize(bool val){isFixedWinSize = val;}
+
+    SKIN_COLOR_NAME curSkinColor(){return _curSkinColor;}
+    void setCurSkinColor(SKIN_COLOR_NAME skinColor){_curSkinColor = skinColor;}
+
 };
 
 #endif // APPSTATE_H

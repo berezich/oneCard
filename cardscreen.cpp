@@ -1,7 +1,7 @@
 #include "cardscreen.h"
 
 //CardScreen::CardScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenInfo,parent)
-CardScreen::CardScreen(QScreen *screenInfo,QSize appScrSize , QWidget *parent):BlankScreen(screenInfo,appScrSize,parent)
+CardScreen::CardScreen(QScreen *screenInfo,QSize appScrSize , SKIN_COLOR_NAME colorName, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
 
 {
     spacingSize = spacingSize*scaleFactor;
@@ -14,7 +14,7 @@ CardScreen::CardScreen(QScreen *screenInfo,QSize appScrSize , QWidget *parent):B
     capSpacerH = capSpacerH*scaleFactor;
 
     //шапка
-    cap = new Cap(capHeight);
+    cap = new Cap(capHeight, skinColor);
 
     childWidgets.append(cap);
     SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/plus.svg",":/svg/tools/plusPUSH.svg",QSize(55,55)*scaleFactor);

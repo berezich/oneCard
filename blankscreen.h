@@ -12,14 +12,14 @@
 #include "cap.h"
 #include "icon.h"
 #include "simpleicon.h"
-
+#include "interface.h"
 class BlankScreen : public QWidget
 {
     Q_OBJECT
 public:
     explicit BlankScreen(QWidget *parent = 0);
     //explicit BlankScreen(QScreen *screenInfo, QWidget *parent = 0);
-    explicit BlankScreen(QScreen *screenInfo, QSize appScrSize, QWidget *parent = 0);
+    explicit BlankScreen(QScreen *screenInfo, QSize appScrSize, SKIN_COLOR_NAME colorName, QWidget *parent = 0);
     //explicit BlankScreen(QScreen *screenInfo);
     ~BlankScreen();
 
@@ -42,6 +42,7 @@ protected:
     int capRightIconOffset = 40;
     int capLeftIconOffset = 10;
     QString backGroundColor = "#e5e5e5";
+    SKIN_COLOR_NAME skinColor;
 private:
     int defaultWidth = 720;
     int defaultHeight = 1280;
