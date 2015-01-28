@@ -7,6 +7,9 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QNetworkReply>
+#include <QBasicTimer>
+#include <QTimerEvent>
+#include "servererrors.h"
 
 class HttpManager : public QObject
 {
@@ -17,6 +20,7 @@ public:
 
     void startdownloadFile(QUrl httpUrl);
     void cancelDownload(){httpRequestAborted=true;}
+    void setReqTimeout(int reqTimeout){this->reqTimeout = reqTimeout;}
 
 private slots:
     void startRequest(QUrl url);
@@ -24,7 +28,7 @@ private slots:
     void httpReadyRead();
 signals:
     void fileDownloaded(QString fileName);
-    void fileErrDownload(int errCode, QString errMsg);
+    void fileErrDownload(SERVER_ERRORS errCode, QString errMsg);
     void updateDataReadProgress(qint64 bytesRead, qint64 totalBytes);
 private:
     QUrl url;
@@ -32,6 +36,9 @@ private:
     QNetworkReply *reply;
     QFile *file;
     bool httpRequestAborted;
+    QBasicTimer timer;
+    int reqTimeout;
+    void timerEvent (QTimerEvent *);
 };
 
 #endif // HTTPMANAGER_H

@@ -159,7 +159,9 @@ void MainScreen::showGrpSrvScreen(int i)
 {
     GrpScreen *screen = new GrpScreen(screenInfo,appWidowSize,this);
     //connect(screen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
-    connect(server,SIGNAL(getGrpLstFinish(int, QString)),this,SLOT(updateGrpSrvScreen()));
+    //connect(server,SIGNAL(getGrpLstFinish(int, QString)),this,SLOT(updateGrpSrvScreen()));
+    connect(server,SIGNAL(getGrpLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
+
     appState->setCurGrpType(CLOUD);
     showScreen(CLOUD_LST_SCREEN);
     mainLayout->replaceWidget(grpScreen,screen);
@@ -376,6 +378,20 @@ void MainScreen::showFileDialog()
         if(fileNames.length()>0)
             setCardImgSrc(fileNames.first());
 
+    }
+}
+
+void MainScreen::onGetGrpFinished(SERVER_ERRORS servError, QString errorMsg)
+{
+    qDebug()<< "gerGrpResp: "+errorMsg;
+    switch (servError) {
+    case REQ_OK:
+        updateGrpSrvScreen();
+        break;
+    case TIMEOUT:
+        //qDebug()<< "gerGrpResp: "+errorMsg;
+    default:
+        break;
     }
 }
 

@@ -2,7 +2,7 @@
 
 HttpManager::HttpManager(QObject *parent) : QObject(parent)
 {
-
+    reqTimeout = 7000;
 }
 
 HttpManager::~HttpManager()
@@ -25,7 +25,7 @@ void HttpManager::startdownloadFile(QUrl httpUrl)
 
     file = new QFile(fileName);
     if (!file->open(QIODevice::WriteOnly)) {
-        emit fileErrDownload(10,tr("НЕВОЗМОЖНО СОХРАНИТЬ ФАЙЛ"));
+        emit fileErrDownload(REQFILE_SAVE_ERR,ServerEror::errToString(REQFILE_SAVE_ERR));
         delete file;
         file = 0;
         return;
@@ -33,6 +33,7 @@ void HttpManager::startdownloadFile(QUrl httpUrl)
 
     // schedule the request
     httpRequestAborted = false;
+    timer.start(reqTimeout,this);
     startRequest(url);
 
 }
@@ -50,6 +51,26 @@ void HttpManager::startRequest(QUrl url)
 
 void HttpManager::httpFinished()
 {
+    timer.stop();
+    QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
+    int status = statusCode.toInt();
+    qDebug() << "HttpManager::httpFinished: resp satus =" << status;
+    if ( !statusCode.isValid() )
+    {
+        httpRequestAborted = true;
+        qDebug()<<"HttpManager::httpFinished:  msg = "+reply->errorString();
+        //emit fileErrDownload(TIMEOUT,tr("СЕРВЕР НЕ ДОСТУПЕН"));
+        emit fileErrDownload(NO_CONNECTION,ServerEror::errToString(NO_CONNECTION));
+    }
+    if ( status != 200 )
+    {
+        httpRequestAborted = true;
+        QString reason = reply->attribute( QNetworkRequest::HttpReasonPhraseAttribute ).toString();
+        qDebug() <<"HttpManager::httpFinished:  msg =" << reason;
+        emit fileErrDownload(WEB_SERVER_ERR,ServerEror::errToString(WEB_SERVER_ERR));
+    }
+
+
     if (httpRequestAborted) {
         if (file) {
             file->close();
@@ -96,5 +117,18 @@ void HttpManager::httpReadyRead()
     // signal of the QNetworkReply
     if (file)
         file->write(reply->readAll());
+}
+
+void HttpManager::timerEvent(QTimerEvent *e)
+{
+    if(e->timerId()==timer.timerId())
+    {
+        qDebug() << "HttpManager:: timeout!";
+        timer.stop();
+        httpRequestAborted = true;
+        emit fileErrDownload(TIMEOUT,ServerEror::errToString(TIMEOUT));
+    }
+    else
+        timerEvent(e);
 }
 

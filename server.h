@@ -7,10 +7,11 @@
 #include "grp.h"
 #include "cardinfo.h"
 #include "httpmanager.h"
+#include "servererrors.h"
 class Server: public QObject
 {
     Q_OBJECT
-    enum REQ_TYPE{GET_GRPS, GET_CARDS, GET_CARD_DATA};
+private: enum REQ_TYPE{GET_GRPS, GET_CARDS, GET_CARD_DATA};
 public:
     explicit Server(QObject *parent = 0);
     ~Server();
@@ -22,7 +23,7 @@ public:
     void cancelDownloading(){httpManager.cancelDownload();}
     QList <Grp> *getGrpLastLst(){return grpLstTmp;}
 signals:
-    void getGrpLstFinish(int errCode, QString errMsg);
+    void getGrpLstFinish(SERVER_ERRORS errCode, QString errMsg);
     //getGrpLstFinish();
     void getCardLstFinish(int idGrpSrv, QList<CardInfo> *cardLst, int errCode, QString errMsg);
     void downloadCardDataFinish(int idGrp, int idCard, QString fImgSrvName, QString bImgSrvName, int errCode, QString errMsg);
@@ -33,7 +34,7 @@ private slots:
 //    void onCardDataDownloaded(QFile *fileResponse);
 //    void onFImgDownloaded(QFile *fileImg);
 //    void onBImgDownLoaded(QFile *fileImg);
-    void onProcReqError(int errCode, QString errMsg);
+    void onProcReqError(SERVER_ERRORS errCode, QString errMsg);
 private:
     REQ_TYPE reqType;
     QString login;

@@ -3,7 +3,7 @@
 Server::Server(QObject *parent):QObject(parent)
 {
     grpLstTmp = new QList<Grp>();
-    connect(&httpManager,SIGNAL(fileErrDownload(int, QString)),this,SLOT(onProcReqError(int, QString)));
+    connect(&httpManager,SIGNAL(fileErrDownload(SERVER_ERRORS, QString)),this,SLOT(onProcReqError(SERVER_ERRORS, QString)));
 }
 
 Server::~Server()
@@ -20,14 +20,10 @@ void Server::setEndPoint(QString ip, int port, QString path)
 void Server::getGrpLstStart()
 {
     reqType = GET_GRPS;
-    httpManager.disconnect(SIGNAL(fileDownloaded));
-    httpManager.disconnect(SIGNAL(fileErrDownload));
-
     QString url = endPoint+"/?action=getgrp&login="+login+"&pass="+pass;
     httpManager.startdownloadFile(url);
 
     connect(&httpManager,SIGNAL(fileDownloaded(QString)),this,SLOT(onGrpLstDownloaded(QString)));
-
 }
 
 void Server::onGrpLstDownloaded(QString fileName)
@@ -38,8 +34,7 @@ void Server::onGrpLstDownloaded(QString fileName)
     //QFile *file = new QFile("index2.html");
     QFile *file = new QFile(fileName);
     if (!file->open(QIODevice::ReadOnly | QIODevice::Text)) {
-        //emit getGrpLstFinish(NULL,5,tr("НЕВОЗМОЖНО ОТКРЫТЬ ФАЙЛ"));
-        emit getGrpLstFinish(5,tr("НЕВОЗМОЖНО ОТКРЫТЬ ФАЙЛ"));
+        emit getGrpLstFinish(REQFILE_OPEN_ERR,ServerEror::errToString(REQFILE_OPEN_ERR));
         delete file;
         file = 0;
         return;
@@ -96,15 +91,14 @@ void Server::onGrpLstDownloaded(QString fileName)
 
         }
     }
-    emit getGrpLstFinish(-1,"OK");
-    //emit getGrpLstFinish()
+    emit getGrpLstFinish(REQ_OK,ServerEror::errToString(REQ_OK));
 }
 
-void Server::onProcReqError(int errCode, QString errMsg)
+void Server::onProcReqError(SERVER_ERRORS errCode, QString errMsg)
 {
+    httpManager.disconnect(SIGNAL(fileDownloaded));
     switch (reqType) {
     case GET_GRPS:
-        //emit getGrpLstFinish(NULL,errCode,errMsg);
         emit getGrpLstFinish(errCode,errMsg);
         break;
     case GET_CARDS:

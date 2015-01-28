@@ -23,7 +23,8 @@ HEADERS       = button.h \
     titlemenu.h \
     cameraqmlscreen.h \
     server.h \
-    httpmanager.h
+    httpmanager.h \
+    servererrors.h
 SOURCES       = button.cpp \
                 main.cpp \
     blankscreen.cpp \

@@ -19,6 +19,7 @@
 #include "appstate.h"
 #include "newgrpmodal.h"
 #include "server.h"
+#include "servererrors.h"
 class MainScreen : public QWidget
 {
     Q_OBJECT
@@ -54,6 +55,9 @@ public slots:
     void newGrpConfigured(QString name, QString grpImgSrc);
     void onNewCardSelected();
     void showFileDialog();
+
+    //slots for server
+    void onGetGrpFinished(SERVER_ERRORS servError, QString errorMsg);
 
 
 
