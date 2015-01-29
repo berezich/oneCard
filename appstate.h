@@ -3,7 +3,7 @@
 #include "interface.h"
 #include "datalocationtype.h"
 
-enum SCREEN_TYPE{GRP_SCREEN,CARD_LST_SCREEN,CARD_INFO_SCREEN,GALLERY_SCREEN, CAMERAQML_SCREEN, NEW_GRP_SCREEN};
+enum SCREEN_TYPE{MAIN_CHOICE_SCREEN, GRP_SCREEN,CARD_LST_SCREEN,CARD_INFO_SCREEN,GALLERY_SCREEN, CAMERAQML_SCREEN, NEW_GRP_SCREEN};
 enum CARD_SIDE{FRONTSIDE, BACKSIDE};
 enum OS{NONE, WINDOWS, Android, IOS};
 class AppState
@@ -17,6 +17,7 @@ private:
     OS curOS;
     bool isFixedWinSize=false;
     SKIN_COLOR_NAME _curSkinColor;
+    bool _defEnterApp;
 public:
     AppState();
 
@@ -43,6 +44,9 @@ public:
 
     SKIN_COLOR_NAME curSkinColor(){return _curSkinColor;}
     void setCurSkinColor(SKIN_COLOR_NAME skinColor){_curSkinColor = skinColor;}
+
+    bool defEnterApp(){return _defEnterApp;}
+    void setDefEnterApp(bool state){_defEnterApp=state;}
 
 };
 

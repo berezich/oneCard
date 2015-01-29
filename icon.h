@@ -13,7 +13,7 @@ class Icon : public QWidget
     Q_OBJECT
 public:
     explicit Icon(QWidget *parent = 0);
-    explicit Icon(int id, QString name, int textSize, QString imgScr,  QString imgPushScr, QSize imgSize, QSize iconSize = QSize{}, QWidget *parent = 0);
+    explicit Icon(int id, QString name, int textSize, QString imgScr,  QString imgPushScr, QSize imgSize, QSize iconSize = QSize{}, QString textColor="#000000", QWidget *parent = 0);
     ~Icon();
 
 signals:
@@ -32,6 +32,7 @@ private:
     QSize iconSize;
     QLabel *labelIcon;
     QVBoxLayout *vLayout;
+    QString textColor;
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
 };

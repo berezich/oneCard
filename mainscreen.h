@@ -8,6 +8,7 @@
 #include <QWindow>
 #include <QPoint>
 #include <QFileDialog>
+#include "mainchoicescreen.h"
 #include "grpscreen.h"
 #include "grp.h"
 #include "cardscreen.h"
@@ -84,11 +85,12 @@ private:
     QString path = "";
 
     QString login = "oneCard";
-    QString pass = "123456";
+    QString pass = "12345";
 
     Data *dataM;
     Server *server;
 
+    MainChoiceScreen *mainChoiceScreen;
     GrpScreen *grpScreen;
     CardScreen *cardScreen;
     CardInfoScreen *cardInfoScreen;

@@ -69,5 +69,10 @@
         <file>svg/tools/galleryPUSH.svg</file>
         <file>svg/tools/infophoto.svg</file>
         <file>svg/tools/infophotoPUSH.svg</file>
+        <file>svg/main_screen/catalog.svg</file>
+        <file>svg/main_screen/device.svg</file>
+        <file>svg/main_screen/greenok.svg</file>
+        <file>svg/main_screen/server.svg</file>
+        <file>svg/main_screen/settingsicon.svg</file>
     </qresource>
 </RCC>

@@ -30,6 +30,7 @@ void Server::onGrpLstDownloaded(QString fileName)
 {
     grpLstTmp->clear();
     Grp *grp;
+    bool servErr = false;
     qDebug() << "fileName = " << fileName;
     //QFile *file = new QFile("index2.html");
     QFile *file = new QFile(fileName);
@@ -50,7 +51,8 @@ void Server::onGrpLstDownloaded(QString fileName)
             qDebug() << "Encoding: " << xml.documentEncoding().toString() ;
             continue;
 
-        }if (token == QXmlStreamReader::StartElement)
+        }
+        if (token == QXmlStreamReader::StartElement)
         {
             qDebug() << "xml curElem name = " << xml.name();
             if (xml.name() == "groups")
@@ -88,6 +90,35 @@ void Server::onGrpLstDownloaded(QString fileName)
                 }
                 grpLstTmp->append(*grp);
             }
+            if(xml.name() == "err")
+            {
+                int errCode;
+                QString errMsg;
+                xml.readNext();
+                while (!(xml.tokenType() == QXmlStreamReader::EndElement && xml.name() == "err"))
+                {
+                    if (xml.tokenType() == QXmlStreamReader::StartElement)
+                    {
+                        if (xml.name().toString() == "code")
+                        {
+                            errCode = xml.readElementText().toInt();
+                            qDebug()<<errCode;
+                        }
+                        if (xml.name().toString() == "msg")
+                        {
+                            errMsg  = xml.readElementText();
+                            qDebug()<<errMsg;
+
+                        }
+
+                    }
+                    xml.readNext();
+                }
+                emit getGrpLstFinish(WEB_SERVER_ERR,errMsg);
+                grpLstTmp->clear();
+                return;
+            }
+
 
         }
     }

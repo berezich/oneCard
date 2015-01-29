@@ -11,7 +11,7 @@
 #include <QScrollBar>
 #include <QKeyEvent>
 #include "menu.h"
-#include "blankspace.h"
+//#include "blankspace.h"
 
 class GrpScreen : public BlankScreen
 {
@@ -43,8 +43,6 @@ private:
     QGridLayout *gridLayout;
     QWidget *gridWidget;
     Menu *menuWidget;
-    //OverLay *overlay;
-    //void resizeEvent(QResizeEvent *event);
 };
 
 #endif // GRPSCREEN_H

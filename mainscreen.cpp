@@ -55,20 +55,21 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     scaleFactor = qMin(scaleFactorW,scaleFactorH);
 
 
-    appState->setCurSkinColor(RED);
-    appState->setCurSkinColor(PINK);
-    appState->setCurSkinColor(DEEP_PURPLE);
+//    appState->setCurSkinColor(RED);
+//    appState->setCurSkinColor(PINK);
+//    appState->setCurSkinColor(DEEP_PURPLE);
     appState->setCurSkinColor(INDIGO);
-    appState->setCurSkinColor(BLUE);
-    appState->setCurSkinColor(CYAN);
-    appState->setCurSkinColor(TEAL);
-    appState->setCurSkinColor(GREEN);
-    appState->setCurSkinColor(DEEP_ORANGE);
-    appState->setCurSkinColor(BROWN);
-    appState->setCurSkinColor(GRAY);
+//    appState->setCurSkinColor(BLUE);
+//    appState->setCurSkinColor(CYAN);
+//    appState->setCurSkinColor(TEAL);
+//    appState->setCurSkinColor(GREEN);
+//    appState->setCurSkinColor(DEEP_ORANGE);
+//    appState->setCurSkinColor(BROWN);
+//    appState->setCurSkinColor(GRAY);
 
     //appState->setCurGrpType(LOCAL);
-    appState->setCurGrpType(SERVER);
+    appState->setCurGrpType(LOCAL);
+    appState->setDefEnterApp(false);
 
     dataM = new Data();
 
@@ -78,6 +79,9 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
 
     mainLayout = new QVBoxLayout();
 
+    mainChoiceScreen = new MainChoiceScreen(screenInfo,appWidowSize,appState->curSkinColor(),appState->defEnterApp(),this);
+    mainLayout->addWidget(mainChoiceScreen);
+    mainChoiceScreen->hide();
 
     grpScreen = new GrpScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
     grpScreen->setGrpLst(dataM->getGroups(appState->getCurGrpType()));
@@ -119,8 +123,9 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
 
 
 
-    showScreen(GRP_SCREEN);
-    //showGrpSrvScreen(0);
+    //showScreen(GRP_SCREEN);
+    showScreen(MAIN_CHOICE_SCREEN);
+
 
 }
 
@@ -417,6 +422,10 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
     appState->setCurScreen(scr);
 
     switch (scr) {
+    case MAIN_CHOICE_SCREEN:
+        //mainChoiceScreen->showMainChoice();
+        mainChoiceScreen->show();
+        break;
     case GRP_SCREEN:
         grpScreen->show();
         break;
@@ -441,6 +450,7 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
 
 void MainScreen::hideAllScreens()
 {
+    mainChoiceScreen->hide();
     grpScreen->hide();
     cardScreen->hide();
     cardInfoScreen->hide();
