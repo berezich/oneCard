@@ -6,7 +6,7 @@
 #include "interface.h"
 #include "icon.h"
 #include "menu.h"
-
+enum MAIN_ICONS{LOCAL_ICON, SRV_ICON, DEV_ICON, OPTIONS_ICON};
 class MainChoiceScreen : public QWidget
 {
     Q_OBJECT
@@ -17,7 +17,7 @@ public:
     void setGrpLst();
 
 signals:
-
+    void iconPressed(MAIN_ICONS icon);
 public slots:
     void showMainChoice();
 private slots:

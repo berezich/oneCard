@@ -54,7 +54,7 @@ public:
 
 
         default:
-            break;
+            return SkinColor(CYAN,"#26c6da","#80deea");
         }
     }
 

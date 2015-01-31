@@ -3,6 +3,7 @@
 
 MenuItem::MenuItem(int id, QString text, double textSize, int leftOffset, int topOffset, QWidget *parent):QPushButton(parent)
 {
+    init();
     this->id = id;
     textLeftOffset = leftOffset;
     textTopOffset = topOffset;

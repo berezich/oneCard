@@ -13,7 +13,7 @@ class Icon : public QWidget
     Q_OBJECT
 public:
     explicit Icon(QWidget *parent = 0);
-    explicit Icon(int id, QString name, int textSize, QString imgScr,  QString imgPushScr, QSize imgSize, QSize iconSize = QSize{}, QString textColor="#000000", QWidget *parent = 0);
+    Icon(int id, QString name, int textSize, QString imgScr,  QString imgPushScr, QSize imgSize, QSize iconSize = QSize(0,0), QString textColor="#000000", QWidget *parent = 0);
     ~Icon();
 
 signals:

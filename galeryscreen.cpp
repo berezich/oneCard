@@ -2,9 +2,7 @@
 
 GalleryScreen::GalleryScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName,QString fotoDir, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
 {
-    //iconHeight = iconHeight*scaleFactor;
-    //iconWidth = iconWidth*scaleFactor;
-
+    init();
     cameraDir = fotoDir;
     //шапка
     cap = new Cap(capHeight, skinColor);

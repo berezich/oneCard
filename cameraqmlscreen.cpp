@@ -1,19 +1,14 @@
 #include "cameraqmlscreen.h"
 
+CameraQmlScreen::CameraQmlScreen(QWidget *parent): QWidget(parent)
+{
+
+}
+
 CameraQmlScreen::CameraQmlScreen(QSize appScrSize, QString os, QWidget *parent) : QWidget(parent)
 {
     this->appScrSize = appScrSize;
-    //setWindowState(Qt::WindowMaximized);
-    //setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     setMaximumSize(window()->geometry().size());
-    //setMaximumSize(appScrSize);
-//    QQuickView *view = new QQuickView();
-//    QWidget *container = QWidget::createWindowContainer(view, this);
-//    container->setContentsMargins(0,0,0,0);
-//    container->setMinimumSize(720, 1280);
-//    container->setMaximumSize(720, 1280);
-//    container->setFocusPolicy(Qt::TabFocus);
-//    view->setSource(QUrl("qrc:/rect.qml"));
 
     mQQuickWidget = new QQuickWidget(QUrl("qrc:/declarative-camera/declarative-camera.qml"), this);
     mQQuickWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
@@ -25,7 +20,7 @@ CameraQmlScreen::CameraQmlScreen(QSize appScrSize, QString os, QWidget *parent) 
     //mQQuickWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
     mQQuickWidget->raise();
-    //mQQuickWidget->setUpdatesEnabled(true);
+
 }
 
 CameraQmlScreen::~CameraQmlScreen()
@@ -36,9 +31,23 @@ CameraQmlScreen::~CameraQmlScreen()
 
 void CameraQmlScreen::showQML()
 {
+    /*
+    mQQuickWidget = new QQuickWidget(QUrl("qrc:/declarative-camera/declarative-camera.qml"), this);
+    mQQuickWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    mQQuickWidget->setAttribute(Qt::WA_AlwaysStackOnTop);
+    mQQuickWidget->setClearColor(Qt::transparent);
+    mQQuickWidget->rootContext()->setContextProperty("myApp", this);
+    mQQuickWidget->raise();
+    */
+
     show();
     setMaximumSize(window()->geometry().size());
     mQQuickWidget->resize(window()->geometry().size());
+
+
+
+
+
 }
 
 void CameraQmlScreen::onPhotoOk(QString file)

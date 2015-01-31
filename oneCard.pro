@@ -27,7 +27,8 @@ HEADERS       = button.h \
     servererrors.h \
     interface.h \
     datalocationtype.h \
-    mainchoicescreen.h
+    mainchoicescreen.h \
+    loadingscreen.h
 SOURCES       = button.cpp \
                 main.cpp \
     blankscreen.cpp \
@@ -52,7 +53,8 @@ SOURCES       = button.cpp \
     cameraqmlscreen.cpp \
     server.cpp \
     httpmanager.cpp \
-    mainchoicescreen.cpp
+    mainchoicescreen.cpp \
+    loadingscreen.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/oneCard

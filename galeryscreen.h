@@ -21,22 +21,30 @@ signals:
 private slots:
     void onClickPhotoIcon(int iPhoto);
 private:
-    int columnsNum = 2;
-    int rowsNum = 4;
-    QSize iconSize = QSize(345,262);
-    QSize imgSaveSize = QSize(480,360);
+    int columnsNum;
+    int rowsNum;
+    QSize iconSize;
+    QSize imgSaveSize;
 
-    //double textSize = 15;
-    QString title=tr("ПОСЛЕДНИЕ ФОТО");
+    QString title;
     QStringList photoLst;
     QGridLayout *gridLayout;
 
-    QString cameraDir = "/storage/emulated/0/DCIM/camera/";
-    //QString cameraDir = "file:///D:/BEREZ/Фоты/";
+    QString cameraDir;
     QWidgetList childWidgets;
     QList<QLayout *> childLayouts;
 protected:
     QWidget *blankSpace;
+    void init()
+    {
+        columnsNum = 2;
+        rowsNum = 4;
+        iconSize = QSize(345,262);
+        imgSaveSize = QSize(480,360);
+        title=tr("ПОСЛЕДНИЕ ФОТО");
+        cameraDir = "/storage/emulated/0/DCIM/camera/";
+        //QString cameraDir = "file:///D:/BEREZ/Фоты/";
+    }
 
 };
 

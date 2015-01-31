@@ -23,35 +23,51 @@ public slots:
     void showMainMenu(bool showInAnyway=false);
 protected:
 private:
-    bool menuExists = false;
+    bool menuExists;
     QSize blankSize;
     QVBoxLayout *menuLayout;
     QVBoxLayout *menuBasicLayout;
     QWidget *menuWidget;
-    QString backGroundColor = "#b2dfdb";
+    QString backGroundColor;
 
-    double scaleFactor = 1;
-    double menuTitleTxtSize = 20;
-    double menuItemTxtSize = 17;
-    QString lblTxtColor = "#000000";
-    QString titleColor = "#ffffff";
-    QSize arrowBackSize = QSize(40,40);
-    int menuWidth = 500;
+    double scaleFactor;
+    double menuTitleTxtSize;
+    double menuItemTxtSize;
+    QString lblTxtColor;
+    QString titleColor;
+    QSize arrowBackSize;
+    int menuWidth;
     QStringList mainMenuItemTxt; //{"НАСТРОЙКИ","синхронизация устройства","синхронизация с сервером","интерфейс","язык"};
     QStringList languages;
     QStringList skins;
-    //123/158=0,78
-    QSize iconBluetoothSize = QSize(46,60)*2;
-    // 226/272=0,83
-    QSize iconDevSyncSize = QSize(50,60)*2;
-
-    QSize iconAuthOkSize = QSize(60,60)*1.5;
+    QSize iconBluetoothSize;
+    QSize iconDevSyncSize;
+    QSize iconAuthOkSize;
 
     QLineEdit *login;
     QLineEdit *pass;
 
     //QList<MenuItem*> menuItemBLst;
     void mousePressEvent(QMouseEvent *event);
+    void init()
+    {
+        menuExists = false;
+        backGroundColor = "#b2dfdb";
+
+        scaleFactor = 1;
+        menuTitleTxtSize = 20;
+        menuItemTxtSize = 17;
+        lblTxtColor = "#000000";
+        titleColor = "#ffffff";
+        arrowBackSize = QSize(40,40);
+        menuWidth = 500;
+
+        iconBluetoothSize = QSize(46,60)*2;
+        // 226/272=0,83
+        iconDevSyncSize = QSize(50,60)*2;
+
+        iconAuthOkSize = QSize(60,60)*1.5;
+    }
 
 private slots:
     void showSubMenu(int mainItem);

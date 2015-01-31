@@ -2,7 +2,7 @@
 
 AppState::AppState()
 {
-
+    init();
 }
 
 

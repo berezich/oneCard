@@ -15,7 +15,7 @@ private:
     int curCardId;
     SCREEN_TYPE curScreen;
     OS curOS;
-    bool isFixedWinSize=false;
+    bool isFixedWinSize;
     SKIN_COLOR_NAME _curSkinColor;
     bool _defEnterApp;
 public:
@@ -47,7 +47,11 @@ public:
 
     bool defEnterApp(){return _defEnterApp;}
     void setDefEnterApp(bool state){_defEnterApp=state;}
-
+private:
+    void init()
+    {
+        isFixedWinSize=false;
+    }
 };
 
 #endif // APPSTATE_H

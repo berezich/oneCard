@@ -8,11 +8,17 @@ class MenuItem : public QPushButton
 {
     Q_OBJECT
 private:
-    QString txtColor = "#000000";
-    QString txtPressColor = "#ffffff";
+    QString txtColor;
+    QString txtPressColor;
     int textLeftOffset;
     int textTopOffset;
     int id;
+    void init()
+    {
+        txtColor = "#000000";
+        txtPressColor = "#ffffff";
+    }
+
 signals:
     void click(int id);
 public:

@@ -32,27 +32,20 @@ signals:
     void editFrontSideImg();
     void editBackSideImg();
 private:
-    int capLeftIconOffset = 10;
-
-    int capSpacerH = 20;
-
-    QString title = tr("ИНФОРМАЦИЯ О КАРТЕ");
-
-    int spacingSize = 20;
-    QSize cardIconSize = QSize(480,360);
+    int capLeftIconOffset;
+    int capSpacerH;
+    QString title;
+    int spacingSize;
+    QSize cardIconSize;
     QString imgSrc;
-    QString imgNoPhotoSrc = ":/svg/tools/photono.svg";
-    //int leftCardOffset = 20;
+    QString imgNoPhotoSrc;
     CardInfo *cardInfo;
-    //int leftNameCardOffset = 25;
-    double textCardNameSize = 25;
-    QString colorTextNameCard = "#000000";
+    double textCardNameSize;
+    QString colorTextNameCard;
     QLineEdit *nameEditLine;
-
-    QSize editIconSize = QSize(80,80);
-    int rightEditIconOffset = 15;
-
-    QSize infoIconSize = QSize(110,110);
+    QSize editIconSize;
+    int rightEditIconOffset;
+    QSize infoIconSize;
 
     QVBoxLayout *cardInfoListLayout;
 
@@ -61,6 +54,23 @@ private:
 
     SimpleIcon *iconMagnet;
     QHBoxLayout *lineMagnetLayout;
+
+    void init()
+    {
+        capLeftIconOffset = 10;
+        capSpacerH = 20;
+        title = tr("ИНФОРМАЦИЯ О КАРТЕ");
+        spacingSize = 20;
+        cardIconSize = QSize(480,360);
+        imgNoPhotoSrc = ":/svg/tools/photono.svg";
+        textCardNameSize = 25;
+        colorTextNameCard = "#000000";
+        editIconSize = QSize(80,80);
+        rightEditIconOffset = 15;
+
+        infoIconSize = QSize(110,110);
+    }
+
 protected:
     QWidget *blankSpace;
 };

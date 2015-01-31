@@ -1,9 +1,13 @@
 #include "grpscreen.h"
 
-GrpScreen::GrpScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
-
+GrpScreen::GrpScreen(QWidget *parent):BlankScreen(parent)
 {
 
+}
+
+GrpScreen::GrpScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
+{
+    init();
     iconSize = iconSize*scaleFactor;
     textSize = textSize*qSqrt(qSqrt(scaleFactor));
 
@@ -11,15 +15,23 @@ GrpScreen::GrpScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME color
     cap = new Cap(capHeight, skinColor);
     cap->setTitle(title,textTitleSize,titleLeftMargin);
 
-
+    SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/backArrow.svg","",QSize(55,55)*scaleFactor);
+    icon->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+    cap->addLeftIcon(icon,capLeftIconOffset);
+    connect(icon,SIGNAL(click(int)),this,SIGNAL(backPressed()));
+    /*
     SimpleIcon *icon = new SimpleIcon(0,":svg/tools/menuicon.svg","",QSize(50*scaleFactor,25*scaleFactor));
     icon->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     cap->addLeftIcon(icon,capLeftIconOffset);
     connect(icon,SIGNAL(click(int)),this,SLOT(onMenuClick()));
+    */
 
+    /*
     icon = new SimpleIcon(0,":/svg/tools/oblako.svg",":/svg/tools/oblakoPUSH.svg",QSize(80*scaleFactor,40*scaleFactor));
     icon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
     cap->addRightIcon(icon,capRightIconOffset);
+    */
+
     blankLayout->setContentsMargins(0,0,0,0);
     blankLayout->addWidget(cap);
 

@@ -23,15 +23,20 @@ public slots:
     void addLeftIcon(SimpleIcon *icon, int leftOffset);
 
 private:
-    int height = 120;
-    QString color = "#aaaaaa";
+    int height;
+    QString color;
     QHBoxLayout *hLayout;
-    QString title=tr("TITLE");
+    QString title;
     QLabel *titleLbl;
     QLabel *rightIcon;
     QLabel *leftIcon;
     QWidgetList childWidgets;
     QList<QLayout *> childLayouts;
+    void init()
+    {
+        height = 120;
+        color = "#aaaaaa";
+    }
 };
 
 #endif // CAP_H

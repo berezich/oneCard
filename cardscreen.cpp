@@ -2,8 +2,8 @@
 
 //CardScreen::CardScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenInfo,parent)
 CardScreen::CardScreen(QScreen *screenInfo,QSize appScrSize , SKIN_COLOR_NAME colorName, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
-
 {
+    init();
     spacingSize = spacingSize*scaleFactor;
     cardIconSize = cardIconSize*scaleFactor;
     leftCardOffset = leftCardOffset*scaleFactor;

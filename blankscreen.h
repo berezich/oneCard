@@ -19,7 +19,7 @@ class BlankScreen : public QWidget
 public:
     explicit BlankScreen(QWidget *parent = 0);
     //explicit BlankScreen(QScreen *screenInfo, QWidget *parent = 0);
-    explicit BlankScreen(QScreen *screenInfo, QSize appScrSize, SKIN_COLOR_NAME colorName, QWidget *parent = 0);
+    BlankScreen(QScreen *screenInfo, QSize appScrSize, SKIN_COLOR_NAME colorName, QWidget *parent = 0);
     //explicit BlankScreen(QScreen *screenInfo);
     ~BlankScreen();
 
@@ -28,31 +28,43 @@ signals:
 public slots:
 
 protected:
-    double scaleFactor = 1;
-    double scaleFactorH = 1;
-    double scaleFactorW = 1;
+    double scaleFactor;
+    double scaleFactorH;
+    double scaleFactorW;
     QBoxLayout *blankLayout;
     QHBoxLayout *capLayout;
     Cap  *cap;
     QSize screenSize;
-    int capSpacerH = 20;
-    int capHeight = 120;
-    int titleLeftMargin = 20;
-    double textTitleSize = 20;
-    int capRightIconOffset = 40;
-    int capLeftIconOffset = 10;
-    QString backGroundColor = "#e5e5e5";
+    int capSpacerH;
+    int capHeight;
+    int titleLeftMargin;
+    double textTitleSize;
+    int capRightIconOffset;
+    int capLeftIconOffset;
+    QString backGroundColor;
     SKIN_COLOR_NAME skinColor;
 private:
-    int defaultWidth = 720;
-    int defaultHeight = 1280;
-
-
-
-
-    QString title = tr("ВАШИ КАРТЫ");
+    int defaultWidth;
+    int defaultHeight;
+    QString title;
     QScreen *screenInfo;
+    void init()
+    {
+        scaleFactor = 1;
+        scaleFactorH = 1;
+        scaleFactorW = 1;
+        capSpacerH = 20;
+        capHeight = 120;
+        titleLeftMargin = 20;
+        textTitleSize = 20;
+        capRightIconOffset = 40;
+        capLeftIconOffset = 10;
+        backGroundColor = "#e5e5e5";
 
+        defaultWidth = 720;
+        defaultHeight = 1280;
+        title = tr("ВАШИ КАРТЫ");
+    }
 
 
 };

@@ -1,9 +1,8 @@
 #include "cardinfoscreen.h"
 
-//CardInfoScreen::CardInfoScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenInfo,parent)
 CardInfoScreen::CardInfoScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
-
 {
+    init();
     spacingSize = spacingSize*scaleFactorH;
     cardIconSize = cardIconSize*scaleFactor;
     textCardNameSize = textCardNameSize*qSqrt(qSqrt(scaleFactor));
@@ -59,11 +58,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card)
 {
     QHBoxLayout *line;
     SimpleIcon *cardIcon;
-    QLabel *nameLbl;
-    QLabel *editIcon;
-    //CardInfo *card;
     QWidget *widgetLine;
-    //SimpleIcon *icon;
     imgSrc = card->getCardImgSrc();
     cardInfo = card;
 

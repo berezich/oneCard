@@ -24,12 +24,16 @@ public:
     void addNewGrp(QString name, QString grpImgSrc);
 
 private:
-    QString cameraDir = "/storage/emulated/0/DCIM/camera/";
+    QString cameraDir;
     QList<Grp> localGrpLst;
     QList<Grp> serverGrpLst;
     QList<Grp> deviceGrpLst;
 
     QStringList grpImgSrcLst;
+    void init()
+    {
+        cameraDir = "/storage/emulated/0/DCIM/camera/";
+    }
 
 };
 

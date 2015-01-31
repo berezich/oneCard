@@ -36,8 +36,11 @@ public:
 signals:
 
 public slots:
-    void onGrpSelected(int grpId);
+
+    void onMainIconPressed(MAIN_ICONS icon);
     void showGrpScreen();
+    void onGrpSelected(int grpId);
+    void onGrpBackPressed();
     void updateGrpScreen();
     void showCardScreen(int i);
     void showCardInfoScreen(int i);
@@ -64,9 +67,9 @@ public slots:
 
 private:
     QSize appWidowSize;
-    int defaultWidth = 720;
-    int defaultHeight = 1280;
-    double scaleFactor=1;
+    int defaultWidth;
+    int defaultHeight;
+    double scaleFactor;
 
     QScreen *screenInfo;
     QRect screenAvailableGeometry;
@@ -76,16 +79,16 @@ private:
     AppState *appState;
     //GRP_SOURCE grpState = LOCAL;
 
-    QString appDataLocation="/data/data/com.berezich.oneCard/files";
-    QString cameraDir="/storage/emulated/0/DCIM/camera/";
-    QString cacheDir="/cameraCache/";
+    QString appDataLocation;
+    QString cameraDir;
+    QString cacheDir;
 
-    QString ip = "http://onecard.bsv-grip.com";
-    int port = -1;
-    QString path = "";
+    QString ip;
+    int port;
+    QString path;
 
-    QString login = "oneCard";
-    QString pass = "12345";
+    QString login;
+    QString pass;
 
     Data *dataM;
     Server *server;
@@ -97,16 +100,37 @@ private:
     GalleryScreen *galleryScreen;
     CameraQmlScreen *cameraQmlScreen;
     NewGrpModal *newGrpModal;
-    bool initNewGrpModal = false;
+    bool initNewGrpModal;
     Overlay *overlay;
 
-    QSize imgSaveSize = QSize(480,360);
-    int cacheImgNum = 8;
+    QSize imgSaveSize;
+    int cacheImgNum;
 
     void showScreen(SCREEN_TYPE scr);
     void hideAllScreens();
     void resizeEvent(QResizeEvent *event);
     void keyPressEvent(QKeyEvent *event);
+    void init()
+    {
+        defaultWidth = 720;
+        defaultHeight = 1280;
+        scaleFactor=1;
+
+        appDataLocation="/data/data/com.berezich.oneCard/files";
+        cameraDir="/storage/emulated/0/DCIM/camera/";
+        cacheDir="/cameraCache/";
+
+        ip = "http://onecard.bsv-grip.com";
+        port = -1;
+        path = "";
+
+        login = "oneCard";
+        pass = "123456";
+
+        initNewGrpModal = false;
+        imgSaveSize = QSize(480,360);
+        cacheImgNum = 8;
+    }
 
 };
 

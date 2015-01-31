@@ -5,7 +5,7 @@ Icon::Icon(QWidget *parent) : QWidget(parent)
 
 }
 
-Icon::Icon(int id, QString name, int textSize,  QString imgScr,  QString imgPushScr, QSize imgSize, QSize iconSize, QString textColor, QWidget *parent)
+Icon::Icon(int id, QString name, int textSize,  QString imgScr,  QString imgPushScr, QSize imgSize, QSize iconSize, QString textColor, QWidget *parent): QWidget(parent)
 {
     this->id = id;
     this->name = name;

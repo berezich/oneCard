@@ -11,17 +11,22 @@ class CameraQmlScreen : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CameraQmlScreen(QSize appScrSize,QString os, QWidget *parent = 0);
+    CameraQmlScreen(QWidget *parent = 0);
+    CameraQmlScreen(QSize appScrSize,QString os, QWidget *parent = 0);
     ~CameraQmlScreen();
 
 signals:
     void pressedCancel();
+    void cameraOnloaded();
+
     void selectPhoto(QString,QString);
 
 public slots:
     void showQML();
     void onPhotoOk(QString file);
     void closeCamera();
+    void cameraStatusChange(QQuickWidget::Status status);
+    void onCameraComplited();
 private:
     QQuickWidget *mQQuickWidget;
     QSize appScrSize;

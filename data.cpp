@@ -2,6 +2,7 @@
 
 Data::Data()
 {
+    init();
     int i=1;
     //получение списка групп из файловой системы
     localGrpLst.clear();

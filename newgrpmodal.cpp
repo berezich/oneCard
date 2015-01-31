@@ -2,6 +2,7 @@
 
 NewGrpModal::NewGrpModal(QSize size,double scale,QStringList grpIconLst, QWidget *parent):Overlay(parent)
 {
+    init();
     scaleFactor = scale;
     screenSize = size;
     setMinimumSize(size);
@@ -136,7 +137,7 @@ void NewGrpModal::setIconLst()
 
 void NewGrpModal::paintEvent(QPaintEvent *event)
 {
-    Overlay::paintEvent(event);
+    //Overlay::paintEvent(event);
     QPainter customPainter(this);
     customPainter.setRenderHint(QPainter::Antialiasing);
     customPainter.setBrush(QBrush(QColor(backGroundColor)));

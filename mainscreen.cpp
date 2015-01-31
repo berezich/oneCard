@@ -6,15 +6,16 @@ MainScreen::MainScreen(QWidget *parent) : QWidget(parent)
 
 }
 
-MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
+MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
 {
+    init();
     QDesktopWidget *desktop = mainApp->desktop();
     screenAvailableGeometry = desktop->availableGeometry();
-    int dpiY = desktop->physicalDpiY();
-    int dpiX = desktop->physicalDpiX();
-    double displayWidthInch = screenAvailableGeometry.width() / dpiX;
-    double displayHeightInch = screenAvailableGeometry.height() / dpiY;
-    double displayDiagonalInch = sqrt(displayWidthInch*displayWidthInch + displayHeightInch*displayHeightInch); // screen diagonal size in inches
+    //int dpiY = desktop->physicalDpiY();
+    //int dpiX = desktop->physicalDpiX();
+    //double displayWidthInch = screenAvailableGeometry.width() / dpiX;
+    //double displayHeightInch = screenAvailableGeometry.height() / dpiY;
+    //double displayDiagonalInch = sqrt(displayWidthInch*displayWidthInch + displayHeightInch*displayHeightInch); // screen diagonal size in inches
     this->screenInfo = mainApp->primaryScreen();
 
 
@@ -82,17 +83,18 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent)
     mainChoiceScreen = new MainChoiceScreen(screenInfo,appWidowSize,appState->curSkinColor(),appState->defEnterApp(),this);
     mainLayout->addWidget(mainChoiceScreen);
     mainChoiceScreen->hide();
+    connect(mainChoiceScreen,SIGNAL(iconPressed(MAIN_ICONS)),this,SLOT(onMainIconPressed(MAIN_ICONS)));
 
+    grpScreen = new GrpScreen(this);
+    /*
     grpScreen = new GrpScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
+
     grpScreen->setGrpLst(dataM->getGroups(appState->getCurGrpType()));
     grpScreen->initMenu();
     grpScreen->hide();
+    connect(grpScreen,SIGNAL(backPressed()),this,SLOT(onGrpBackPressed()));
     connect(grpScreen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
-    if(appState->getCurGrpType()==SERVER)
-    {
-        connect(server,SIGNAL(getGrpLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
-        server->getGrpLstStart();
-    }
+    */
     mainLayout->addWidget(grpScreen);
 
     cardScreen = new CardScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
@@ -134,6 +136,25 @@ MainScreen::~MainScreen()
 
 }
 
+void MainScreen::onMainIconPressed(MAIN_ICONS icon)
+{
+    switch (icon) {
+    case LOCAL_ICON:
+        appState->setCurGrpType(LOCAL);
+        showGrpScreen();
+        break;
+    case SRV_ICON:
+        appState->setCurGrpType(SERVER);
+        showGrpScreen();
+        break;
+    case DEV_ICON:
+        appState->setCurGrpType(DEVICE);
+        break;
+    default:
+        break;
+    }
+}
+
 void MainScreen::onGrpSelected(int grpId)
 {
     if(grpId==-1)
@@ -147,6 +168,12 @@ void MainScreen::onGrpSelected(int grpId)
 
 }
 
+void MainScreen::onGrpBackPressed()
+{
+    showScreen(MAIN_CHOICE_SCREEN);
+
+}
+
 void MainScreen::showGrpScreen()
 {
     GrpScreen *screen = new GrpScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
@@ -155,8 +182,13 @@ void MainScreen::showGrpScreen()
     screen->initMenu();
     screen->hide();
     connect(screen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
+    connect(screen,SIGNAL(backPressed()),this,SLOT(onGrpBackPressed()));
     if(appState->getCurGrpType()==SERVER)
+    {
         connect(server,SIGNAL(getGrpLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
+        server->getGrpLstStart();
+
+    }
     mainLayout->replaceWidget(grpScreen,screen);
     delete(grpScreen);
     grpScreen = screen;
@@ -347,8 +379,7 @@ void MainScreen::showCameraQmlScreen(int i)
     mainLayout->addWidget(cameraQmlScreen);
     connect(cameraQmlScreen,SIGNAL(pressedCancel()),this,SLOT(onPressBackCameraQmlScreen()));
     connect(cameraQmlScreen,SIGNAL(selectPhoto(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
-
-    //window()->setUpdatesEnabled(true);
+    connect(cameraQmlScreen,SIGNAL(cameraOnloaded()),this,SLOT(onCameraLoaded()));
     window()->update();
     showScreen(CAMERAQML_SCREEN);
 
@@ -359,10 +390,16 @@ void MainScreen::onPressBackCameraQmlScreen()
     showCardInfoScreen(appState->getCurCardId());
 }
 
+void MainScreen::onCameraLoaded()
+{
+    qDebug()<<"camera loaded!";
+    window()->update();
+    //showScreen(CAMERAQML_SCREEN);
+}
+
 void MainScreen::showGrpNewScreen()
 {
     appState->setCurScreen(NEW_GRP_SCREEN);
-    //newGrpModal->setIconLst();
     newGrpModal = new NewGrpModal(appWidowSize,scaleFactor,dataM->getGrpImgSrc(),this);
     newGrpModal->show();
     newGrpModal->setIconLst();
@@ -372,7 +409,6 @@ void MainScreen::showGrpNewScreen()
 void MainScreen::newGrpConfigured(QString name, QString grpImgSrc)
 {
     dataM->addNewGrp(name,grpImgSrc);
-    //grpScreen->setGrpLst(dataM->getLocalGroups());
     grpScreen->setGrpLst(dataM->getGroups(LOCAL));
     showGrpScreen();
 }

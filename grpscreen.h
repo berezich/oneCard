@@ -18,7 +18,8 @@ class GrpScreen : public BlankScreen
     Q_OBJECT
 public:
     //explicit GrpScreen(QScreen *screenInfo,QWidget *parent=0);
-    explicit GrpScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName,QWidget *parent=0);
+    explicit GrpScreen(QWidget *parent=0);
+    GrpScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName,QWidget *parent=0);
     void showMenu();
     void initMenu();
     void onKeyBackPressed(QKeyEvent *event);
@@ -28,21 +29,30 @@ protected:
    //BlankSpace *blankSpace;
     QWidget *blankSpace;
 signals:
+    void backPressed();
     void selectLocalGrp(int grpId);
 private slots:
     void clearGrid();
     void onClickGrpIcon(int grpId);
     void onMenuClick();
 private:
-    int columnsNum = 3;
-    int rowsNum = 4;
-    QSize iconSize = QSize(170,170);
-    double textSize = 15;
-    QString title=tr("ВАШИ КАРТЫ");
+    int columnsNum;
+    int rowsNum;
+    QSize iconSize;
+    double textSize;
+    QString title;
     QScrollArea *scroll;
     QGridLayout *gridLayout;
     QWidget *gridWidget;
     Menu *menuWidget;
+    void init()
+    {
+        columnsNum = 3;
+        rowsNum = 4;
+        iconSize = QSize(170,170);
+        textSize = 15;
+        title=tr("ВАШИ КАРТЫ");
+    }
 };
 
 #endif // GRPSCREEN_H

@@ -1,7 +1,13 @@
 #include "blankscreen.h"
 
-BlankScreen::BlankScreen(QScreen *screenInfo, QSize appScrSize, SKIN_COLOR_NAME colorName, QWidget *parent)
+BlankScreen::BlankScreen(QWidget *parent):QWidget(parent)
 {
+
+}
+
+BlankScreen::BlankScreen(QScreen *screenInfo, QSize appScrSize, SKIN_COLOR_NAME colorName, QWidget *parent):QWidget(parent)
+{
+    init();
     this->screenInfo = screenInfo;
     //screenSize = screenInfo->geometry().size();
     screenSize = appScrSize;

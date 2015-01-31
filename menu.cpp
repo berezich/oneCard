@@ -2,7 +2,7 @@
 
 Menu::Menu(QSize size, double scale, SKIN_COLOR_NAME colorName, QWidget *parent):Overlay(parent)
 {
-
+    init();
     scaleFactor = scale;
     blankSize = size;
     backGroundColor = InterFace::getSkinColor(colorName).options();

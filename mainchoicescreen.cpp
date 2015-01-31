@@ -83,6 +83,9 @@ MainChoiceScreen::MainChoiceScreen(QScreen *screenInfo, QSize appScrSize, SKIN_C
 
     setGrpLst();
 
+    menuWidget = new Menu(screenSize,scaleFactor,skinColor,this);
+    menuWidget->hide();
+
 }
 void MainChoiceScreen::setGrpLst()
 {
@@ -90,19 +93,19 @@ void MainChoiceScreen::setGrpLst()
 
     QSize gridItemSize = QSize(screenSize.width()/columnsNum,(screenSize.height())/rowsNum - 10*scaleFactor);
 
-    icon = new Icon(0,catalogName,textSize, catalogIconSrc, "", iconSize, gridItemSize,defTextColor);
+    icon = new Icon(int(LOCAL_ICON),catalogName,textSize, catalogIconSrc, "", iconSize, gridItemSize,defTextColor);
     connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickMainIcon(int)));
     gridLayout->addWidget(icon, 0,0);
 
-    icon = new Icon(1,srvCatalogName,textSize, srvCatalogIconSrc, "", iconSize, gridItemSize,defTextColor);
+    icon = new Icon(int(SRV_ICON),srvCatalogName,textSize, srvCatalogIconSrc, "", iconSize, gridItemSize,defTextColor);
     connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickMainIcon(int)));
     gridLayout->addWidget(icon, 0,1);
 
-    icon = new Icon(2,devCatalogName,textSize, devCatalogIconSrc, "", iconSize, gridItemSize,defTextColor);
+    icon = new Icon(int(DEV_ICON),devCatalogName,textSize, devCatalogIconSrc, "", iconSize, gridItemSize,defTextColor);
     connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickMainIcon(int)));
     gridLayout->addWidget(icon, 1,0);
 
-    icon = new Icon(3,optionsName,textSize, optionsIconSrc, "", iconSize, gridItemSize,defTextColor);
+    icon = new Icon(int(OPTIONS_ICON),optionsName,textSize, optionsIconSrc, "", iconSize, gridItemSize,defTextColor);
     connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickMainIcon(int)));
     gridLayout->addWidget(icon, 1,1);
 
@@ -117,6 +120,14 @@ void MainChoiceScreen::showMainChoice()
 
 void MainChoiceScreen::onClickMainIcon(int iconId)
 {
+    if(iconId == OPTIONS_ICON)
+    {
+        menuWidget->showMainMenu();
+    }
+    else
+    {
+        emit iconPressed((MAIN_ICONS) iconId);
+    }
 
 }
 

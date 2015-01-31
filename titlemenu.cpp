@@ -2,6 +2,7 @@
 
 TitleMenu::TitleMenu(int id, QString text, double textSize, int leftOffset, int topOffset, QWidget *parent):QLabel(parent)
 {
+    init();
     this->id = id;
     setContentsMargins(0,0,0,0);
     textLeftOffset = leftOffset;
