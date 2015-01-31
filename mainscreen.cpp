@@ -390,12 +390,6 @@ void MainScreen::onPressBackCameraQmlScreen()
     showCardInfoScreen(appState->getCurCardId());
 }
 
-void MainScreen::onCameraLoaded()
-{
-    qDebug()<<"camera loaded!";
-    window()->update();
-    //showScreen(CAMERAQML_SCREEN);
-}
 
 void MainScreen::showGrpNewScreen()
 {

@@ -17,16 +17,12 @@ public:
 
 signals:
     void pressedCancel();
-    void cameraOnloaded();
-
     void selectPhoto(QString,QString);
 
 public slots:
     void showQML();
     void onPhotoOk(QString file);
     void closeCamera();
-    void cameraStatusChange(QQuickWidget::Status status);
-    void onCameraComplited();
 private:
     QQuickWidget *mQQuickWidget;
     QSize appScrSize;
