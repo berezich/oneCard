@@ -205,6 +205,7 @@ void MainScreen::showGrpScreen()
         //connect(server,SIGNAL(getGrpLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
 
         //server->getGrpLstStart();
+
         screen->setGrpLst(*(server->getGrpLastLst()));
 
     }

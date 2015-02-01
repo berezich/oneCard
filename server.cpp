@@ -30,10 +30,16 @@ void Server::getGrpLstStart()
 void Server::getCardLstStart(int idGrpSrv)
 {
     Grp *grp=NULL;
+/*
     foreach (Grp igrp, grpLstTmp) {
         if(igrp.getIdSrv()==idGrp)
             grp=&igrp;
+    }*/
+    for (int i=0; i<grpLstTmp->length(); i++) {
+        if((*grpLstTmp)[i].getIdSrv()==idGrpSrv)
+            grp=&(*grpLstTmp)[i];
     }
+
     if(grp!=NULL)
     {
         grp->cardsLst->clear();
@@ -55,20 +61,31 @@ void Server::getCardLstStart(int idGrpSrv)
 
 Grp *Server::getGrpTmp(int grpIdSrv)
 {
-    /*
+
     for (int i=0; i<grpLstTmp->length(); i++) {
-        if(grpLstTmp->at(i).getIdSrv()==grpIdSrv)
-            return (grpLstTmp->at(i));
+        if((*grpLstTmp)[i].getIdSrv()==grpIdSrv)
+            return &(*grpLstTmp)[i];
     }
-    */
+
     return NULL;
 }
 
 void Server::onCardLstDownloaded(QString fileName)
 {
-    grpLstTmp->clear();
-    Grp *grp;
+
     CardInfo *card;
+
+    Grp *grp=NULL;
+    for (int i=0; i<grpLstTmp->length(); i++) {
+        if((*grpLstTmp)[i].getIdSrv()==idGrp)
+            grp=&(*grpLstTmp)[i];
+    }
+    if(grp!=NULL)
+    {
+        if(grp->cardsLst!=NULL)
+            grp->cardsLst->clear();
+    }
+
     //bool servErr = false;
     qDebug() << "fileName = " << fileName;
     //QFile *file = new QFile("index2.html");
@@ -185,7 +202,7 @@ void Server::onCardLstDownloaded(QString fileName)
                     xml.readNext();
                 }
                 emit getCardLstFinish(WEB_SERVER_ERR,errMsg);
-                grpLstTmp->clear();
+                grp->cardsLst->clear();
                 return;
             }
 
@@ -197,17 +214,8 @@ void Server::onCardLstDownloaded(QString fileName)
 
 void Server::onGrpLstDownloaded(QString fileName)
 {
-
-    Grp *grp=NULL;
-    for (int i=0; i<grpLstTmp->length(); i++) {
-        if((*grpLstTmp)[i].getIdSrv()==idGrp)
-            grp=&(*grpLstTmp)[i];
-    }
-    if(grp!=NULL)
-    {
-        if(grp->cardsLst!=NULL)
-            grp->cardsLst->clear();
-    }
+    grpLstTmp->clear();
+    Grp *grp;
     //bool servErr = false;
     qDebug() << "fileName = " << fileName;
     QFile *file = new QFile(fileName);
