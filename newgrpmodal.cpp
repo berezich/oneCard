@@ -22,17 +22,13 @@ NewGrpModal::NewGrpModal(QSize size,double scale,QStringList grpIconLst, QWidget
 
 NewGrpModal::~NewGrpModal()
 {
-
+    while(this->children().length()>0)
+        delete(children().last());
 }
 
 void NewGrpModal::setIconLst()
 {
     SimpleIcon *icon;
-
-    QLabel *formWindow = new QLabel();
-    QIcon *picIcon = new QIcon(":/svg/tools/modalwindow.svg");
-    formWindow->setPixmap(picIcon->pixmap(rectSize));
-    formWindow->setAlignment(Qt::AlignCenter);
 
     formBasic = new QVBoxLayout();
     formWidget = new QWidget();
@@ -58,7 +54,6 @@ void NewGrpModal::setIconLst()
     grpName->setFont(QFont("Calibri",lblTxtSize));
 
     grpName->setStyleSheet(" color : "+lblTxtColor+/*"; border: 0px solid gray; background: "+backGroundColor+*/";");
-    //nameEditLine->setStyleSheet("border: 0px solid gray; border-radius: 10px; padding: 0 8px; background: "+backGroundColor+"; selection-background-color: darkgray;");
     grpName->setAlignment(Qt::AlignCenter);
     grpName->setMaxLength(10);
     editNameLayout->addWidget(grpName);

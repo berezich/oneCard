@@ -15,6 +15,7 @@
 #include "cardinfoscreen.h"
 #include "galeryscreen.h"
 #include "cameraqmlscreen.h"
+#include "loadingscreen.h"
 #include "icon.h"
 #include "data.h"
 #include "appstate.h"
@@ -41,8 +42,8 @@ public slots:
     void showGrpScreen();
     void onGrpSelected(int grpId);
     void onGrpBackPressed();
-    void updateGrpScreen();
-    void showCardScreen(int i);
+    //void updateGrpScreen();
+    void showCardScreen();
     void showCardInfoScreen(int i);
     void showGalleryScreenF();
     void showGalleryScreenB();
@@ -60,8 +61,10 @@ public slots:
     void onNewCardSelected();
     void showFileDialog();
 
+
     //slots for server
     void onGetGrpFinished(SERVER_ERRORS servError, QString errorMsg);
+    void onGetCardLstFinished(SERVER_ERRORS servError, QString errorMsg);
 
 
 
@@ -100,6 +103,7 @@ private:
     GalleryScreen *galleryScreen;
     CameraQmlScreen *cameraQmlScreen;
     NewGrpModal *newGrpModal;
+    LoadingScreen *loadingScreen;
     bool initNewGrpModal;
     Overlay *overlay;
 
@@ -107,6 +111,7 @@ private:
     int cacheImgNum;
 
     void showScreen(SCREEN_TYPE scr);
+    void showLoadingScreen(QString msg);
     void hideAllScreens();
     void resizeEvent(QResizeEvent *event);
     void keyPressEvent(QKeyEvent *event);
@@ -130,6 +135,9 @@ private:
         initNewGrpModal = false;
         imgSaveSize = QSize(480,360);
         cacheImgNum = 8;
+
+        loadingScreen = NULL;
+        newGrpModal = NULL;
     }
 
 };

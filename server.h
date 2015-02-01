@@ -5,7 +5,7 @@
 #include <QList>
 #include <QXmlStreamReader>
 #include "grp.h"
-#include "cardinfo.h"
+//#include "cardinfo.h"
 #include "httpmanager.h"
 #include "servererrors.h"
 class Server: public QObject
@@ -18,19 +18,21 @@ public:
     void setLgnPwd(QString login, QString pass){ this->login = login; this->pass= pass;}
     void setEndPoint(QString ip, int port=-1, QString path="");
     void getGrpLstStart();
-    QList<CardInfo> getCardLstStart(int idGrpSrv);
+    void getCardLstStart(int idGrpSrv);
     void downloadCardDataStart(int idCadSrv,int idGrp, int idCard, QString fImgSrvName, QString bImgSrvName, QString localPathForImg);
     void cancelDownloading(){httpManager.cancelDownload();}
     QList <Grp> *getGrpLastLst(){return grpLstTmp;}
+    Grp *getGrpTmp(int grpIdSrv);
+    bool isGrpLstDownloaded(){return _isGrpLstDownloaded;}
 signals:
     void getGrpLstFinish(SERVER_ERRORS errCode, QString errMsg);
     //getGrpLstFinish();
-    void getCardLstFinish(int idGrpSrv, QList<CardInfo> *cardLst, int errCode, QString errMsg);
+    void getCardLstFinish(SERVER_ERRORS errCode, QString errMsg);
     void downloadCardDataFinish(int idGrp, int idCard, QString fImgSrvName, QString bImgSrvName, int errCode, QString errMsg);
 
 private slots:
     void onGrpLstDownloaded(QString fileName);
-//    void onCardLstDownloaded(QFile *fileResponse);
+    void onCardLstDownloaded(QString fileName);
 //    void onCardDataDownloaded(QFile *fileResponse);
 //    void onFImgDownloaded(QFile *fileImg);
 //    void onBImgDownLoaded(QFile *fileImg);
@@ -49,10 +51,14 @@ private:
     void getImgStart(QString imgSrvName);
 
     QList<Grp> *grpLstTmp;
+    bool _isGrpLstDownloaded;
 
 
     HttpManager httpManager;
-
+    void init()
+    {
+        _isGrpLstDownloaded = false;
+    }
 };
 
 #endif // SERVER_H

@@ -2,7 +2,7 @@
 #define SERVERERRORS
 #include <QObject>
 
-enum SERVER_ERRORS{REQ_OK,TIMEOUT, NO_CONNECTION, APP_SERVER_ERR,WEB_SERVER_ERR, REQFILE_SAVE_ERR, REQFILE_OPEN_ERR};
+enum SERVER_ERRORS{REQ_OK,TIMEOUT, NO_CONNECTION, APP_SERVER_ERR,WEB_SERVER_ERR, REQFILE_SAVE_ERR, REQFILE_OPEN_ERR, NO_GRP};
 class ServerEror: public QObject
 {
     //Q_OBJECT
@@ -18,6 +18,8 @@ public: static QString errToString(SERVER_ERRORS err)
         case REQFILE_SAVE_ERR:
         case REQFILE_OPEN_ERR:
             return tr("ОШИБКА ЗАПРОСА");
+        case NO_GRP:
+            return tr("НЕТ ТАКОЙ ГРУППЫ");
         default:
             break;
         }
