@@ -2,7 +2,7 @@
 
 HttpManager::HttpManager(QObject *parent) : QObject(parent)
 {
-    reqTimeout = 7000;
+    reqTimeout = 10000;
 }
 
 HttpManager::~HttpManager()

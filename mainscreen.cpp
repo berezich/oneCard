@@ -78,7 +78,7 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     server->setEndPoint(ip);
     server->setLgnPwd(login,pass);
     connect(server,SIGNAL(getGrpLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
-    connect(server,SIGNAL(getCardLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
+    connect(server,SIGNAL(getCardLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetCardLstFinished(SERVER_ERRORS,QString)));
 
     mainLayout = new QVBoxLayout();
 
@@ -185,6 +185,10 @@ void MainScreen::onGrpSelected(int grpId)
         {
             server->getCardLstStart(grpId);
         }
+        else
+        {
+            showCardScreen();
+        }
     }
 
 }
@@ -235,7 +239,7 @@ void MainScreen::showGrpSrvScreen(int i)
     GrpScreen *screen = new GrpScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
     //connect(screen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
     //connect(server,SIGNAL(getGrpLstFinish(int, QString)),this,SLOT(updateGrpSrvScreen()));
-    connect(server,SIGNAL(getGrpLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
+    connect(server,SIGNAL(  getGrpLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
 
     appState->setCurGrpType(SERVER);
     showScreen(CLOUD_LST_SCREEN);
@@ -274,7 +278,7 @@ void MainScreen::showCardScreen()
     if(grp!=NULL)
     {
         screen = new CardScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
-        screen ->setCardList(grp->getName(),grp->getImgSrc(),dataM->getLocalCards(grpId));
+        screen ->setCardList(grp->getName(),grp->getImgSrc(),grp->getCards());
     }
     else
     {
