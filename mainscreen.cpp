@@ -79,6 +79,7 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     server->setLgnPwd(login,pass);
     connect(server,SIGNAL(getGrpLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
     connect(server,SIGNAL(getCardLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetCardLstFinished(SERVER_ERRORS,QString)));
+    connect(server,SIGNAL(downloadCardDataFinish(SERVER_ERRORS,QString)),this,SLOT(onCardDataDownloaded(SERVER_ERRORS,QString)));
 
     mainLayout = new QVBoxLayout();
 
@@ -112,7 +113,8 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     mainLayout->addWidget(cardInfoScreen);
 
     // cache!!!!!!!!! !!!
-    dataM->cacheLastImg(cameraDir,appDataLocation+cacheDir,cacheImgNum,imgSaveSize);
+    if(appState->getCurOS()!=WINDOWS)
+        dataM->cacheLastImg(cameraDir,appDataLocation+cacheDir,cacheImgNum,imgSaveSize);
     // cache!!!!!!!!! !!!
 
     if(appState->getCurOS()==WINDOWS)
@@ -208,10 +210,6 @@ void MainScreen::showGrpScreen()
 
     if(appState->getCurGrpType()==SERVER)
     {
-        //connect(server,SIGNAL(getGrpLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
-
-        //server->getGrpLstStart();
-
         screen->setGrpLst(*(server->getGrpLastLst()));
 
     }
@@ -227,42 +225,9 @@ void MainScreen::showGrpScreen()
 
     showScreen(GRP_SCREEN);
 
-    /*
-    if(appState->getCurGrpType()==LOCAL)
-        showScreen(LOCAL_GRP_SCREEN);
-    else if(appState->getCurGrpType()==CLOUD)
-        showScreen(CLOUD_LST_SCREEN);
-        */
 
 }
-/*
-void MainScreen::showGrpSrvScreen(int i)
-{
-    GrpScreen *screen = new GrpScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
-    //connect(screen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
-    //connect(server,SIGNAL(getGrpLstFinish(int, QString)),this,SLOT(updateGrpSrvScreen()));
-    connect(server,SIGNAL(  getGrpLstFinish(SERVER_ERRORS, QString)),this,SLOT(onGetGrpFinished(SERVER_ERRORS, QString)));
 
-    appState->setCurGrpType(SERVER);
-    showScreen(CLOUD_LST_SCREEN);
-    mainLayout->replaceWidget(grpScreen,screen);
-    delete(grpScreen);
-    grpScreen = screen;
-    server->getGrpLstStart();
-}
-*/
-/*
-void MainScreen::updateGrpScreen()
-{
-    if(appState->getCurGrpType()==SERVER)
-    {
-        grpScreen->setGrpLst(*(server->getGrpLastLst()));
-        grpScreen->initMenu();
-    }
-    //grpScreen->hide();
-
-}
-*/
 void MainScreen::showCardScreen()
 {
     Grp *grp;
@@ -295,19 +260,59 @@ void MainScreen::showCardScreen()
         connect(cardScreen,SIGNAL(cardSelected(int)),this,SLOT(showCardInfoScreen(int)));
         connect(cardScreen,SIGNAL(addCardSelected()),this,SLOT(onNewCardSelected()));
     }
-    //cardScreen->hide();
+    else if(appState->getCurGrpType()==SERVER)
+    {
+        connect(cardScreen,SIGNAL(cardSelected(int)),this,SLOT(showCardInfoScreen(int)));
+    }
     showScreen(CARD_LST_SCREEN);
 
 }
-void MainScreen::showCardInfoScreen(int cardId)
+
+void MainScreen::onCardSelected(int cardId)
 {
     int grpId = appState->getCurGrpId();
     appState->setCurCardId(cardId);
+    if(appState->getCurGrpType()==LOCAL)
+        showCardInfoScreen();
+    else if(appState->getCurGrpType() == SERVER)
+    {
+        Grp *grp = server->getGrpTmp(grpId);
+        CardInfo *card;
+        if(grp==NULL)
+            return;
+        else if((card = grp->getCardInfo(cardId))!=NULL)
+        {
+            if(!card->isImgLocal())
+            {
+                showLoadingScreen(msgWaitLoading);
+                server->downloadCardDataStart(cardId,grpId);
+            }
+            else
+            {
+                showCardInfoScreen();
+            }
+        }
+        else
+            return;
+
+    }
+
+}
+void MainScreen::showCardInfoScreen()
+{
+    int cardId = appState->getCurCardId();
+    int grpId = appState->getCurGrpId();
+    CardInfo *card;
+    appState->setCurCardId(appState->getCurCardId());
     //CardInfoScreen *screen = new CardInfoScreen(screenInfo,this);
     CardInfoScreen *screen = new CardInfoScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
     if(appState->getCurGrpType()==LOCAL)
     {
         screen->showCardInfo(dataM->getLocalCard(grpId,cardId));
+    }
+    else
+    {
+       card = server->getCardTmp(grpId,cardId);
     }
     mainLayout->replaceWidget(cardInfoScreen,screen);
     delete(cardInfoScreen);
@@ -523,6 +528,23 @@ void MainScreen::onGetCardLstFinished(SERVER_ERRORS servError, QString errorMsg)
     case REQ_OK:
         loadingScreen->hide();
         showCardScreen();
+        //delete(loadingScreen);
+        break;
+    case TIMEOUT:
+        //qDebug()<< "gerGrpResp: "+errorMsg;
+    default:
+        break;
+    }
+}
+
+void MainScreen::onCardDataDownloaded(SERVER_ERRORS servError, QString errorMsg)
+{
+    qDebug()<< "cardDataDownloadedResp: "+errorMsg;
+
+    switch (servError) {
+    case REQ_OK:
+        loadingScreen->hide();
+        showCardInfoScreen();
         //delete(loadingScreen);
         break;
     case TIMEOUT:

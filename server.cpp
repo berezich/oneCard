@@ -32,11 +32,6 @@ void Server::getCardLstStart(int idGrpSrv)
 {
     Grp *grp=NULL;
     reqType = GET_CARDS;
-/*
-    foreach (Grp igrp, grpLstTmp) {
-        if(igrp.getIdSrv()==idGrp)
-            grp=&igrp;
-    }*/
     for (int i=0; i<grpLstTmp->length(); i++) {
         if((*grpLstTmp)[i].getIdSrv()==idGrpSrv)
         {
@@ -44,7 +39,6 @@ void Server::getCardLstStart(int idGrpSrv)
             break;
         }
     }
-
     if(grp!=NULL)
     {
         if(grp->cardsLst!=NULL)
@@ -67,6 +61,51 @@ void Server::getCardLstStart(int idGrpSrv)
     httpManager.startdownloadFile(url);
 }
 
+void Server::downloadCardDataStart(int idCardSrv, int idGrpSrv)
+{
+    curGrp = NULL;
+    curCard = NULL;
+    reqType = GET_CARD_DATA;
+    isFImgDownLoaded=false;
+    isBImgDownLoaded=false;
+    for (int i=0; i<grpLstTmp->length(); i++) {
+        if((*grpLstTmp)[i].getIdSrv()==idGrpSrv)
+        {
+            curGrp=&(*grpLstTmp)[i];
+            break;
+        }
+    }
+    if(curGrp!=NULL)
+    {
+        if(curGrp->cardsLst!=NULL)
+        {
+            for(int i=0; i< curGrp->cardsLst->length();i++)
+                if((*(curGrp->cardsLst))[i].idSrv()==idCardSrv)
+                {
+                    curCard = &(*(curGrp->cardsLst))[i];
+                    break;
+                }
+
+        }
+        if(curCard==NULL)
+            emit downloadCardDataFinish(NO_CARD,ServerEror::errToString(NO_CARD));
+    }
+    else
+    {
+        emit downloadCardDataFinish(NO_GRP,ServerEror::errToString(NO_GRP));
+        return;
+    }
+
+
+
+    disconnect(&httpManager,SIGNAL(fileDownloaded(QString)),0,0);
+    connect(&httpManager,SIGNAL(fileDownloaded(QString)),this,SLOT(onCardDataDownloaded(QString)));
+    //start downloading frontImg
+    QString url = endPoint+"/images/"+card->getCardImgSrc();
+    httpManager.startdownloadFile(url);
+
+}
+
 Grp *Server::getGrpTmp(int grpIdSrv)
 {
 
@@ -75,6 +114,20 @@ Grp *Server::getGrpTmp(int grpIdSrv)
             return &(*grpLstTmp)[i];
     }
 
+    return NULL;
+}
+CardInfo *Server::getCardTmp(int grpIdSrv, int cardIdSrv)
+{
+    Grp *grp = getGrpTmp(grpIdSrv);
+    if(grp!=NULL)
+    {
+        if(grp->cardsLst!=NULL)
+        {
+            for(int i=0; i< grp->cardsLst->length();i++)
+                if((*(grp->cardsLst))[i].idSrv()==cardIdSrv)
+                    return &(*(grp->cardsLst))[i];
+        }
+    }
     return NULL;
 }
 
@@ -230,10 +283,24 @@ void Server::onCardLstDownloaded(QString fileName)
     emit getCardLstFinish(REQ_OK,ServerEror::errToString(REQ_OK));
 }
 
+void Server::onCardDataDownloaded(QString fileName)
+{
+    qDebug() << "onCardDataDownloaded: fileName = " << fileName;
+    QFile *file = new QFile(fileName);
+    if(fileName==curCard->getCardImgSrc())
+    {//start downloading backside img
+        QString url = endPoint+"/images/"+curCard->getCardImgBackSrc();
+        httpManager.startdownloadFile(url);
+    }
+    else
+    {
+        curCard->setIsImgLocal(true);
+        emit downloadCardDataFinish(REQ_OK,ServerEror::errToString(REQ_OK));
+    }
+}
+
 void Server::onGrpLstDownloaded(QString fileName)
 {
-    if(reqType!=GET_GRPS)
-        return;
     grpLstTmp->clear();
     Grp *grp;
     //bool servErr = false;
@@ -349,7 +416,7 @@ void Server::onProcReqError(SERVER_ERRORS errCode, QString errMsg)
         emit getCardLstFinish(errCode,errMsg);
         break;
     case GET_CARD_DATA:
-        emit downloadCardDataFinish(idGrp,idCard,"","",errCode,errMsg);
+        emit downloadCardDataFinish(errCode,errMsg);
         break;
     default:
         break;

@@ -44,7 +44,8 @@ public slots:
     void onGrpBackPressed();
     //void updateGrpScreen();
     void showCardScreen();
-    void showCardInfoScreen(int i);
+    void onCardSelected(int cardId);
+    void showCardInfoScreen();
     void showGalleryScreenF();
     void showGalleryScreenB();
     void showGalleryScreen(int i);
@@ -65,6 +66,7 @@ public slots:
     //slots for server
     void onGetGrpFinished(SERVER_ERRORS servError, QString errorMsg);
     void onGetCardLstFinished(SERVER_ERRORS servError, QString errorMsg);
+    void onCardDataDownloaded(SERVER_ERRORS servError, QString errorMsg);
 
 
 

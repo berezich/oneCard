@@ -19,21 +19,21 @@ public:
     void setEndPoint(QString ip, int port=-1, QString path="");
     void getGrpLstStart();
     void getCardLstStart(int idGrpSrv);
-    void downloadCardDataStart(int idCadSrv,int idGrp, int idCard, QString fImgSrvName, QString bImgSrvName, QString localPathForImg);
+    void downloadCardDataStart(int idCardSrv,int idGrpSrv);
     void cancelDownloading(){httpManager.cancelDownload();}
     QList <Grp> *getGrpLastLst(){return grpLstTmp;}
     Grp *getGrpTmp(int grpIdSrv);
+    CardInfo *getCardTmp(int grpIdSrv, int cardIdSrv);
     bool isGrpLstDownloaded(){return _isGrpLstDownloaded;}
 signals:
     void getGrpLstFinish(SERVER_ERRORS errCode, QString errMsg);
-    //getGrpLstFinish();
     void getCardLstFinish(SERVER_ERRORS errCode, QString errMsg);
-    void downloadCardDataFinish(int idGrp, int idCard, QString fImgSrvName, QString bImgSrvName, int errCode, QString errMsg);
+    void downloadCardDataFinish(SERVER_ERRORS errCode, QString errMsg);
 
 private slots:
     void onGrpLstDownloaded(QString fileName);
     void onCardLstDownloaded(QString fileName);
-//    void onCardDataDownloaded(QFile *fileResponse);
+    void onCardDataDownloaded(QString fileName);
 //    void onFImgDownloaded(QFile *fileImg);
 //    void onBImgDownLoaded(QFile *fileImg);
     void onProcReqError(SERVER_ERRORS errCode, QString errMsg);
@@ -44,8 +44,8 @@ private:
     QString endPoint;
     int idGrp;
     int idCard;
-    QString fImgLocName;
-    QString bImgLocName;
+    CardInfo *curCard;
+    Grp *curGrp;
     //bool isFImgDownLoaded;
     //bool isBImgDownLoaded;
     void getImgStart(QString imgSrvName);
