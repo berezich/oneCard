@@ -1,9 +1,10 @@
 #include "cardscreen.h"
 
 //CardScreen::CardScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenInfo,parent)
-CardScreen::CardScreen(QScreen *screenInfo,QSize appScrSize , SKIN_COLOR_NAME colorName, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
+CardScreen::CardScreen(QScreen *screenInfo,QSize appScrSize , SKIN_COLOR_NAME colorName, DATA_SOURCE srcType, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
 {
     init();
+    this->srcType = srcType;
     spacingSize = spacingSize*scaleFactor;
     cardIconSize = cardIconSize*scaleFactor;
     leftCardOffset = leftCardOffset*scaleFactor;
@@ -17,10 +18,13 @@ CardScreen::CardScreen(QScreen *screenInfo,QSize appScrSize , SKIN_COLOR_NAME co
     cap = new Cap(capHeight, skinColor);
 
     childWidgets.append(cap);
-    SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/plus.svg",":/svg/tools/plusPUSH.svg",QSize(55,55)*scaleFactor);
-    icon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
-    connect(icon,SIGNAL(click(int)),this,SIGNAL(addCardSelected()));
-    cap->addRightIcon(icon,capRightIconOffset);
+    if(srcType==LOCAL)
+    {
+        SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/plus.svg",":/svg/tools/plusPUSH.svg",QSize(55,55)*scaleFactor);
+        icon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
+        connect(icon,SIGNAL(click(int)),this,SIGNAL(addCardSelected()));
+        cap->addRightIcon(icon,capRightIconOffset);
+    }
 
     childLayouts.append(blankLayout);
     blankLayout->addWidget(cap);
@@ -88,10 +92,10 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
 
         line->addSpacing(leftCardOffset);
         card = &(*cardList)[i];
-        if(card->getCardImgSrc()!="")
-            cardIcon = new SimpleIcon(card->getId(),card->getCardImgSrc(),"",cardIconSize);
-        else
+        if(card->getCardImgSrc()=="" || (srcType==SERVER && !card->isImgLocal()))
             cardIcon = new SimpleIcon(card->getId(),imgNoPhotoSrc,"",cardIconSize);
+        else
+            cardIcon = new SimpleIcon(card->getId(),card->getCardImgSrc(),"",cardIconSize);
         cardIcon-> setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
         line->addWidget(cardIcon);
         childWidgets.append(cardIcon);
@@ -107,7 +111,10 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
 
         line->addStretch(10);
 
-        nextIcon = new SimpleIcon(card->getId(),":/svg/tools/arrow.svg","",nextIconSize);
+        if(srcType==SERVER && !card->isImgLocal())
+            nextIcon = new SimpleIcon(card->getId(),":/svg/tools/load.svg","",nextIconSize);
+        else
+            nextIcon = new SimpleIcon(card->getId(),":/svg/tools/arrow.svg","",nextIconSize);
         nextIcon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
         connect(nextIcon,SIGNAL(click(int)),this,SIGNAL(cardSelected(int)));
         line->addWidget(nextIcon);

@@ -59,10 +59,10 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
 //    appState->setCurSkinColor(RED);
 //    appState->setCurSkinColor(PINK);
 //    appState->setCurSkinColor(DEEP_PURPLE);
-    appState->setCurSkinColor(INDIGO);
+//    appState->setCurSkinColor(INDIGO);
 //    appState->setCurSkinColor(BLUE);
 //    appState->setCurSkinColor(CYAN);
-//    appState->setCurSkinColor(TEAL);
+    appState->setCurSkinColor(TEAL);
 //    appState->setCurSkinColor(GREEN);
 //    appState->setCurSkinColor(DEEP_ORANGE);
 //    appState->setCurSkinColor(BROWN);
@@ -100,7 +100,7 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     */
     mainLayout->addWidget(grpScreen);
 
-    cardScreen = new CardScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
+    cardScreen = new CardScreen(screenInfo,appWidowSize,appState->curSkinColor(),LOCAL,this);
     cardScreen->hide();
     //connect(cardScreen,SIGNAL(backPressed(int)),this,SLOT(showGrpScreen()));
     mainLayout->addWidget(cardScreen);
@@ -151,7 +151,7 @@ void MainScreen::onMainIconPressed(MAIN_ICONS icon)
         //showGrpScreen();
         if(!server->isGrpLstDownloaded())
         {
-            showLoadingScreen(tr("Пожалуйста подождите...\nЗагрузка данных с сервера"));
+            showLoadingScreen(msgWaitLoading);
             server->getGrpLstStart();
         }
         else
@@ -183,7 +183,9 @@ void MainScreen::onGrpSelected(int grpId)
             return;
         else if(grp->getCards()==NULL)
         {
+            showLoadingScreen(msgWaitLoading);
             server->getCardLstStart(grpId);
+
         }
         else
         {
@@ -277,7 +279,7 @@ void MainScreen::showCardScreen()
     }
     if(grp!=NULL)
     {
-        screen = new CardScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
+        screen = new CardScreen(screenInfo,appWidowSize,appState->curSkinColor(),appState->getCurGrpType(),this);
         screen ->setCardList(grp->getName(),grp->getImgSrc(),grp->getCards());
     }
     else

@@ -110,6 +110,7 @@ private:
     QSize imgSaveSize;
     int cacheImgNum;
 
+    QString msgWaitLoading;
     void showScreen(SCREEN_TYPE scr);
     void showLoadingScreen(QString msg);
     void hideAllScreens();
@@ -138,6 +139,8 @@ private:
 
         loadingScreen = NULL;
         newGrpModal = NULL;
+
+        msgWaitLoading = tr("Пожалуйста подождите...\nЗагрузка данных с сервера");
     }
 
 };

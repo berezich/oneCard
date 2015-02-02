@@ -75,5 +75,6 @@
         <file>svg/main_screen/server.svg</file>
         <file>svg/main_screen/settingsicon.svg</file>
         <file>svg/tools/spinner.svg</file>
+        <file>svg/tools/load.svg</file>
     </qresource>
 </RCC>

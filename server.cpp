@@ -131,6 +131,7 @@ void Server::onCardLstDownloaded(QString fileName)
             if (xml.name() == "card")
             {
                 card = new CardInfo();
+                card->setIsImgLocal(false);
                 xml.readNext();
                 while (!(xml.tokenType() == QXmlStreamReader::EndElement && xml.name() == "card"))
                 {

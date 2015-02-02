@@ -5,7 +5,7 @@ class CardInfo
 {
 public:
     CardInfo(int id, int grpId=-1, QString cardName="", QString cardCom="", QString iSrc="",QString iBackSrc="", bool magnetLine=false, QString magnet="");
-    CardInfo(int id=-1, int idSrv = -1, int grpId=-1, int grpIdSrv = -1, QString cardName="", QString cardCom="", QString iSrc="",QString iBackSrc="", bool magnetLine=false, QString magnet="");
+    CardInfo(int id=-1, int idSrv = -1, int grpId=-1, int grpIdSrv = -1, QString cardName="", QString cardCom="", bool isImgLocal=true,QString iSrc="",QString iBackSrc="", bool magnetLine=false, QString magnet="");
     ~CardInfo();
 private:
     int id;
@@ -16,6 +16,7 @@ private:
     QString comment;
     QString imgSrc;
     QString imgBackSrc;
+    bool _isImgLocal;
     bool isMagnetLine;
     QString magnet;
 
@@ -30,6 +31,7 @@ public:
     QString getCardImgBackSrc(){return imgBackSrc;}
     bool getIsMagnetLine(){return isMagnetLine;}
     QString getMagnet(){return magnet;}
+    bool isImgLocal(){return _isImgLocal;}
 
     void setCardId(int id){this->id = id;}
     void setCardGrpId(int id){grpId = id;}
@@ -40,6 +42,7 @@ public:
     void setCardImgBackSrc(QString path){imgBackSrc = path;}
     void setFlagMagnetLine(bool flag){isMagnetLine=flag;}
     void setMagnet(QString magnetLine){magnet = magnetLine;}
+    void setIsImgLocal(bool val){_isImgLocal = val;}
 
 };
 

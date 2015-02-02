@@ -8,12 +8,13 @@
 #include <QSpacerItem>
 #include <QKeyEvent>
 #include "interface.h"
+#include "datalocationtype.h"
 class CardScreen : public BlankScreen
 {
     Q_OBJECT
 public:
     //explicit CardScreen(QScreen *screenInfo,QWidget *parent=0);
-    explicit CardScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName,QWidget *parent=0);
+    explicit CardScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName, DATA_SOURCE srcType = LOCAL, QWidget *parent=0);
     ~CardScreen();
     void setCardList(QString title, QString grpImgSrc, QList<CardInfo> *cardList);
 
@@ -45,6 +46,7 @@ private:
     QWidgetList childWidgets;
     QList<QLayout *> childLayouts;
 
+    DATA_SOURCE srcType;
      void keyPressEvent(QKeyEvent *event);
      void init()
      {
