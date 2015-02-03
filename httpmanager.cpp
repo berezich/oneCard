@@ -2,7 +2,7 @@
 
 HttpManager::HttpManager(QObject *parent) : QObject(parent)
 {
-    reqTimeout = 100000;
+    reqTimeout = 10000;
 }
 
 HttpManager::~HttpManager()
@@ -124,14 +124,6 @@ void HttpManager::httpReadyRead()
     {
         QByteArray bytes(reply->readAll());
         qDebug()<<"bytes = "<<bytes;
-        if(bytes.isEmpty() || bytes.isNull())
-        {
-            file->close();
-            file->remove();
-            delete(file);
-            file=0;
-            return;
-        }
         int writeRes = file->write(bytes);
         qDebug()<< "writeRes = "<<writeRes;
     }
@@ -144,6 +136,14 @@ void HttpManager::timerEvent(QTimerEvent *e)
         qDebug() << "HttpManager:: timeout!";
         timer.stop();
         httpRequestAborted = true;
+        if (file) {
+            file->close();
+            file->remove();
+            delete file;
+            file = 0;
+        }
+        reply->deleteLater();
+        reply = 0;
         emit fileErrDownload(TIMEOUT,ServerEror::errToString(TIMEOUT));
     }
     else

@@ -15,7 +15,7 @@
 #include "cardinfoscreen.h"
 #include "galeryscreen.h"
 #include "cameraqmlscreen.h"
-#include "loadingscreen.h"
+#include "msgscreen.h"
 #include "icon.h"
 #include "data.h"
 #include "appstate.h"
@@ -105,7 +105,7 @@ private:
     GalleryScreen *galleryScreen;
     CameraQmlScreen *cameraQmlScreen;
     NewGrpModal *newGrpModal;
-    LoadingScreen *loadingScreen;
+    MsgScreen *msgScreen;
     bool initNewGrpModal;
     Overlay *overlay;
 
@@ -114,7 +114,7 @@ private:
 
     QString msgWaitLoading;
     void showScreen(SCREEN_TYPE scr);
-    void showLoadingScreen(QString msg);
+    void showMsgScreen(QString msg);
     void hideAllScreens();
     void resizeEvent(QResizeEvent *event);
     void keyPressEvent(QKeyEvent *event);
@@ -139,7 +139,7 @@ private:
         imgSaveSize = QSize(480,360);
         cacheImgNum = 8;
 
-        loadingScreen = NULL;
+        msgScreen = NULL;
         newGrpModal = NULL;
 
         msgWaitLoading = tr("Пожалуйста подождите...\nЗагрузка данных с сервера");

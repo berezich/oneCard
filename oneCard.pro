@@ -28,8 +28,8 @@ HEADERS       = button.h \
     interface.h \
     datalocationtype.h \
     mainchoicescreen.h \
-    loadingscreen.h \
-    spinner.h
+    spinner.h \
+    msgscreen.h
 SOURCES       = button.cpp \
                 main.cpp \
     blankscreen.cpp \
@@ -55,8 +55,8 @@ SOURCES       = button.cpp \
     server.cpp \
     httpmanager.cpp \
     mainchoicescreen.cpp \
-    loadingscreen.cpp \
-    spinner.cpp
+    spinner.cpp \
+    msgscreen.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/oneCard

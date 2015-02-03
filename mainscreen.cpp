@@ -1,5 +1,5 @@
 #include "mainscreen.h"
-#include "grpscreen.h"
+
 
 MainScreen::MainScreen(QWidget *parent) : QWidget(parent)
 {
@@ -153,7 +153,7 @@ void MainScreen::onMainIconPressed(MAIN_ICONS icon)
         //showGrpScreen();
         if(!server->isGrpLstDownloaded())
         {
-            showLoadingScreen(msgWaitLoading);
+            showMsgScreen(msgWaitLoading);
             server->getGrpLstStart();
         }
         else
@@ -185,7 +185,7 @@ void MainScreen::onGrpSelected(int grpId)
             return;
         else if(grp->getCards()==NULL)
         {
-            showLoadingScreen(msgWaitLoading);
+            showMsgScreen(msgWaitLoading);
             server->getCardLstStart(grpId);
 
         }
@@ -284,7 +284,7 @@ void MainScreen::onCardSelected(int cardId)
         {
             if(!card->isImgLocal())
             {
-                showLoadingScreen(msgWaitLoading);
+                showMsgScreen(msgWaitLoading);
                 server->downloadCardDataStart(cardId,grpId);
             }
             else
@@ -491,16 +491,16 @@ void MainScreen::showFileDialog()
 
 
 
-void MainScreen::showLoadingScreen(QString msg)
+void MainScreen::showMsgScreen(QString msg)
 {
-    if(loadingScreen!=NULL)
+    if(msgScreen!=NULL)
     {
-        delete(loadingScreen);
-        loadingScreen = NULL;
+        delete(msgScreen);
+        msgScreen = NULL;
     }
-    loadingScreen = new LoadingScreen(appWidowSize,scaleFactor,msg,this);
-    //mainLayout->addWidget(loadingScreen);
-    loadingScreen->show();
+    msgScreen = new MsgScreen(appWidowSize,scaleFactor,msg,this);
+    //mainLayout->addWidget(msgScreen);
+    msgScreen->show();
 }
 
 void MainScreen::onGetGrpFinished(SERVER_ERRORS servError, QString errorMsg)
@@ -509,13 +509,16 @@ void MainScreen::onGetGrpFinished(SERVER_ERRORS servError, QString errorMsg)
 
     switch (servError) {
     case REQ_OK:
-        loadingScreen->hide();
+        msgScreen->hide();
         showGrpScreen();
-        //delete(loadingScreen);
+        //delete(msgScreen);
         break;
     case TIMEOUT:
         //qDebug()<< "gerGrpResp: "+errorMsg;
     default:
+        msgScreen->setMsgText(errorMsg);
+        msgScreen->showSpinner(false);
+        msgScreen->showOkIcon(true);
         break;
     }
 }
@@ -526,13 +529,16 @@ void MainScreen::onGetCardLstFinished(SERVER_ERRORS servError, QString errorMsg)
 
     switch (servError) {
     case REQ_OK:
-        loadingScreen->hide();
+        msgScreen->hide();
         showCardScreen();
-        //delete(loadingScreen);
+        //delete(msgScreen);
         break;
     case TIMEOUT:
         //qDebug()<< "gerGrpResp: "+errorMsg;
     default:
+        msgScreen->setMsgText(errorMsg);
+        msgScreen->showSpinner(false);
+        msgScreen->showOkIcon(true);
         break;
     }
 }
@@ -543,13 +549,16 @@ void MainScreen::onCardDataDownloaded(SERVER_ERRORS servError, QString errorMsg)
 
     switch (servError) {
     case REQ_OK:
-        loadingScreen->hide();
+        msgScreen->hide();
         showCardInfoScreen();
-        //delete(loadingScreen);
+        //delete(msgScreen);
         break;
     case TIMEOUT:
         //qDebug()<< "gerGrpResp: "+errorMsg;
     default:
+        msgScreen->setMsgText(errorMsg);
+        msgScreen->showSpinner(false);
+        msgScreen->showOkIcon(true);
         break;
     }
 }
