@@ -20,7 +20,7 @@ public:
     void getGrpLstStart();
     void getCardLstStart(int idGrpSrv);
     void downloadCardDataStart(int idCardSrv,int idGrpSrv);
-    void cancelDownloading(){httpManager.cancelDownload();}
+    void cancelDownloading(){httpManager->cancelDownload();}
     QList <Grp> *getGrpLastLst(){return grpLstTmp;}
     Grp *getGrpTmp(int grpIdSrv);
     CardInfo *getCardTmp(int grpIdSrv, int cardIdSrv);
@@ -46,17 +46,20 @@ private:
     int idCard;
     CardInfo *curCard;
     Grp *curGrp;
-    //bool isFImgDownLoaded;
-    //bool isBImgDownLoaded;
+    bool isFImgDownLoaded;
+    bool isBImgDownLoaded;
     void getImgStart(QString imgSrvName);
 
     QList<Grp> *grpLstTmp;
     bool _isGrpLstDownloaded;
 
 
-    HttpManager httpManager;
+    HttpManager *httpManager;
+    HttpManager *httpManager1;
     void init()
     {
+        httpManager = NULL;
+        httpManager1 = NULL;
         _isGrpLstDownloaded = false;
     }
 };

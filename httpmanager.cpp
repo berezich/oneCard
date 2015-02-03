@@ -2,7 +2,7 @@
 
 HttpManager::HttpManager(QObject *parent) : QObject(parent)
 {
-    reqTimeout = 10000;
+    reqTimeout = 100000;
 }
 
 HttpManager::~HttpManager()
@@ -41,12 +41,9 @@ void HttpManager::startdownloadFile(QUrl httpUrl)
 void HttpManager::startRequest(QUrl url)
 {
     reply = qnam.get(QNetworkRequest(url));
-    connect(reply, SIGNAL(finished()),
-            this, SLOT(httpFinished()));
-    connect(reply, SIGNAL(readyRead()),
-            this, SLOT(httpReadyRead()));
-    connect(reply, SIGNAL(downloadProgress(qint64,qint64)),
-            this, SIGNAL(updateDataReadProgress(qint64,qint64)));
+    connect(reply, SIGNAL(finished()),this, SLOT(httpFinished()));
+    connect(reply, SIGNAL(readyRead()),this, SLOT(httpReadyRead()));
+    connect(reply, SIGNAL(downloadProgress(qint64,qint64)),this, SIGNAL(updateDataReadProgress(qint64,qint64)));
 }
 
 void HttpManager::httpFinished()
@@ -55,32 +52,40 @@ void HttpManager::httpFinished()
     QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
     int status = statusCode.toInt();
     qDebug() << "HttpManager::httpFinished: resp satus =" << status;
-    if ( !statusCode.isValid() )
-    {
-        httpRequestAborted = true;
-        qDebug()<<"HttpManager::httpFinished:  msg = "+reply->errorString();
-        //emit fileErrDownload(TIMEOUT,tr("СЕРВЕР НЕ ДОСТУПЕН"));
-        emit fileErrDownload(NO_CONNECTION,ServerEror::errToString(NO_CONNECTION));
-    }
-    if ( status != 200 )
-    {
-        httpRequestAborted = true;
-        QString reason = reply->attribute( QNetworkRequest::HttpReasonPhraseAttribute ).toString();
-        qDebug() <<"HttpManager::httpFinished:  msg =" << reason;
-        emit fileErrDownload(WEB_SERVER_ERR,ServerEror::errToString(WEB_SERVER_ERR));
-    }
 
-
-    if (httpRequestAborted) {
+    if (httpRequestAborted || !statusCode.isValid() || status != 200)
+    {
         if (file) {
             file->close();
             file->remove();
             delete file;
             file = 0;
         }
-        reply->deleteLater();
+        if ( !statusCode.isValid() )
+        {
+            httpRequestAborted = true;
+            qDebug()<<"HttpManager::httpFinished:  msg = "+reply->errorString();
+            //emit fileErrDownload(TIMEOUT,tr("СЕРВЕР НЕ ДОСТУПЕН"));
+            reply->deleteLater();
+            emit fileErrDownload(NO_CONNECTION,ServerEror::errToString(NO_CONNECTION));
+        }
+        else if ( status != 200 )
+        {
+            httpRequestAborted = true;
+            QString reason = reply->attribute( QNetworkRequest::HttpReasonPhraseAttribute ).toString();
+            qDebug() <<"HttpManager::httpFinished:  msg =" << reason;
+            reply->deleteLater();
+            emit fileErrDownload(WEB_SERVER_ERR,ServerEror::errToString(WEB_SERVER_ERR));
+        }
+        else
+            reply->deleteLater();
+
         return;
     }
+
+
+
+
 
     file->flush();
     file->close();
@@ -116,7 +121,20 @@ void HttpManager::httpReadyRead()
     // That way we use less RAM than when reading it at the finished()
     // signal of the QNetworkReply
     if (file)
-        file->write(reply->readAll());
+    {
+        QByteArray bytes(reply->readAll());
+        qDebug()<<"bytes = "<<bytes;
+        if(bytes.isEmpty() || bytes.isNull())
+        {
+            file->close();
+            file->remove();
+            delete(file);
+            file=0;
+            return;
+        }
+        int writeRes = file->write(bytes);
+        qDebug()<< "writeRes = "<<writeRes;
+    }
 }
 
 void HttpManager::timerEvent(QTimerEvent *e)

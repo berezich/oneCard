@@ -257,12 +257,12 @@ void MainScreen::showCardScreen()
     connect(cardScreen,SIGNAL(backPressed(int)),this,SLOT(showGrpScreen()));
     if(appState->getCurGrpType()==LOCAL)
     {
-        connect(cardScreen,SIGNAL(cardSelected(int)),this,SLOT(showCardInfoScreen(int)));
+        connect(cardScreen,SIGNAL(cardSelected(int)),this,SLOT(onCardSelected(int)));
         connect(cardScreen,SIGNAL(addCardSelected()),this,SLOT(onNewCardSelected()));
     }
     else if(appState->getCurGrpType()==SERVER)
     {
-        connect(cardScreen,SIGNAL(cardSelected(int)),this,SLOT(showCardInfoScreen(int)));
+        connect(cardScreen,SIGNAL(cardSelected(int)),this,SLOT(onCardSelected(int)));
     }
     showScreen(CARD_LST_SCREEN);
 
@@ -313,6 +313,7 @@ void MainScreen::showCardInfoScreen()
     else
     {
        card = server->getCardTmp(grpId,cardId);
+       screen->showCardInfo(card,SERVER);
     }
     mainLayout->replaceWidget(cardInfoScreen,screen);
     delete(cardInfoScreen);
@@ -402,13 +403,13 @@ void MainScreen::setCardImgSrc(QString file)
     else
         dataM->getLocalCard(grpId,cardId)->setCardImgBackSrc(saveSrc);
 
-    showCardInfoScreen(cardId);
+    showCardInfoScreen();
 }
 
 void MainScreen::onPressBackGalleryScreen()
 {
     delete(galleryScreen);
-    showCardInfoScreen(appState->getCurCardId());
+    showCardInfoScreen();
 }
 
 void MainScreen::showCameraQmlScreenF()
@@ -431,7 +432,6 @@ void MainScreen::showCameraQmlScreen(int i)
     mainLayout->addWidget(cameraQmlScreen);
     connect(cameraQmlScreen,SIGNAL(pressedCancel()),this,SLOT(onPressBackCameraQmlScreen()));
     connect(cameraQmlScreen,SIGNAL(selectPhoto(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
-    connect(cameraQmlScreen,SIGNAL(cameraOnloaded()),this,SLOT(onCameraLoaded()));
     window()->update();
     showScreen(CAMERAQML_SCREEN);
 
@@ -439,7 +439,7 @@ void MainScreen::showCameraQmlScreen(int i)
 void MainScreen::onPressBackCameraQmlScreen()
 {
     //delete(cameraQmlScreen);
-    showCardInfoScreen(appState->getCurCardId());
+    showCardInfoScreen();
 }
 
 
@@ -470,7 +470,7 @@ void MainScreen::onNewCardSelected()
     Grp *grp = dataM->getLocalGrp(grpId);
     CardInfo *card = grp->createNewCard();
     appState->setCurCardId( card->getId());
-    showCardInfoScreen(card->getId());
+    showCardInfoScreen();
 }
 
 void MainScreen::showFileDialog()
@@ -627,10 +627,10 @@ void MainScreen::keyPressEvent(QKeyEvent *event)
             showCardScreen();
             return;
         case GALLERY_SCREEN:
-            showCardInfoScreen(appState->getCurCardId());
+            showCardInfoScreen();
             return;
         case CAMERAQML_SCREEN:
-            showCardInfoScreen(appState->getCurCardId());
+            showCardInfoScreen();
             return;
         case NEW_GRP_SCREEN:
             showGrpScreen();

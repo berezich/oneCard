@@ -6,6 +6,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include "interface.h"
+#include "datalocationtype.h"
 
 class CardInfoScreen : public BlankScreen
 {
@@ -14,13 +15,13 @@ public:
     //explicit CardInfoScreen(QScreen *screenInfo,QWidget *parent=0);
     explicit CardInfoScreen(QScreen *screenInfo, QSize appScrSize, SKIN_COLOR_NAME colorName,QWidget *parent=0);
     ~CardInfoScreen();
-    void showCardInfo(CardInfo *card);
+    void showCardInfo(CardInfo *card,DATA_SOURCE dataSrc = LOCAL);
     QSize getCardIconSize(){return cardIconSize;}
 public slots:
     //void onCapBack(int i);
 private slots:
     void onEditName();
-    void onEditCard(int i);
+    void onEditCard();
     void editFlagMagnetLine();
 signals:
     void backPressed(int i);

@@ -4,12 +4,13 @@ Server::Server(QObject *parent):QObject(parent)
 {
     init();
     grpLstTmp = new QList<Grp>();
-    connect(&httpManager,SIGNAL(fileErrDownload(SERVER_ERRORS, QString)),this,SLOT(onProcReqError(SERVER_ERRORS, QString)));
+    //connect(&httpManager,SIGNAL(fileErrDownload(SERVER_ERRORS, QString)),this,SLOT(onProcReqError(SERVER_ERRORS, QString)));
 }
 
 Server::~Server()
 {
-
+    if(httpManager!=NULL)
+        delete(httpManager);
 }
 
 void Server::setEndPoint(QString ip, int port, QString path)
@@ -22,9 +23,14 @@ void Server::getGrpLstStart()
 {
     reqType = GET_GRPS;
     QString url = endPoint+"/?action=getgrp&login="+login+"&pass="+pass;
-    disconnect(&httpManager,SIGNAL(fileDownloaded(QString)),0,0);
-    connect(&httpManager,SIGNAL(fileDownloaded(QString)),this,SLOT(onGrpLstDownloaded(QString)));
-    httpManager.startdownloadFile(url);
+    //disconnect(&httpManager,SIGNAL(fileDownloaded(QString)),0,0);
+
+    if(httpManager!=NULL)
+        delete(httpManager);
+    httpManager = new HttpManager();
+    connect(httpManager,SIGNAL(fileErrDownload(SERVER_ERRORS, QString)),this,SLOT(onProcReqError(SERVER_ERRORS, QString)));
+    connect(httpManager,SIGNAL(fileDownloaded(QString)),this,SLOT(onGrpLstDownloaded(QString)));
+    httpManager->startdownloadFile(url);
 
 }
 
@@ -56,19 +62,23 @@ void Server::getCardLstStart(int idGrpSrv)
     idGrp = idGrpSrv;
     QString url = endPoint+"/?action=getcards&login="+login+"&pass="+pass+"&grpid="+QString::number(idGrpSrv);
 
-    disconnect(&httpManager,SIGNAL(fileDownloaded(QString)),0,0);
-    connect(&httpManager,SIGNAL(fileDownloaded(QString)),this,SLOT(onCardLstDownloaded(QString)));
-    httpManager.startdownloadFile(url);
+    if(httpManager!=NULL)
+        delete(httpManager);
+    httpManager = new HttpManager();
+    connect(httpManager,SIGNAL(fileErrDownload(SERVER_ERRORS, QString)),this,SLOT(onProcReqError(SERVER_ERRORS, QString)));
+    //disconnect(&httpManager,SIGNAL(fileDownloaded(QString)),0,0);
+    connect(httpManager,SIGNAL(fileDownloaded(QString)),this,SLOT(onCardLstDownloaded(QString)));
+    httpManager->startdownloadFile(url);
 }
 
 void Server::downloadCardDataStart(int idCardSrv, int idGrpSrv)
 {
     curGrp = NULL;
     curCard = NULL;
+    isBImgDownLoaded = false;
+    isFImgDownLoaded = false;
     reqType = GET_CARD_DATA;
-    isFImgDownLoaded=false;
-    isBImgDownLoaded=false;
-    for (int i=0; i<grpLstTmp->length(); i++) {
+     for (int i=0; i<grpLstTmp->length(); i++) {
         if((*grpLstTmp)[i].getIdSrv()==idGrpSrv)
         {
             curGrp=&(*grpLstTmp)[i];
@@ -98,11 +108,29 @@ void Server::downloadCardDataStart(int idCardSrv, int idGrpSrv)
 
 
 
-    disconnect(&httpManager,SIGNAL(fileDownloaded(QString)),0,0);
-    connect(&httpManager,SIGNAL(fileDownloaded(QString)),this,SLOT(onCardDataDownloaded(QString)));
+    if(httpManager!=NULL)
+        delete(httpManager);
+    httpManager = new HttpManager();
+    connect(httpManager,SIGNAL(fileErrDownload(SERVER_ERRORS, QString)),this,SLOT(onProcReqError(SERVER_ERRORS, QString)));
+    //disconnect(&httpManager,SIGNAL(fileDownloaded(QString)),0,0);
+    connect(httpManager,SIGNAL(fileDownloaded(QString)),this,SLOT(onCardDataDownloaded(QString)));
     //start downloading frontImg
-    QString url = endPoint+"/images/"+card->getCardImgSrc();
-    httpManager.startdownloadFile(url);
+    QString url = endPoint+"/images/"+curCard->getCardImgSrc();
+    qDebug()<<"url for startdownloadFile = "+url;
+    httpManager->startdownloadFile(url);
+
+
+    QString url1 = endPoint+"/images/"+curCard->getCardImgBackSrc();
+    if(curCard->getCardImgBackSrc()!="" && url1!=url)
+    {
+        qDebug()<<"url for startdownloadFile = "+url1;
+        if(httpManager1!=NULL)
+            delete(httpManager1);
+        httpManager1 = new HttpManager();
+        connect(httpManager1,SIGNAL(fileErrDownload(SERVER_ERRORS, QString)),this,SLOT(onProcReqError(SERVER_ERRORS, QString)));
+        connect(httpManager1,SIGNAL(fileDownloaded(QString)),this,SLOT(onCardDataDownloaded(QString)));
+        httpManager1->startdownloadFile(url1);
+    }
 
 }
 
@@ -194,14 +222,17 @@ void Server::onCardLstDownloaded(QString fileName)
                         {
                             QString txt = xml.readElementText();
                             card->setCardIdSrv(txt.toInt());
+                            card->setCardId(txt.toInt());
                             qDebug()<<txt;
                         }
+                        /*
                         if (xml.name().toString() == "ID_MOB")
                         {
                             QString txt = xml.readElementText();
                             if(txt!="")
                                 card->setCardId(txt.toInt());
                         }
+                        */
                         if (xml.name().toString() == "GRP_ID")
                         {
                             QString txt = xml.readElementText();
@@ -286,13 +317,18 @@ void Server::onCardLstDownloaded(QString fileName)
 void Server::onCardDataDownloaded(QString fileName)
 {
     qDebug() << "onCardDataDownloaded: fileName = " << fileName;
-    QFile *file = new QFile(fileName);
     if(fileName==curCard->getCardImgSrc())
     {//start downloading backside img
-        QString url = endPoint+"/images/"+curCard->getCardImgBackSrc();
-        httpManager.startdownloadFile(url);
+        isFImgDownLoaded = true;
+        if(fileName == curCard->getCardImgBackSrc())
+            isBImgDownLoaded = true;
     }
     else
+    {
+        isBImgDownLoaded = true;
+
+    }
+    if(isBImgDownLoaded && isFImgDownLoaded)
     {
         curCard->setIsImgLocal(true);
         emit downloadCardDataFinish(REQ_OK,ServerEror::errToString(REQ_OK));
@@ -406,7 +442,17 @@ void Server::onGrpLstDownloaded(QString fileName)
 
 void Server::onProcReqError(SERVER_ERRORS errCode, QString errMsg)
 {
-    httpManager.disconnect(SIGNAL(fileDownloaded));
+    //httpManager->disconnect(SIGNAL(fileDownloaded));
+//    if(httpManager!=NULL)
+//    {
+//        delete(httpManager);
+//        httpManager = NULL;
+//    }
+//    if(httpManager1!=NULL)
+//    {
+//        delete(httpManager1);
+//        httpManager1=NULL;
+//    }
     switch (reqType) {
     case GET_GRPS:
         _isGrpLstDownloaded=false;
