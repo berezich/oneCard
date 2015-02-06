@@ -1,14 +1,13 @@
 #include "mainchoicescreen.h"
 
-MainChoiceScreen::MainChoiceScreen(QScreen *screenInfo, QSize appScrSize, SKIN_COLOR_NAME colorName,bool checkBoxEnabled, QWidget *parent): QWidget(parent)
+MainChoiceScreen::MainChoiceScreen( QSize appScrSize, Settings *settings, QWidget *parent): QWidget(parent)
 {
     init();
-
+    this->settings = settings;
     //this->screenInfo = screenInfo;
     //screenSize = screenInfo->geometry().size();
     screenSize = appScrSize;
-    skinColor = colorName;
-    backGroundColor = InterFace::getSkinColor(colorName).head();
+    backGroundColor = InterFace::getSkinColor(settings->skinColor()).head();
 
     scaleFactorW = ((double)screenSize.width())/(double)defaultWidth;
     scaleFactorH = ((double)screenSize.height())/(double)defaultHeight;
@@ -17,8 +16,6 @@ MainChoiceScreen::MainChoiceScreen(QScreen *screenInfo, QSize appScrSize, SKIN_C
 
     setMinimumSize(screenSize);
     setMaximumSize(screenSize);
-
-    this->checkBoxEnabled = checkBoxEnabled;
 
     setContentsMargins(0,0,0,0);
 
@@ -61,7 +58,7 @@ MainChoiceScreen::MainChoiceScreen(QScreen *screenInfo, QSize appScrSize, SKIN_C
     checkBox = new SimpleIcon(0,":/svg/main_screen/greenok.svg","",okIconSize,true);
     connect(checkBox,SIGNAL(click(int)),this,SLOT(onCheckBoxChanged()));
     checkBox->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    if(!checkBoxEnabled)
+    if(!settings->defEnterApp())
         checkBox->unselectIcon();
     else
         checkBox->selectIcon();
@@ -69,7 +66,7 @@ MainChoiceScreen::MainChoiceScreen(QScreen *screenInfo, QSize appScrSize, SKIN_C
 
     defEnterLayout->addSpacing(defTextLeftOffset);
 
-    QLabel *defLabel = new QLabel(defText);
+    defLabel = new QLabel(defText);
     defLabel->setWordWrap(true);
     defLabel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::MinimumExpanding);
     defLabel->setFont(QFont("Calibri",defTextSize));
@@ -83,12 +80,17 @@ MainChoiceScreen::MainChoiceScreen(QScreen *screenInfo, QSize appScrSize, SKIN_C
 
     setGrpLst();
 
-    menuWidget = new Menu(screenSize,scaleFactor,skinColor,this);
+    menuWidget = new Menu(screenSize,scaleFactor,settings,this);
     menuWidget->hide();
+    connect(menuWidget,SIGNAL(changeSettings(OPTIONS)),this,SLOT(onChangeSettings(OPTIONS)));
 
 }
 void MainChoiceScreen::setGrpLst()
 {
+    for(int i=0; i<icons.length(); i++)
+        delete icons[i];
+    icons.clear();
+
     Icon *icon;
 
     QSize gridItemSize = QSize(screenSize.width()/columnsNum,(screenSize.height())/rowsNum - 10*scaleFactor);
@@ -96,19 +98,22 @@ void MainChoiceScreen::setGrpLst()
     icon = new Icon(int(LOCAL_ICON),catalogName,textSize, catalogIconSrc, "", iconSize, gridItemSize,defTextColor);
     connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickMainIcon(int)));
     gridLayout->addWidget(icon, 0,0);
+    icons.append(icon);
 
     icon = new Icon(int(SRV_ICON),srvCatalogName,textSize, srvCatalogIconSrc, "", iconSize, gridItemSize,defTextColor);
     connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickMainIcon(int)));
     gridLayout->addWidget(icon, 0,1);
+    icons.append(icon);
 
     icon = new Icon(int(DEV_ICON),devCatalogName,textSize, devCatalogIconSrc, "", iconSize, gridItemSize,defTextColor);
     connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickMainIcon(int)));
     gridLayout->addWidget(icon, 1,0);
+    icons.append(icon);
 
     icon = new Icon(int(OPTIONS_ICON),optionsName,textSize, optionsIconSrc, "", iconSize, gridItemSize,defTextColor);
     connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickMainIcon(int)));
     gridLayout->addWidget(icon, 1,1);
-
+    icons.append(icon);
 }
 
 void MainChoiceScreen::showMainChoice()
@@ -116,6 +121,14 @@ void MainChoiceScreen::showMainChoice()
     show();
     setMaximumSize(window()->geometry().size());
 
+}
+
+void MainChoiceScreen::onKeyBackPressed(QKeyEvent *event)
+{
+    if(menuWidget->isMenuOpen())
+        menuWidget->showMainMenu();
+    else
+        QWidget::keyPressEvent(event);
 }
 
 void MainChoiceScreen::onClickMainIcon(int iconId)
@@ -133,12 +146,47 @@ void MainChoiceScreen::onClickMainIcon(int iconId)
 
 void MainChoiceScreen::onCheckBoxChanged()
 {
-    if(checkBoxEnabled)
+    if(settings->defEnterApp())
         checkBox->unselectIcon();
     else
         checkBox->selectIcon();
 
-    checkBoxEnabled=!checkBoxEnabled;
+    settings->setDefEnterApp(!(settings->defEnterApp()));
+
+}
+
+void MainChoiceScreen::onChangeSettings(OPTIONS option)
+{
+    switch (option) {
+    case COLOR:
+        backGroundColor = InterFace::getSkinColor(settings->skinColor()).head();
+        QPalette Pal(palette());
+        // set black background
+        Pal.setColor(QPalette::Background, backGroundColor);
+        setAutoFillBackground(true);
+        setPalette(Pal);
+        show();
+        break;
+    }
+
+
+    emit changeSettings(option);
+}
+
+void MainChoiceScreen::retranslate()
+{
+    translateNames();
+    defLabel->setText(defText);
+    setGrpLst();
+}
+
+void MainChoiceScreen::changeEvent(QEvent *e)
+{
+    if(e->type()==QEvent::LanguageChange)
+    {
+        retranslate();
+    }
+    QWidget::changeEvent(e);
 }
 
 

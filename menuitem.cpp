@@ -7,7 +7,9 @@ MenuItem::MenuItem(int id, QString text, double textSize, int leftOffset, int to
     this->id = id;
     textLeftOffset = leftOffset;
     textTopOffset = topOffset;
+    this->textSize = textSize;
     setText(text);
+
     setFont(QFont("Calibri",textSize));
     //setContentsMargins(leftOffset,0,0,0);
     setPalette(Qt::transparent);
@@ -19,6 +21,13 @@ MenuItem::MenuItem(int id, QString text, double textSize, int leftOffset, int to
 MenuItem::~MenuItem()
 {
 
+}
+
+void MenuItem::setUnerLine(bool val)
+{
+    QFont font = QFont("Calibri",textSize);
+    font.setUnderline(val);
+    setFont(font);
 }
 
 void MenuItem::mouseReleaseEvent(QMouseEvent *event)

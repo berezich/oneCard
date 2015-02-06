@@ -1,6 +1,6 @@
 #include "galeryscreen.h"
 
-GalleryScreen::GalleryScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName,QString fotoDir, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
+GalleryScreen::GalleryScreen(QScreen *screenInfo, QSize appScrSize, int colorName, QString fotoDir, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
 {
     init();
     cameraDir = fotoDir;

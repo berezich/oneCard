@@ -32,7 +32,8 @@ void Cap::addLeftIcon(SimpleIcon *icon, int leftOffset)
     childWidgets.append(icon);
 }
 
-Cap::Cap(int height, SKIN_COLOR_NAME colorName , QWidget *parent)
+
+Cap::Cap(int height, int colorName , QWidget *parent)
 {
     init();
     this->height = height;

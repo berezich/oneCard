@@ -29,7 +29,9 @@ HEADERS       = button.h \
     datalocationtype.h \
     mainchoicescreen.h \
     spinner.h \
-    msgscreen.h
+    msgscreen.h \
+    settings.h \
+    test.h
 SOURCES       = button.cpp \
                 main.cpp \
     blankscreen.cpp \
@@ -56,7 +58,9 @@ SOURCES       = button.cpp \
     httpmanager.cpp \
     mainchoicescreen.cpp \
     spinner.cpp \
-    msgscreen.cpp
+    msgscreen.cpp \
+    settings.cpp \
+    test.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/oneCard
@@ -64,6 +68,9 @@ INSTALLS += target
 
 RESOURCES += \
     onecard_res.qrc
+
+TRANSLATIONS = onecard_ru.ts \
+               onecard_en.ts
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 

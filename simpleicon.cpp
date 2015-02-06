@@ -1,6 +1,6 @@
 #include "simpleicon.h"
 
-SimpleIcon::SimpleIcon(int id, QString imgScr,  QString imgPushScr, QSize imgSize, bool staySelected, QWidget *parent)
+SimpleIcon::SimpleIcon(int id, QString imgScr,  QString imgPushScr, QSize imgSize, bool staySelected, QWidget *parent):QLabel(parent)
 {
     this->id = id;
     this->imgScr = imgScr;

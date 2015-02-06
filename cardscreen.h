@@ -14,7 +14,7 @@ class CardScreen : public BlankScreen
     Q_OBJECT
 public:
     //explicit CardScreen(QScreen *screenInfo,QWidget *parent=0);
-    explicit CardScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName, DATA_SOURCE srcType = LOCAL, QWidget *parent=0);
+    explicit CardScreen(QScreen *screenInfo,QSize appScrSize, int colorName, DATA_SOURCE srcType = LOCAL, QWidget *parent=0);
     ~CardScreen();
     void setCardList(QString title, QString grpImgSrc, QList<CardInfo> *cardList);
 
@@ -47,6 +47,7 @@ private:
     QList<QLayout *> childLayouts;
 
     DATA_SOURCE srcType;
+    int colorName;
      void keyPressEvent(QKeyEvent *event);
      void init()
      {
@@ -56,7 +57,7 @@ private:
          spacingSize = 20;
          cardIconSize = QSize(160,90);
          leftCardOffset = 20;
-         imgNoPhotoSrc = ":/svg/tools/photono.svg";
+         imgNoPhotoSrc = "nophoto.svg";
          leftNameCardOffset = 25;
          textCardNameSize = 15;
          colorTextNameCard = "#000000";

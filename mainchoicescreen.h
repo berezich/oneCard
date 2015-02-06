@@ -3,31 +3,38 @@
 
 #include <QWidget>
 #include <QGridLayout>
+#include <QEvent>
+#include <QKeyEvent>
 #include "interface.h"
 #include "icon.h"
 #include "menu.h"
+#include "settings.h"
 enum MAIN_ICONS{LOCAL_ICON, SRV_ICON, DEV_ICON, OPTIONS_ICON};
 class MainChoiceScreen : public QWidget
 {
     Q_OBJECT
 public:
     //explicit MainChoiceScreen(QWidget *parent = 0);
-    explicit MainChoiceScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName,bool checkBoxEnabled,QWidget *parent=0);
+    explicit MainChoiceScreen(QSize appScrSize, Settings *settings,QWidget *parent=0);
     ~MainChoiceScreen();
     void setGrpLst();
 
 signals:
     void iconPressed(MAIN_ICONS icon);
+    void changeSettings(OPTIONS option);
 public slots:
     void showMainChoice();
+    void onKeyBackPressed(QKeyEvent *event);
 private slots:
     void onClickMainIcon(int iconId);
     void onCheckBoxChanged();
+    void onChangeSettings(OPTIONS option);
 private:
     QSize screenSize;
 
     QString backGroundColor;
-    SKIN_COLOR_NAME skinColor;
+
+    Settings *settings;
 
     double scaleFactor;
     double scaleFactorH;
@@ -56,16 +63,27 @@ private:
     QString devCatalogName;
     QString optionsName;
 
+    QLabel *defLabel;
     QString defText;
     double defTextSize;
     int defTextLeftOffset;
     QString defTextColor;
-    bool checkBoxEnabled;
     SimpleIcon *checkBox;
+    QWidgetList icons;
+    void retranslate();
+    void changeEvent(QEvent *e);
+
+    void translateNames()
+    {
+        catalogName = tr("Каталог");
+        srvCatalogName = tr("Сервер");
+        devCatalogName = tr("Устройство");
+        optionsName  = tr("Настройки");
+        defText = tr("При запуске переходить в каталог");
+    }
 
     void init(){
-        skinColor = TEAL;
-        backGroundColor = InterFace::getSkinColor(skinColor).head();
+        backGroundColor = InterFace::getSkinColor(TEAL).head();
 
         scaleFactor = 1;
         scaleFactorH = 1;
@@ -84,20 +102,19 @@ private:
 
         topOffset = 120;
 
-        catalogName = tr("Каталог");
-        srvCatalogName = tr("Сервер");
-        devCatalogName = tr("Устройство");
-        optionsName  = tr("Настройки");
+
 
         catalogIconSrc = ":/svg/main_screen/catalog.svg";
         srvCatalogIconSrc = ":/svg/main_screen/server.svg";
         devCatalogIconSrc = ":/svg/main_screen/device.svg";
         optionsIconSrc = ":/svg/main_screen/settingsicon.svg";
 
-        defText = tr("При запуске переходить в каталог");
+
         defTextSize = 17;
         defTextLeftOffset = 30;
         defTextColor = "#FFFFFF";
+
+        translateNames();
     }
 };
 

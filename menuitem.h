@@ -12,6 +12,7 @@ private:
     QString txtPressColor;
     int textLeftOffset;
     int textTopOffset;
+    double textSize;
     int id;
     void init()
     {
@@ -24,6 +25,7 @@ signals:
 public:
     MenuItem(int id, QString text, double textSize, int leftOffset, int topOffset, QWidget *parent=0);
     ~MenuItem();
+    void setUnerLine(bool val);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
 };

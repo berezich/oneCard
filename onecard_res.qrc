@@ -1,80 +1,176 @@
 <RCC>
     <qresource prefix="/">
-        <file>svg/grpIcons/car.svg</file>
-        <file>svg/grpIcons/carPUSH.svg</file>
-        <file>svg/grpIcons/different.svg</file>
-        <file>svg/grpIcons/differentPUSH.svg</file>
-        <file>svg/grpIcons/fit.svg</file>
-        <file>svg/grpIcons/fitPUSH.svg</file>
-        <file>svg/grpIcons/food.svg</file>
-        <file>svg/grpIcons/foodPUSH.svg</file>
-        <file>svg/grpIcons/med.svg</file>
-        <file>svg/grpIcons/medPUSH.svg</file>
-        <file>svg/grpIcons/new.svg</file>
-        <file>svg/grpIcons/newPUSH.svg</file>
-        <file>svg/grpIcons/plane.svg</file>
-        <file>svg/grpIcons/planePUSH.svg</file>
-        <file>svg/grpIcons/rebild.svg</file>
-        <file>svg/grpIcons/rebildPUSH.svg</file>
-        <file>svg/grpIcons/shop.svg</file>
-        <file>svg/grpIcons/shopPUSH.svg</file>
-        <file>svg/grpIcons/sun.svg</file>
-        <file>svg/grpIcons/sunPUSH.svg</file>
-        <file>svg/tools/arrow.svg</file>
-        <file>svg/tools/arrowPUSH.svg</file>
-        <file>svg/tools/backArrow.svg</file>
-        <file>svg/tools/BackArrowPUSH.svg</file>
-        <file>svg/tools/oblako.svg</file>
-        <file>svg/tools/oblakoPUSH.svg</file>
-        <file>svg/tools/pen.svg</file>
-        <file>svg/tools/penPUSH.svg</file>
-        <file>svg/tools/plus.svg</file>
-        <file>svg/tools/plusPUSH.svg</file>
-        <file>svg/tools/sync.svg</file>
-        <file>svg/tools/syncPUSH.svg</file>
-        <file>cardsImg/letual.png</file>
+        <file>android/AndroidManifest.xml</file>
         <file>cardsImg/ashan.png</file>
         <file>cardsImg/auto.png</file>
         <file>cardsImg/fitnes.png</file>
         <file>cardsImg/food.png</file>
+        <file>cardsImg/letual.png</file>
         <file>cardsImg/other.png</file>
         <file>cardsImg/sun.png</file>
         <file>cardsImg/travel.png</file>
-        <file>svg/grpIcons/star.svg</file>
-        <file>svg/grpIcons/starPUSH.svg</file>
-        <file>svg/tools/arrowok.svg</file>
-        <file>svg/tools/arrowokPUSH.svg</file>
-        <file>svg/tools/modalline.svg</file>
-        <file>svg/tools/modalwindow.svg</file>
-        <file>svg/tools/close.svg</file>
-        <file>svg/tools/magnetno.svg</file>
-        <file>svg/tools/magnetyes.svg</file>
-        <file>svg/tools/photono.svg</file>
-        <file>svg/tools/save.svg</file>
-        <file>svg/tools/menuicon.svg</file>
-        <file>svg/tools/loginok.svg</file>
-        <file>svg/tools/syncin.svg</file>
-        <file>svg/tools/syncout.svg</file>
-        <file>svg/tools/bluetooth.svg</file>
         <file>declarative-camera/CameraButton.qml</file>
         <file>declarative-camera/declarative-camera.qml</file>
         <file>declarative-camera/FocusButton.qml</file>
         <file>declarative-camera/PhotoCaptureControls.qml</file>
         <file>declarative-camera/PhotoPreview.qml</file>
         <file>declarative-camera/ZoomControl.qml</file>
-        <file>svg/tools/camera.svg</file>
-        <file>svg/tools/NOcamera.svg</file>
-        <file>svg/tools/OKcamera.svg</file>
-        <file>svg/tools/gallery.svg</file>
-        <file>svg/tools/galleryPUSH.svg</file>
-        <file>svg/tools/infophoto.svg</file>
-        <file>svg/tools/infophotoPUSH.svg</file>
+        <file>svg/grpIcons/non_standart/car.svg</file>
+        <file>svg/grpIcons/non_standart/different.svg</file>
+        <file>svg/grpIcons/non_standart/fit.svg</file>
+        <file>svg/grpIcons/non_standart/food.svg</file>
+        <file>svg/grpIcons/non_standart/med.svg</file>
+        <file>svg/grpIcons/non_standart/new.svg</file>
+        <file>svg/grpIcons/non_standart/plane.svg</file>
+        <file>svg/grpIcons/non_standart/rebild.svg</file>
+        <file>svg/grpIcons/non_standart/shop.svg</file>
+        <file>svg/grpIcons/non_standart/star.svg</file>
+        <file>svg/grpIcons/non_standart/sun.svg</file>
+        <file>svg/grpIcons/standart/car.svg</file>
+        <file>svg/grpIcons/standart/different.svg</file>
+        <file>svg/grpIcons/standart/fit.svg</file>
+        <file>svg/grpIcons/standart/food.svg</file>
+        <file>svg/grpIcons/standart/med.svg</file>
+        <file>svg/grpIcons/standart/new.svg</file>
+        <file>svg/grpIcons/standart/plane.svg</file>
+        <file>svg/grpIcons/standart/rebild.svg</file>
+        <file>svg/grpIcons/standart/shop.svg</file>
+        <file>svg/grpIcons/standart/star.svg</file>
+        <file>svg/grpIcons/standart/sun.svg</file>
         <file>svg/main_screen/catalog.svg</file>
         <file>svg/main_screen/device.svg</file>
         <file>svg/main_screen/greenok.svg</file>
         <file>svg/main_screen/server.svg</file>
         <file>svg/main_screen/settingsicon.svg</file>
-        <file>svg/tools/spinner.svg</file>
+        <file>svg/tools/arrow.svg</file>
+        <file>svg/tools/arrowok.svg</file>
+        <file>svg/tools/arrowokPUSH.svg</file>
+        <file>svg/tools/arrowPUSH.svg</file>
+        <file>svg/tools/backArrow.svg</file>
+        <file>svg/tools/BackArrowPUSH.svg</file>
+        <file>svg/tools/bluetooth.svg</file>
+        <file>svg/tools/camera.svg</file>
+        <file>svg/tools/close.svg</file>
+        <file>svg/tools/closesettings.svg</file>
+        <file>svg/tools/gallery.svg</file>
+        <file>svg/tools/galleryPUSH.svg</file>
+        <file>svg/tools/infophoto.svg</file>
+        <file>svg/tools/infophotoPUSH.svg</file>
         <file>svg/tools/load.svg</file>
+        <file>svg/tools/loadPUSH.svg</file>
+        <file>svg/tools/loginok.svg</file>
+        <file>svg/tools/loginokPUSH.svg</file>
+        <file>svg/tools/magnetno.svg</file>
+        <file>svg/tools/magnetyes.svg</file>
+        <file>svg/tools/menuicon.svg</file>
+        <file>svg/tools/NOcamera.svg</file>
+        <file>svg/tools/nophoto.svg</file>
+        <file>svg/tools/oblako.svg</file>
+        <file>svg/tools/oblakoPUSH.svg</file>
+        <file>svg/tools/OKcamera.svg</file>
+        <file>svg/tools/pen.svg</file>
+        <file>svg/tools/penPUSH.svg</file>
+        <file>svg/tools/photono.svg</file>
+        <file>svg/tools/plus.svg</file>
+        <file>svg/tools/plusPUSH.svg</file>
+        <file>svg/tools/save.svg</file>
+        <file>svg/tools/spinner.svg</file>
+        <file>svg/tools/sync.svg</file>
+        <file>svg/tools/syncin.svg</file>
+        <file>svg/tools/syncout.svg</file>
+        <file>svg/tools/syncPUSH.svg</file>
+        <file>svg/tools/deep_purple/arrow.svg</file>
+        <file>svg/tools/deep_purple/close.svg</file>
+        <file>svg/tools/deep_purple/gallery.svg</file>
+        <file>svg/tools/deep_purple/load.svg</file>
+        <file>svg/tools/deep_purple/nophoto.svg</file>
+        <file>svg/tools/deep_purple/pen.svg</file>
+        <file>svg/tools/deep_purple/photo.svg</file>
+        <file>svg/tools/deep_purple/plus.svg</file>
+        <file>svg/tools/deep_purple/syncin.svg</file>
+        <file>svg/tools/deep_purple/syncout.svg</file>
+        <file>svg/tools/green/arrow.svg</file>
+        <file>svg/tools/green/close.svg</file>
+        <file>svg/tools/green/gallery.svg</file>
+        <file>svg/tools/green/load.svg</file>
+        <file>svg/tools/green/nophoto.svg</file>
+        <file>svg/tools/green/pen.svg</file>
+        <file>svg/tools/green/photo.svg</file>
+        <file>svg/tools/green/plus.svg</file>
+        <file>svg/tools/green/syncin.svg</file>
+        <file>svg/tools/green/syncout.svg</file>
+        <file>svg/tools/indigo/arrow.svg</file>
+        <file>svg/tools/indigo/close.svg</file>
+        <file>svg/tools/indigo/gallery.svg</file>
+        <file>svg/tools/indigo/load.svg</file>
+        <file>svg/tools/indigo/nophoto.svg</file>
+        <file>svg/tools/indigo/pen.svg</file>
+        <file>svg/tools/indigo/photo.svg</file>
+        <file>svg/tools/indigo/plus.svg</file>
+        <file>svg/tools/indigo/syncin.svg</file>
+        <file>svg/tools/indigo/syncout.svg</file>
+        <file>svg/tools/orange/arrow.svg</file>
+        <file>svg/tools/orange/close.svg</file>
+        <file>svg/tools/orange/closePUSH.svg</file>
+        <file>svg/tools/orange/gallery.svg</file>
+        <file>svg/tools/orange/galleryPUSH.svg</file>
+        <file>svg/tools/orange/load.svg</file>
+        <file>svg/tools/orange/loadPUSH.svg</file>
+        <file>svg/tools/orange/nophoto.svg</file>
+        <file>svg/tools/orange/pen.svg</file>
+        <file>svg/tools/orange/penPUSH.svg</file>
+        <file>svg/tools/orange/photonew.svg</file>
+        <file>svg/tools/orange/photonewPUSH.svg</file>
+        <file>svg/tools/orange/plus.svg</file>
+        <file>svg/tools/orange/plusPUSH.svg</file>
+        <file>svg/tools/orange/syncin.svg</file>
+        <file>svg/tools/orange/syncout.svg</file>
+        <file>svg/tools/pink/arrow.svg</file>
+        <file>svg/tools/pink/close.svg</file>
+        <file>svg/tools/pink/gallery.svg</file>
+        <file>svg/tools/pink/load.svg</file>
+        <file>svg/tools/pink/nophoto.svg</file>
+        <file>svg/tools/pink/pen.svg</file>
+        <file>svg/tools/pink/photo.svg</file>
+        <file>svg/tools/pink/plus.svg</file>
+        <file>svg/tools/pink/syncin.svg</file>
+        <file>svg/tools/pink/syncout.svg</file>
+        <file>svg/tools/red/arrow.svg</file>
+        <file>svg/tools/red/close.svg</file>
+        <file>svg/tools/red/closePUSH.svg</file>
+        <file>svg/tools/red/gallery.svg</file>
+        <file>svg/tools/red/galleryPUSH.svg</file>
+        <file>svg/tools/red/load.svg</file>
+        <file>svg/tools/red/loadPUSH.svg</file>
+        <file>svg/tools/red/nophoto.svg</file>
+        <file>svg/tools/red/pen.svg</file>
+        <file>svg/tools/red/penPUSH.svg</file>
+        <file>svg/tools/red/photonew.svg</file>
+        <file>svg/tools/red/photonewPUSH.svg</file>
+        <file>svg/tools/red/plus.svg</file>
+        <file>svg/tools/red/plusPUSH.svg</file>
+        <file>svg/tools/red/syncin.svg</file>
+        <file>svg/tools/red/syncout.svg</file>
+        <file>svg/tools/teal/arrow.svg</file>
+        <file>svg/tools/teal/arrowPUSH.svg</file>
+        <file>svg/tools/teal/close.svg</file>
+        <file>svg/tools/teal/gallery.svg</file>
+        <file>svg/tools/teal/galleryPUSH.svg</file>
+        <file>svg/tools/teal/load.svg</file>
+        <file>svg/tools/teal/loadPUSH.svg</file>
+        <file>svg/tools/teal/pen.svg</file>
+        <file>svg/tools/teal/penPUSH.svg</file>
+        <file>svg/tools/teal/photo.svg</file>
+        <file>svg/tools/teal/photoPUSH.svg</file>
+        <file>svg/tools/teal/plus.svg</file>
+        <file>svg/tools/teal/sync.svg</file>
+        <file>svg/tools/teal/syncin.svg</file>
+        <file>svg/tools/teal/syncout.svg</file>
+        <file>svg/tools/teal/syncPUSH.svg</file>
+        <file>onecard_en.ts</file>
+        <file>onecard_ru.ts</file>
+        <file>onecard_en.qm</file>
+        <file>onecard_ru.qm</file>
+        <file>svg/tools/teal/nophoto.svg</file>
     </qresource>
 </RCC>

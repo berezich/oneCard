@@ -3,6 +3,7 @@
 #include <QString>
 #include <QObject>
 #include <QList>
+#include <QDataStream>
 #include "cardinfo.h"
 
 class Grp
@@ -28,31 +29,34 @@ public:
 
     void setId(int val);
 
-    int getId();
+    int getId()const;
 
     void setIdSrv(int val){_idSrv = val;}
 
-    int getIdSrv(){return _idSrv;}
+    int getIdSrv()const{return _idSrv;}
 
     void setName(QString val);
 
-    QString getName();
+    QString getName()const;
 
     void setImgSrc(QString val);
 
-    QString getImgSrc();
+    QString getImgSrc()const;
 
     void setImgPushSrc(QString val);
 
-    QString getImgPushSrc();
+    QString getImgPushSrc()const;
 
 
     void addCard(CardInfo card){cardsLst->append(card);}
     CardInfo *createNewCard();
     void delCard(int iCard){cardsLst->removeAt(iCard);}
-    QList<CardInfo> *getCards(){return cardsLst;}
+    QList<CardInfo> *getCards()const{return cardsLst;}
     CardInfo *getCardInfo(int cardId);
     void clearCards(){cardsLst->clear();}
+    void setCardLst(QList<CardInfo> *cards);
 };
+QDataStream& operator<<(QDataStream& out, const Grp& grp);
+QDataStream& operator>>(QDataStream& in, Grp& grp);
 
 #endif // GRP_H

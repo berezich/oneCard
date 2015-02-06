@@ -5,7 +5,7 @@
 enum SERVER_ERRORS{REQ_OK,TIMEOUT, NO_CONNECTION, APP_SERVER_ERR,WEB_SERVER_ERR, REQFILE_SAVE_ERR, REQFILE_OPEN_ERR, NO_GRP, NO_CARD};
 class ServerEror: public QObject
 {
-    //Q_OBJECT
+    Q_OBJECT
 public: static QString errToString(SERVER_ERRORS err)
     {
         switch (err) {

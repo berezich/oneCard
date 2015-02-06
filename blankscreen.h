@@ -19,7 +19,7 @@ class BlankScreen : public QWidget
 public:
     explicit BlankScreen(QWidget *parent = 0);
     //explicit BlankScreen(QScreen *screenInfo, QWidget *parent = 0);
-    BlankScreen(QScreen *screenInfo, QSize appScrSize, SKIN_COLOR_NAME colorName, QWidget *parent = 0);
+    BlankScreen(QScreen *screenInfo, QSize appScrSize, int colorName, QWidget *parent = 0);
     //explicit BlankScreen(QScreen *screenInfo);
     ~BlankScreen();
 
@@ -42,7 +42,7 @@ protected:
     int capRightIconOffset;
     int capLeftIconOffset;
     QString backGroundColor;
-    SKIN_COLOR_NAME skinColor;
+    int skinColor;
 private:
     int defaultWidth;
     int defaultHeight;

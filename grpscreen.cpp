@@ -5,12 +5,13 @@ GrpScreen::GrpScreen(QWidget *parent):BlankScreen(parent)
 
 }
 
-GrpScreen::GrpScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
+GrpScreen::GrpScreen(QScreen *screenInfo,QSize appScrSize, int colorName, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
 {
     init();
     iconSize = iconSize*scaleFactor;
+    iconPlusSize = iconPlusSize*scaleFactor;
     textSize = textSize*qSqrt(qSqrt(scaleFactor));
-
+    this->colorName = colorName;
     //шапка
     cap = new Cap(capHeight, skinColor);
     cap->setTitle(title,textTitleSize,titleLeftMargin);
@@ -66,7 +67,7 @@ GrpScreen::~GrpScreen()
             delete(children().last());
 }
 
-void GrpScreen::setGrpLst(QList<Grp> grpLst)
+void GrpScreen::setGrpLst(QList<Grp> grpLst, QString grpIconPath, bool editable)
 {
     Icon *icon;
     int numItems = columnsNum*rowsNum;
@@ -79,8 +80,15 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst)
     {
         if(i < grpLst.length())
         {
-            icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpLst[i].getImgSrc(), grpLst[i].getImgPushSrc(), iconSize, gridItemSize);
+            icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpIconPath+grpLst[i].getImgSrc(), "", iconSize, gridItemSize);
             connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickGrpIcon(int)));
+            gridLayout->addWidget(icon, qFloor(i/columnsNum),i%columnsNum);
+        }
+        else if(i == grpLst.length()&&editable)
+        {
+            icon = new Icon(-1,"",-1, InterFace::getSkinColor(colorName).iconFolder()+"plus.svg", "", iconPlusSize, gridItemSize);
+            connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickGrpIcon(int)));
+
             gridLayout->addWidget(icon, qFloor(i/columnsNum),i%columnsNum);
         }
         else
@@ -101,10 +109,10 @@ void GrpScreen::clearGrid()
     gridLayout->setSpacing(0);
     gridWidget->setLayout(gridLayout);
 }
-
+/*
 void GrpScreen::initMenu()
 {
-    menuWidget = new Menu(QSize(screenSize.width(),screenSize.height()-capHeight),scaleFactor,skinColor,blankSpace);
+    menuWidget = new Menu(QSize(screenSize.width(),screenSize.height()-capHeight),scaleFactor,sett,blankSpace);
     menuWidget->hide();
 }
 
@@ -115,16 +123,16 @@ void GrpScreen::onKeyBackPressed(QKeyEvent *event)
     else
         QWidget::keyPressEvent(event);
 }
-
+*/
 
 
 void GrpScreen::onClickGrpIcon(int grpId)
 {
     emit selectLocalGrp(grpId);
 }
-
+/*
 void GrpScreen::onMenuClick()
 {
     menuWidget->showMainMenu();
 }
-
+*/

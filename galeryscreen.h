@@ -10,7 +10,7 @@ class GalleryScreen : public BlankScreen
 {
     Q_OBJECT
 public:
-    GalleryScreen(QScreen *screenInfo,QSize appScrSize, SKIN_COLOR_NAME colorName,QString fotoDir,QWidget *parent=0);
+    GalleryScreen(QScreen *screenInfo,QSize appScrSize, int colorName,QString fotoDir,QWidget *parent=0);
     ~GalleryScreen();
     void clearScreen();
     void showCameraPhotos();

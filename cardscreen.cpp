@@ -1,7 +1,7 @@
 #include "cardscreen.h"
 
 //CardScreen::CardScreen(QScreen *screenInfo, QWidget *parent):BlankScreen(screenInfo,parent)
-CardScreen::CardScreen(QScreen *screenInfo,QSize appScrSize , SKIN_COLOR_NAME colorName, DATA_SOURCE srcType, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
+CardScreen::CardScreen(QScreen *screenInfo, QSize appScrSize , int colorName, DATA_SOURCE srcType, QWidget *parent):BlankScreen(screenInfo,appScrSize, colorName,parent)
 {
     init();
     this->srcType = srcType;
@@ -16,11 +16,12 @@ CardScreen::CardScreen(QScreen *screenInfo,QSize appScrSize , SKIN_COLOR_NAME co
 
     //шапка
     cap = new Cap(capHeight, skinColor);
+    this->colorName = colorName;
 
     childWidgets.append(cap);
     if(srcType==LOCAL)
     {
-        SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/plus.svg",":/svg/tools/plusPUSH.svg",QSize(55,55)*scaleFactor);
+        SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/plus.svg","",QSize(55,55)*scaleFactor);
         icon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
         connect(icon,SIGNAL(click(int)),this,SIGNAL(addCardSelected()));
         cap->addRightIcon(icon,capRightIconOffset);
@@ -93,7 +94,7 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
         line->addSpacing(leftCardOffset);
         card = &(*cardList)[i];
         if(card->getCardImgSrc()=="" || (srcType==SERVER && !card->isImgLocal()))
-            cardIcon = new SimpleIcon(card->getId(),imgNoPhotoSrc,"",cardIconSize);
+            cardIcon = new SimpleIcon(card->getId(),InterFace::getSkinColor(colorName).iconFolder() + imgNoPhotoSrc,"",cardIconSize);
         else
             cardIcon = new SimpleIcon(card->getId(),card->getCardImgSrc(),"",cardIconSize);
         cardIcon-> setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
@@ -112,9 +113,9 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
         line->addStretch(10);
 
         if(srcType==SERVER && !card->isImgLocal())
-            nextIcon = new SimpleIcon(card->getId(),":/svg/tools/load.svg","",nextIconSize);
+            nextIcon = new SimpleIcon(card->getId(),InterFace::getSkinColor(colorName).iconFolder() + "load.svg","",nextIconSize);
         else
-            nextIcon = new SimpleIcon(card->getId(),":/svg/tools/arrow.svg","",nextIconSize);
+            nextIcon = new SimpleIcon(card->getId(),InterFace::getSkinColor(colorName).iconFolder() + "arrow.svg","",nextIconSize);
         nextIcon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
         connect(nextIcon,SIGNAL(click(int)),this,SIGNAL(cardSelected(int)));
         line->addWidget(nextIcon);

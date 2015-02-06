@@ -13,7 +13,7 @@ class CardInfoScreen : public BlankScreen
     Q_OBJECT
 public:
     //explicit CardInfoScreen(QScreen *screenInfo,QWidget *parent=0);
-    explicit CardInfoScreen(QScreen *screenInfo, QSize appScrSize, SKIN_COLOR_NAME colorName,QWidget *parent=0);
+    explicit CardInfoScreen(QScreen *screenInfo, QSize appScrSize, int colorName,QWidget *parent=0);
     ~CardInfoScreen();
     void showCardInfo(CardInfo *card,DATA_SOURCE dataSrc = LOCAL);
     QSize getCardIconSize(){return cardIconSize;}
@@ -47,6 +47,7 @@ private:
     QSize editIconSize;
     int rightEditIconOffset;
     QSize infoIconSize;
+    QString iconsFolder;
 
     QVBoxLayout *cardInfoListLayout;
 
@@ -55,6 +56,8 @@ private:
 
     SimpleIcon *iconMagnet;
     QHBoxLayout *lineMagnetLayout;
+    QLineEdit *magnetLineEdit;
+    double textMagnetLineSize;
 
     void init()
     {
@@ -63,13 +66,15 @@ private:
         title = tr("ИНФОРМАЦИЯ О КАРТЕ");
         spacingSize = 20;
         cardIconSize = QSize(480,360);
-        imgNoPhotoSrc = ":/svg/tools/photono.svg";
+        imgNoPhotoSrc = "nophoto.svg";
         textCardNameSize = 25;
         colorTextNameCard = "#000000";
         editIconSize = QSize(80,80);
         rightEditIconOffset = 15;
 
-        infoIconSize = QSize(110,110);
+        infoIconSize = QSize(110,65);
+        textMagnetLineSize = 15;
+        magnetLineEdit = NULL;
     }
 
 protected:

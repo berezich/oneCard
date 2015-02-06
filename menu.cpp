@@ -1,11 +1,11 @@
 #include "menu.h"
 
-Menu::Menu(QSize size, double scale, SKIN_COLOR_NAME colorName, QWidget *parent):Overlay(parent)
+Menu::Menu(QSize size, double scale, Settings *settings, QWidget *parent):Overlay(parent)
 {
     init();
     scaleFactor = scale;
     blankSize = size;
-    backGroundColor = InterFace::getSkinColor(colorName).options();
+    backGroundColor = InterFace::getSkinColor(settings->skinColor()).options();
     setMinimumSize(size);
     setMaximumSize(size);
 
@@ -19,21 +19,12 @@ Menu::Menu(QSize size, double scale, SKIN_COLOR_NAME colorName, QWidget *parent)
     iconAuthOkSize = iconAuthOkSize*scale;
 
     setContentsMargins(0,0,blankSize.width()-menuWidth,0);
-
+    this->settings = settings;
     menuBasicLayout = new QVBoxLayout();
     menuBasicLayout->setContentsMargins(0,0,0,0);
     setLayout(menuBasicLayout);
     menuWidget = new QWidget();
     menuBasicLayout->addWidget(menuWidget);
-
-    mainMenuItemTxt.append(tr("синхронизация устройства"));
-    mainMenuItemTxt.append(tr("синхронизация с сервером"));
-    mainMenuItemTxt.append(tr("интерфейс"));
-    mainMenuItemTxt.append(tr("язык"));
-
-    languages.append(tr("русский"));
-
-    skins.append(tr("стандартный"));
 
     //showMainMenu();
 
@@ -103,6 +94,7 @@ void Menu::showMainMenu(bool showInAnyway)
 
 void Menu::showSubMenu(int mainItem)
 {
+    curSubMenu = mainItem;
     QWidget *menuWidget1 = new QWidget();
     menuBasicLayout->replaceWidget(menuWidget,menuWidget1);
     delete(menuWidget);
@@ -134,10 +126,6 @@ void Menu::showSubMenu(int mainItem)
     menuLayout->addWidget(titleWidget);
     menuLayout->addSpacing(10*scaleFactor);
 
-    //mainMenuItemTxt.append(tr("синхронизация устройства"));
-    //mainMenuItemTxt.append(tr("синхронизация с сервером"));
-//    mainMenuItemTxt.append(tr("интерфейс"));
-//    mainMenuItemTxt.append(tr("язык"));
 
     if(mainItem==0)//синхронизация с устройством
     {
@@ -147,11 +135,11 @@ void Menu::showSubMenu(int mainItem)
         menuLayout->addWidget(line);
 
         //226x272
-        SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/syncin.svg","",iconBluetoothSize);
+        SimpleIcon *icon = new SimpleIcon(0, InterFace::getSkinColor(settings->skinColor()).iconFolder()+"syncin.svg","",iconBluetoothSize);
         icon->setAlignment(Qt::AlignCenter);
         lineLayout->addWidget(icon);
 
-        icon = new SimpleIcon(0,":/svg/tools/syncout.svg","",iconBluetoothSize);
+        icon = new SimpleIcon(0,InterFace::getSkinColor(settings->skinColor()).iconFolder()+"syncout.svg","",iconBluetoothSize);
         icon->setAlignment(Qt::AlignCenter);
         lineLayout->addWidget(icon);
 
@@ -163,7 +151,20 @@ void Menu::showSubMenu(int mainItem)
     }
     else if(mainItem==1)//синхронизция с сервером
     {
-        QLabel *lbl = new QLabel(tr("логин"));
+        QLabel *lbl = new QLabel(tr("сервер"),this);
+        menuLayout->addWidget(lbl);
+        lbl->setContentsMargins(0,0,0,0);
+        lbl->setFont(QFont("Calibri",menuItemTxtSize));
+        lbl->setStyleSheet("color : "+titleColor+";");
+        lbl->setAlignment(Qt::AlignLeft|Qt::AlignTop);
+
+        endPoint = new QLineEdit();
+        menuLayout->addWidget(endPoint);
+        endPoint->setFont(QFont("Calibri",menuItemTxtSize));
+        endPoint->setStyleSheet("color : "+lblTxtColor+";");
+        endPoint->setText(settings->endPoint());
+
+        lbl = new QLabel(tr("логин"),this);
         menuLayout->addWidget(lbl);
         lbl->setContentsMargins(0,0,0,0);
         lbl->setFont(QFont("Calibri",menuItemTxtSize));
@@ -175,8 +176,10 @@ void Menu::showSubMenu(int mainItem)
         menuLayout->addWidget(login);
         login->setFont(QFont("Calibri",menuItemTxtSize));
         login->setStyleSheet("color : "+lblTxtColor+";");
+        login->setText(settings->login());
 
-        lbl = new QLabel(tr("пароль"));
+
+        lbl = new QLabel(tr("пароль"),this);
         menuLayout->addWidget(lbl);
         lbl->setContentsMargins(0,0,0,0);
         lbl->setFont(QFont("Calibri",menuItemTxtSize));
@@ -188,10 +191,12 @@ void Menu::showSubMenu(int mainItem)
         pass->setFont(QFont("Calibri",menuItemTxtSize));
         pass->setStyleSheet("color : "+lblTxtColor+";");
         pass->setEchoMode(QLineEdit::Password);
+        pass->setText(settings->pass());
 
         menuLayout->addSpacing(20*scaleFactor);
         SimpleIcon *iconOk = new SimpleIcon(-2,":/svg/tools/loginok.svg","",iconAuthOkSize);
         iconOk->setAlignment(Qt::AlignCenter);
+        connect(iconOk,SIGNAL(click(int)),this,SLOT(onChangeServer()));
 
         menuLayout->addWidget(iconOk);
     }
@@ -199,12 +204,31 @@ void Menu::showSubMenu(int mainItem)
     {
 
         MenuItem *itemB;
-        //menuItemBLst.clear();
-
+        colorOptions.clear();
         for(int i=0; i<skins.length(); i++)
         {
             itemB = new MenuItem(i,skins[i],menuItemTxtSize,10*scaleFactor+arrowBackSize.width(), 20*scaleFactor);
-            //menuItemBLst.append(itemB);
+            colorOptions.append(itemB);
+            if(i==settings->skinColor())
+                itemB->setUnerLine(true);
+            connect(itemB,SIGNAL(click(int)),this,SLOT(onChangeColor(int)));
+            menuLayout->addWidget(itemB);
+        }
+
+        menuLayout->addSpacing(30*scaleFactor);
+        QLabel *lblGrpView = new QLabel(grpViewLblText,this);
+        lblGrpView->setContentsMargins(0,0,0,0);
+        lblGrpView->setStyleSheet("QLabel{color:"+titleColor+"; text-align: left; padding-left:"+QString::number(arrowBackSize.width())+"px;}");
+        lblGrpView->setFont(QFont("Calibri",menuTitleTxtSize));
+        menuLayout->addWidget(lblGrpView);
+        grpViewOptions.clear();
+        for(int i=0; i<grpViews.length(); i++)
+        {
+            itemB = new MenuItem(i,grpViews[i],menuItemTxtSize,10*scaleFactor+arrowBackSize.width(), 20*scaleFactor);
+            grpViewOptions.append(itemB);
+            if(i==settings->grpView())
+                itemB->setUnerLine(true);
+            connect(itemB,SIGNAL(click(int)),this,SLOT(onChangeGrpView(int)));
             menuLayout->addWidget(itemB);
         }
     }
@@ -213,10 +237,14 @@ void Menu::showSubMenu(int mainItem)
 
         MenuItem *itemB;
         //menuItemBLst.clear();
-
+        languageOptions.clear();
         for(int i=0; i<languages.length(); i++)
         {
             itemB = new MenuItem(i,languages[i],menuItemTxtSize,10*scaleFactor+arrowBackSize.width(), 20*scaleFactor);
+            languageOptions.append(itemB);
+            if(i==settings->lang())
+                itemB->setUnerLine(true);
+            connect(itemB,SIGNAL(click(int)),this,SLOT(onChangeLanguage(int)));
             //menuItemBLst.append(itemB);
             menuLayout->addWidget(itemB);
         }
@@ -227,5 +255,57 @@ void Menu::showSubMenu(int mainItem)
 void Menu::backToMainMenu()
 {
     showMainMenu(true);
+}
+
+void Menu::onChangeColor(int color)
+{
+    ((MenuItem*)colorOptions[color])->setUnerLine(true);
+    ((MenuItem*)colorOptions[settings->skinColor()])->setUnerLine(false);
+    settings->setSkinColor(color);
+    backGroundColor = InterFace::getSkinColor(settings->skinColor()).options();
+    QPalette Pal(menuWidget->palette());
+    // set black background
+    Pal.setColor(QPalette::Background, backGroundColor);
+    menuWidget->setAutoFillBackground(true);
+    menuWidget->setPalette(Pal);
+    menuWidget->show();
+    emit changeSettings(COLOR);
+}
+
+void Menu::onChangeServer()
+{
+    settings->setLogin(login->text());
+    settings->setPass(pass->text());
+    settings->setEndPoint(endPoint->text());
+    qDebug()<<"login = "<<settings->login()<<"pass = "<<settings->pass()<<"endPoint = "<<settings->endPoint();
+}
+
+void Menu::onChangeLanguage(int lang)
+{
+    ((MenuItem*)languageOptions[lang])->setUnerLine(true);
+    ((MenuItem*)languageOptions[settings->lang()])->setUnerLine(false);
+    settings->setLang(lang);
+
+
+    if(myappTranslator!=NULL)
+    {
+        delete(myappTranslator);
+    }
+    myappTranslator = new QTranslator();
+    QString tsFile = Languages::getLangTs(settings->lang());
+    myappTranslator->load(tsFile);
+    QApplication::instance()->installTranslator(myappTranslator);
+    qDebug()<<"set ts file = "+tsFile;
+    translateNames();
+    showSubMenu(curSubMenu);
+    //emit changeSettings(LANGUAGE);
+}
+
+void Menu::onChangeGrpView(int grpView)
+{
+    ((MenuItem*)grpViewOptions[grpView])->setUnerLine(true);
+    ((MenuItem*)grpViewOptions[settings->grpView()])->setUnerLine(false);
+    settings->setGrpView(grpView);
+    emit changeSettings(GRP_VIEW);
 }
 

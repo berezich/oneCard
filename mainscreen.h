@@ -8,6 +8,11 @@
 #include <QWindow>
 #include <QPoint>
 #include <QFileDialog>
+#include <QTranslator>
+#include <QApplication>
+#include <QIODevice>
+#include <QFile>
+#include <QCloseEvent>
 #include "mainchoicescreen.h"
 #include "grpscreen.h"
 #include "grp.h"
@@ -23,6 +28,7 @@
 #include "server.h"
 #include "servererrors.h"
 #include "interface.h"
+#include "settings.h"
 class MainScreen : public QWidget
 {
     Q_OBJECT
@@ -62,6 +68,8 @@ public slots:
     void onNewCardSelected();
     void showFileDialog();
 
+    void onChangeLanguage();
+    void onAppStateChange(Qt::ApplicationState state);
 
     //slots for server
     void onGetGrpFinished(SERVER_ERRORS servError, QString errorMsg);
@@ -71,6 +79,7 @@ public slots:
 
 
 private:
+    QGuiApplication *mainApp;
     QSize appWidowSize;
     int defaultWidth;
     int defaultHeight;
@@ -82,7 +91,7 @@ private:
     QLayout *mainLayout;
 
     AppState *appState;
-    //GRP_SOURCE grpState = LOCAL;
+    Settings *settings;
 
     QString appDataLocation;
     QString cameraDir;
@@ -118,6 +127,12 @@ private:
     void hideAllScreens();
     void resizeEvent(QResizeEvent *event);
     void keyPressEvent(QKeyEvent *event);
+    void changeEvent(QEvent *e);
+    void closeEvent(QCloseEvent *event);
+    void translateNames()
+    {
+        msgWaitLoading = tr("Пожалуйста подождите...\nЗагрузка данных с сервера");
+    }
     void init()
     {
         defaultWidth = 720;
@@ -128,12 +143,14 @@ private:
         cameraDir="/storage/emulated/0/DCIM/camera/";
         cacheDir="/cameraCache/";
 
+        /*
         ip = "http://onecard.bsv-grip.com";
         port = -1;
         path = "";
 
         login = "oneCard";
         pass = "123456";
+        */
 
         initNewGrpModal = false;
         imgSaveSize = QSize(480,360);
@@ -142,9 +159,10 @@ private:
         msgScreen = NULL;
         newGrpModal = NULL;
 
-        msgWaitLoading = tr("Пожалуйста подождите...\nЗагрузка данных с сервера");
+        translateNames();
     }
-
+    bool serializeData();
+    bool deserializeData();
 };
 
 #endif // MAINSCREEN_H

@@ -1,6 +1,6 @@
 #include "newgrpmodal.h"
 
-NewGrpModal::NewGrpModal(QSize size,double scale,QStringList grpIconLst, QWidget *parent):Overlay(parent)
+NewGrpModal::NewGrpModal(QSize size,double scale,QStringList grpIconLst, QString grpViewFolder, QWidget *parent):Overlay(parent)
 {
     init();
     scaleFactor = scale;
@@ -18,6 +18,7 @@ NewGrpModal::NewGrpModal(QSize size,double scale,QStringList grpIconLst, QWidget
     iconOkSize = iconOkSize*scale;
 
     imgSrcLst = grpIconLst;
+    this->grpViewFolder=grpViewFolder;
 }
 
 NewGrpModal::~NewGrpModal()
@@ -87,7 +88,7 @@ void NewGrpModal::setIconLst()
         if(i < imgSrcLst.length())
         {
             //icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpLst[i].getImgSrc(), grpLst[i].getImgPushSrc(), QSize(190*scaleFactor,190*scaleFactor)/*,*new QSize(230*scaleFactor,210*scaleFactor)*/);
-            icon = new SimpleIcon(i,imgSrcLst[i],"",iconSize,true);
+            icon = new SimpleIcon(i,grpViewFolder+imgSrcLst[i],"",iconSize,true);
             if(i==0)
             {
                 icon->selectIcon();

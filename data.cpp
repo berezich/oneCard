@@ -6,16 +6,16 @@ Data::Data()
     int i=1;
     //получение списка групп из файловой системы
     localGrpLst.clear();
-    Grp gr1(i++, "Транспорт", ":/svg/grpIcons/car.svg", ":/svg/grpIcons/carPUSH.svg");
-    Grp gr2 (i++,"Спорт", ":/svg/grpIcons/fit.svg", ":/svg/grpIcons/fitPUSH.svg");
-    Grp gr3 (i++,"Рестораны", ":/svg/grpIcons/food.svg", ":/svg/grpIcons/foodPUSH.svg");
-    Grp gr4 (i++,"Аптеки", ":/svg/grpIcons/med.svg", ":/svg/grpIcons/medPUSH.svg");
-    Grp gr5 (i++,"Туризм", ":/svg/grpIcons/plane.svg", ":/svg/grpIcons/planePUSH.svg");
-    Grp gr6 (i++,"Ремонт", ":/svg/grpIcons/rebild.svg", ":/svg/grpIcons/rebildPUSH.svg");
-    Grp gr7 (i++,"Магазины", ":/svg/grpIcons/shop.svg", ":/svg/grpIcons/shopPUSH.svg");
-    Grp gr8 (i++,"Солярий", ":/svg/grpIcons/sun.svg", ":/svg/grpIcons/sunPUSH.svg");
-    Grp gr9 (i++,"Разное", ":/svg/grpIcons/different.svg", ":/svg/grpIcons/differentPUSH.svg");
-    Grp gr10 (-1, "", ":/svg/grpIcons/new.svg", ":/svg/grpIcons/newPUSH.svg");
+    Grp gr1(i++, "Транспорт", "car.svg", "");
+    Grp gr2 (i++,"Спорт", "fit.svg", "");
+    Grp gr3 (i++,"Рестораны", "food.svg", "");
+    Grp gr4 (i++,"Аптеки", "med.svg", "");
+    Grp gr5 (i++,"Туризм", "plane.svg", "");
+    Grp gr6 (i++,"Ремонт", "rebild.svg", "");
+    Grp gr7 (i++,"Магазины", "shop.svg", "");
+    Grp gr8 (i++,"Солярий", "sun.svg", "");
+    Grp gr9 (i++,"Разное", "different.svg", "");
+    //Grp gr10 (-1, "", "new.svg", "");
 
     localGrpLst.append(gr1);
     localGrpLst.append(gr2);
@@ -26,7 +26,7 @@ Data::Data()
     localGrpLst.append(gr7);
     localGrpLst.append(gr8);
     localGrpLst.append(gr9);
-    localGrpLst.append(gr10);
+    //localGrpLst.append(gr10);
 
     int k;
     for(i=0; i<localGrpLst.length(); i++)
@@ -65,16 +65,16 @@ Data::Data()
 
     }
     //------------------------
-    grpImgSrcLst.append(":/svg/grpIcons/car.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/fit.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/food.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/med.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/plane.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/rebild.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/shop.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/sun.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/different.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/star.svg");
+    grpImgSrcLst.append("car.svg");
+    grpImgSrcLst.append("fit.svg");
+    grpImgSrcLst.append("food.svg");
+    grpImgSrcLst.append("med.svg");
+    grpImgSrcLst.append("plane.svg");
+    grpImgSrcLst.append("rebild.svg");
+    grpImgSrcLst.append("shop.svg");
+    grpImgSrcLst.append("sun.svg");
+    grpImgSrcLst.append("different.svg");
+    grpImgSrcLst.append("star.svg");
 }
 
 Data::~Data()
@@ -97,7 +97,7 @@ QList<Grp> Data::getGroups(DATA_SOURCE src)
     }
 }
 
-QList<Grp> Data::getLocalGroups()
+QList<Grp> Data::getLocalGroups()const
 {
 
 
@@ -190,5 +190,32 @@ void Data::addNewGrp(QString name, QString grpImgSrc)
 {
 
     Grp gr1(localGrpLst.length(), name, grpImgSrc, "");
-    localGrpLst.insert(localGrpLst.length()-1,gr1);
+    localGrpLst.insert(localGrpLst.length(),gr1);
+}
+
+void Data::setGrpLst(QList<Grp> *grpLst, DATA_SOURCE src)
+{
+    switch (src) {
+    case LOCAL:
+        localGrpLst.clear();
+        for(int i=0; i<grpLst->length(); i++)
+            localGrpLst.append((*grpLst)[i]);
+        grpLst->clear();
+        break;
+    default:
+        break;
+    }
+}
+QDataStream& operator<<(QDataStream& out, const Data& data)
+{
+    out << data.getLocalGroups();
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, Data& data)
+{
+    QList<Grp> *grpLst = new QList<Grp>();
+    in >> *grpLst;
+    data.setGrpLst(grpLst,LOCAL);
+    return in;
 }

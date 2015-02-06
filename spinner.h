@@ -45,7 +45,8 @@ private:
         penWidth = 10;
         spinColor = "#8e0606";
         //spinColor1 = "#9a4848";
-        spinColor1 = "#955f5f";
+        //spinColor1 = "#955f5f";
+        spinColor1 = "#ef9a9a";
         spinSize = QSize(70,70);
         spinImgSrc = ":/svg/tools/spinner.svg";
     }

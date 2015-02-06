@@ -7,20 +7,36 @@
 #include <QMouseEvent>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QDebug>
+#include <QWidgetList>
+#include <QApplication>
+#include <QTranslator>
 #include "menuitem.h"
 #include "simpleicon.h"
 #include "titlemenu.h"
 #include "interface.h"
+#include "settings.h"
+
 
 class Menu : public Overlay
 {
     Q_OBJECT
 public:
-    Menu(QSize size,double scale, SKIN_COLOR_NAME colorName, QWidget *parent);
+    Menu(QSize size,double scale, Settings *settings, QWidget *parent);
     ~Menu();
     bool isMenuOpen(){return menuExists;}
 public slots:
     void showMainMenu(bool showInAnyway=false);
+signals:
+    void changeSettings(OPTIONS option);
+private slots:
+    void showSubMenu(int mainItem);
+    void backToMainMenu();
+    void onChangeColor(int color);
+    void onChangeServer();
+    void onChangeLanguage(int lang);
+    void onChangeGrpView(int grpView);
+
 protected:
 private:
     bool menuExists;
@@ -40,17 +56,55 @@ private:
     QStringList mainMenuItemTxt; //{"НАСТРОЙКИ","синхронизация устройства","синхронизация с сервером","интерфейс","язык"};
     QStringList languages;
     QStringList skins;
+    QStringList grpViews;
+    QString grpViewLblText;
     QSize iconBluetoothSize;
     QSize iconDevSyncSize;
     QSize iconAuthOkSize;
 
+    QWidgetList colorOptions;
+    QWidgetList grpViewOptions;
+    QWidgetList languageOptions;
+
+    Settings *settings;
+
     QLineEdit *login;
     QLineEdit *pass;
+    QLineEdit *endPoint;
+
+    int curSubMenu;
+
+    QTranslator *myappTranslator;
 
     //QList<MenuItem*> menuItemBLst;
     void mousePressEvent(QMouseEvent *event);
+    void translateNames()
+    {
+        mainMenuItemTxt.clear();
+        mainMenuItemTxt.append(tr("синхронизация устройства"));
+        mainMenuItemTxt.append(tr("синхронизация с сервером"));
+        mainMenuItemTxt.append(tr("интерфейс"));
+        mainMenuItemTxt.append(tr("язык"));
+
+        languages.clear();
+        for(int lng=RUSSIAN; lng<=ENGLISH; lng++)
+            languages.append(Languages::getLangName(lng));
+
+        skins.clear();
+        for(int skin=RED; skin<=GRAY;skin++)
+            skins.append(InterFace::getSkinColor(skin).normalName());
+
+        grpViews.clear();
+        for(int view=STANDART; view<=NON_STANDART; view++)
+            grpViews.append(InterFace::getGrpViewName(view));
+        grpViewLblText = tr("вид иконок");
+    }
+
     void init()
     {
+        myappTranslator = NULL;
+
+
         menuExists = false;
         backGroundColor = "#b2dfdb";
 
@@ -67,11 +121,9 @@ private:
         iconDevSyncSize = QSize(50,60)*2;
 
         iconAuthOkSize = QSize(60,60)*1.5;
+        translateNames();
     }
 
-private slots:
-    void showSubMenu(int mainItem);
-    void backToMainMenu();
 };
 
 #endif // MENU_H

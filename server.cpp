@@ -392,7 +392,7 @@ void Server::onGrpLstDownloaded(QString fileName)
                         }
                         if (xml.name().toString() == "ICON")
                         {
-                            QString txt = ":/svg/grpIcons/"+xml.readElementText();
+                            QString txt = xml.readElementText();
                             qDebug()<<txt;
                             grp->setImgSrc(txt);
                         }

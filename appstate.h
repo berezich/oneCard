@@ -16,8 +16,8 @@ private:
     SCREEN_TYPE curScreen;
     OS curOS;
     bool isFixedWinSize;
-    SKIN_COLOR_NAME _curSkinColor;
-    bool _defEnterApp;
+
+    //settings
 public:
     AppState();
 
@@ -42,11 +42,7 @@ public:
     bool getIsFixedWinSize(){return isFixedWinSize;}
     void setIsFixedWinSize(bool val){isFixedWinSize = val;}
 
-    SKIN_COLOR_NAME curSkinColor(){return _curSkinColor;}
-    void setCurSkinColor(SKIN_COLOR_NAME skinColor){_curSkinColor = skinColor;}
 
-    bool defEnterApp(){return _defEnterApp;}
-    void setDefEnterApp(bool state){_defEnterApp=state;}
 private:
     void init()
     {

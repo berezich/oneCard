@@ -43,13 +43,21 @@
 #include "mainscreen.h"
 #include <QScreen>
 #include <QWidget>
+#include <QTranslator>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
+
+//    QTranslator myappTranslator;
+//    myappTranslator.load(":/onecard_en");
+//    app.installTranslator(&myappTranslator);
+
     MainScreen mainScreen(&app);
     mainScreen.show();
+
+
 
     return app.exec();
 }

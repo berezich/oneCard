@@ -12,7 +12,7 @@ class NewGrpModal : public Overlay
 {
     Q_OBJECT
 public:
-    NewGrpModal(QSize size, double scale,QStringList grpIconLst, QWidget *parent = 0);
+    NewGrpModal(QSize size, double scale,QStringList grpIconLst, QString grpViewFolder,QWidget *parent = 0);
     ~NewGrpModal();
     void setIconLst();
 
@@ -53,6 +53,7 @@ private:
     QGridLayout *gridLayout;
     QWidget *gridWidget;
     QStringList imgSrcLst;
+    QString grpViewFolder;
     QList<SimpleIcon *> iconsGrid;
     int selectedIcon;
     void init()

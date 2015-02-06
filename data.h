@@ -14,7 +14,7 @@ public:
     ~Data();
 
     QList<Grp> getGroups(DATA_SOURCE src);
-    QList<Grp> getLocalGroups();
+    QList<Grp> getLocalGroups() const;
     QList<CardInfo> *getLocalCards(int grpId);
     Grp *getLocalGrp(int grpId);
     CardInfo *getLocalCard(int grpId, int cardId);
@@ -22,6 +22,7 @@ public:
     void cacheLastImg(QString cacheFromDir, QString cacheToDir, int num, QSize imgSaveSize);
     QStringList getGrpImgSrc();
     void addNewGrp(QString name, QString grpImgSrc);
+    void setGrpLst(QList<Grp> *grpLst, DATA_SOURCE src);
 
 private:
     QString cameraDir;
@@ -36,5 +37,7 @@ private:
     }
 
 };
+QDataStream& operator<<(QDataStream& out, const Data& data);
+QDataStream& operator>>(QDataStream& in, Data& data);
 
 #endif // DATA_H
