@@ -315,10 +315,11 @@ void CardInfoScreen::onEditName()
 
 void CardInfoScreen::onEditCard()
 {
-    emit editCard(nameEditLine->text(),imgSrc);
+    //emit editCard(nameEditLine->text(),imgSrc);
     cardInfo->setCardName(nameEditLine->text());
     cardInfo->setCardImgSrc(imgSrc);
     if(cardInfo->getIsMagnetLine())
+        if(magnetLineEdit!=NULL)
         cardInfo->setMagnet(magnetLineEdit->text());
     else
         cardInfo->setMagnet("");
