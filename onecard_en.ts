@@ -12,7 +12,7 @@
 <context>
     <name>CardInfoScreen</name>
     <message>
-        <location filename="cardinfoscreen.h" line="64"/>
+        <location filename="cardinfoscreen.h" line="66"/>
         <source>ИНФОРМАЦИЯ О КАРТЕ</source>
         <translation>CARD INFO</translation>
     </message>
@@ -20,7 +20,7 @@
 <context>
     <name>CardScreen</name>
     <message>
-        <location filename="cardscreen.h" line="56"/>
+        <location filename="cardscreen.h" line="61"/>
         <source>Название группы</source>
         <translation>Group name</translation>
     </message>
@@ -123,7 +123,7 @@
     <message>
         <location filename="mainchoicescreen.h" line="78"/>
         <source>Каталог</source>
-        <translation>Catalouge</translation>
+        <translation>Catalog</translation>
     </message>
     <message>
         <location filename="mainchoicescreen.h" line="79"/>
@@ -143,7 +143,7 @@
     <message>
         <location filename="mainchoicescreen.h" line="82"/>
         <source>При запуске переходить в каталог</source>
-        <translation>Open catalouge by default</translation>
+        <translation>Open catalog by default</translation>
     </message>
 </context>
 <context>
@@ -154,7 +154,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="mainscreen.h" line="134"/>
+        <location filename="mainscreen.h" line="133"/>
         <source>Пожалуйста подождите...
 Загрузка данных с сервера</source>
         <translation>Please wait...

@@ -12,7 +12,7 @@
 <context>
     <name>CardInfoScreen</name>
     <message>
-        <location filename="cardinfoscreen.h" line="64"/>
+        <location filename="cardinfoscreen.h" line="66"/>
         <source>ИНФОРМАЦИЯ О КАРТЕ</source>
         <translation>ИНФОРМАЦИЯ О КАРТЕ</translation>
     </message>
@@ -20,7 +20,7 @@
 <context>
     <name>CardScreen</name>
     <message>
-        <location filename="cardscreen.h" line="56"/>
+        <location filename="cardscreen.h" line="61"/>
         <source>Название группы</source>
         <translation>Название группы</translation>
     </message>
@@ -154,7 +154,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="mainscreen.h" line="134"/>
+        <location filename="mainscreen.h" line="133"/>
         <source>Пожалуйста подождите...
 Загрузка данных с сервера</source>
         <translation>Пожалуйста подождите...
