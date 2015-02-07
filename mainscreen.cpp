@@ -207,7 +207,7 @@ void MainScreen::onGrpBackPressed()
 
 void MainScreen::showGrpScreen()
 {
-    GrpScreen *screen = new GrpScreen(screenInfo,appWidowSize,settings->skinColor(),this);
+    GrpScreen *screen = new GrpScreen(screenInfo,window()->size(),settings->skinColor(),this);
     //screen->setGrpLst(dataM->getLocalGroups());
 
     if(appState->getCurGrpType()==SERVER)
@@ -246,7 +246,7 @@ void MainScreen::showCardScreen()
     }
     if(grp!=NULL)
     {
-        screen = new CardScreen(screenInfo,appWidowSize,settings->skinColor(),appState->getCurGrpType(),this);
+        screen = new CardScreen(screenInfo,window()->size(),settings->skinColor(),appState->getCurGrpType(),this);
         screen ->setCardList(grp->getName(),InterFace::getGrpViewFolder(settings->grpView())+ grp->getImgSrc(),grp->getCards());
     }
     else
@@ -309,7 +309,7 @@ void MainScreen::showCardInfoScreen()
     CardInfo *card;
     appState->setCurCardId(appState->getCurCardId());
     //CardInfoScreen *screen = new CardInfoScreen(screenInfo,this);
-    CardInfoScreen *screen = new CardInfoScreen(screenInfo,appWidowSize,settings->skinColor(),this);
+    CardInfoScreen *screen = new CardInfoScreen(screenInfo,window()->size(),settings->skinColor(),this);
     if(appState->getCurGrpType()==LOCAL)
     {
         screen->showCardInfo(dataM->getLocalCard(grpId,cardId));
@@ -357,7 +357,7 @@ void MainScreen::showGalleryScreen(int i)
         showFileDialog();
     else
     {
-        galleryScreen = new GalleryScreen(screenInfo,appWidowSize,settings->skinColor(),appDataLocation+cacheDir,this);
+        galleryScreen = new GalleryScreen(screenInfo,window()->size(),settings->skinColor(),appDataLocation+cacheDir,this);
         galleryScreen->hide();
         galleryScreen->showCameraPhotos();
         mainLayout->addWidget(galleryScreen);
@@ -430,9 +430,9 @@ void MainScreen::showCameraQmlScreen(int i)
 {
     delete(cameraQmlScreen);
     if(appState->getCurOS()==WINDOWS)
-        cameraQmlScreen = new CameraQmlScreen(appWidowSize,"WINDOWS");
+        cameraQmlScreen = new CameraQmlScreen(window()->size(),"WINDOWS");
     else
-        cameraQmlScreen = new CameraQmlScreen(appWidowSize,"NONE");
+        cameraQmlScreen = new CameraQmlScreen(window()->size(),"NONE");
     mainLayout->addWidget(cameraQmlScreen);
     connect(cameraQmlScreen,SIGNAL(pressedCancel()),this,SLOT(onPressBackCameraQmlScreen()));
     connect(cameraQmlScreen,SIGNAL(selectPhoto(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
@@ -455,7 +455,7 @@ void MainScreen::showGrpNewScreen()
         delete(newGrpModal);
         newGrpModal = NULL;
     }
-    newGrpModal = new NewGrpModal(appWidowSize,scaleFactor,dataM->getGrpImgSrc(),InterFace::getGrpViewFolder(settings->grpView()),this);
+    newGrpModal = new NewGrpModal(window()->size(),scaleFactor,dataM->getGrpImgSrc(),InterFace::getGrpViewFolder(settings->grpView()),this);
     newGrpModal->show();
     newGrpModal->setIconLst();
     connect(newGrpModal,SIGNAL(newGrpConfigured(QString,QString)),this,SLOT(newGrpConfigured(QString,QString)));
@@ -493,10 +493,6 @@ void MainScreen::showFileDialog()
     }
 }
 
-void MainScreen::onChangeLanguage()
-{
-
-}
 
 void MainScreen::onAppStateChange(Qt::ApplicationState state)
 {
@@ -540,7 +536,7 @@ void MainScreen::showMsgScreen(QString msg)
         delete(msgScreen);
         msgScreen = NULL;
     }
-    msgScreen = new MsgScreen(appWidowSize,scaleFactor,msg,this);
+    msgScreen = new MsgScreen(window()->size(),scaleFactor,msg,this);
     //mainLayout->addWidget(msgScreen);
     msgScreen->show();
 }
@@ -627,7 +623,6 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
         galleryScreen->show();
         break;
     case CAMERAQML_SCREEN:
-
         cameraQmlScreen->showQML();
         break;
     default:

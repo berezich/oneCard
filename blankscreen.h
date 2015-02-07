@@ -62,7 +62,7 @@ private:
         backGroundColor = "#e5e5e5";
 
         defaultWidth = 720;
-        defaultHeight = 1280;
+        defaultHeight = 1230;
         title = tr("ВАШИ КАРТЫ");
     }
 

@@ -18,7 +18,7 @@ CardScreen::CardScreen(QScreen *screenInfo, QSize appScrSize , int colorName, DA
     cap = new Cap(capHeight, skinColor);
     this->colorName = colorName;
 
-    childWidgets.append(cap);
+    //childWidgets.append(cap);
     if(srcType==LOCAL)
     {
         SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/plus.svg","",QSize(55,55)*scaleFactor);
@@ -27,36 +27,54 @@ CardScreen::CardScreen(QScreen *screenInfo, QSize appScrSize , int colorName, DA
         cap->addRightIcon(icon,capRightIconOffset);
     }
 
-    childLayouts.append(blankLayout);
-    blankLayout->addWidget(cap);
+    //childLayouts.append(blankLayout);
+        blankLayout->addWidget(cap);
 
-    blankLayout->addSpacing(capSpacerH);
+        //blankLayout->addSpacing(capSpacerH);
 
-    blankSpace = new QWidget();
-    blankLayout->addWidget(blankSpace);
+        blankSpace = new QWidget();
+        blankLayout->addWidget(blankSpace);
 
-    setLayout(blankLayout);
+        setLayout(blankLayout);
 
 
-    cardListLayout = new QVBoxLayout();
-    childLayouts.append(cardListLayout);
-    cardListLayout->setSpacing(spacingSize);
-    //cardListLayout->addStretch();
-    blankSpace->setLayout(cardListLayout);
-    blankSpace->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
-    //SizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixe
+        QVBoxLayout *blankSpaceLayout = new QVBoxLayout(blankSpace);
+        blankSpace->setLayout(blankSpaceLayout);
+        blankSpaceLayout->setContentsMargins(0,0,0,0);
 
-    //blankLayout->addStretch();
+        scroll = new QScrollArea(blankSpace);
+        blankSpaceLayout->addWidget(scroll);
+        scroll->horizontalScrollBar()->hide();
+
+        QWidget *cardLstWidget = new QWidget(scroll);
+        cardLstWidget->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Expanding);
+
+        scroll->setWidget(cardLstWidget);
+        scroll->setWidgetResizable(true);
+
+
+        cardListLayout = new QVBoxLayout();
+        //childLayouts.append(cardListLayout);
+        cardListLayout->setSpacing(spacingSize);
+        cardLstWidget->setLayout(cardListLayout);
+
+        //blankSpace->setLayout(cardListLayout);
+        //blankSpace->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
 }
 
 CardScreen::~CardScreen()
 {
+    while(children().length()>0)
+            if(children().last())
+                delete(children().last());
+    /*
     for(int i=0; i<childLayouts.length(); i++)
         if(childLayouts.at(i)!=NULL)
             delete(childLayouts.at(i));
     for(int i=0; i<childWidgets.length(); i++)
         if(childWidgets.at(i)!=NULL)
             delete(childWidgets.at(i));
+            */
 }
 
 void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *cardList)
@@ -88,7 +106,7 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
     for(int i=0; i<cardList->length(); i++)
     {
         line = new QHBoxLayout();
-        childLayouts.append(line);
+        //childLayouts.append(line);
         line->setAlignment( Qt::AlignTop);
 
         line->addSpacing(leftCardOffset);
@@ -99,7 +117,7 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
             cardIcon = new SimpleIcon(card->getId(),card->getCardImgSrc(),"",cardIconSize);
         cardIcon-> setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
         line->addWidget(cardIcon);
-        childWidgets.append(cardIcon);
+        //childWidgets.append(cardIcon);
 
         nameLbl = new QLabel(card->getCardName());
         nameLbl->setFont(QFont("Calibri",textCardNameSize));
@@ -108,7 +126,7 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
         nameLbl-> setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
 
         line->addWidget(nameLbl);
-        childWidgets.append(nameLbl);
+        //childWidgets.append(nameLbl);
 
         line->addStretch(10);
 
@@ -119,7 +137,7 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
         nextIcon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
         connect(nextIcon,SIGNAL(click(int)),this,SIGNAL(cardSelected(int)));
         line->addWidget(nextIcon);
-        childWidgets.append(nextIcon);
+        //childWidgets.append(nextIcon);
         line->addSpacing(rightNextIconOffset);
 
         widgetLine = new QWidget();
@@ -127,14 +145,15 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
         widgetLine->setMinimumWidth(screenSize.width());
         widgetLine->setLayout(line);
 
-        childWidgets.append(widgetLine);
+        //childWidgets.append(widgetLine);
 
         cardListLayout->addWidget(widgetLine);
     }
     cardListLayout->addStretch(1);
-    childWidgets.append(blankSpace);
+    //childWidgets.append(blankSpace);
 
 }
+
 
 void CardScreen::onCapBack(int i)
 {

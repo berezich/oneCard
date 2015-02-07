@@ -7,8 +7,13 @@
 #include "simpleicon.h"
 #include <QSpacerItem>
 #include <QKeyEvent>
+#include <QEvent>
+#include <QScrollPrepareEvent>
 #include "interface.h"
 #include "datalocationtype.h"
+#include <QScrollArea>
+#include <QScrollBar>
+#include <QScroller>
 class CardScreen : public BlankScreen
 {
     Q_OBJECT
@@ -17,7 +22,6 @@ public:
     explicit CardScreen(QScreen *screenInfo,QSize appScrSize, int colorName, DATA_SOURCE srcType = LOCAL, QWidget *parent=0);
     ~CardScreen();
     void setCardList(QString title, QString grpImgSrc, QList<CardInfo> *cardList);
-
 public slots:
     void onCapBack(int i);
 signals:
@@ -34,6 +38,7 @@ private:
     int leftCardOffset;
     QString imgNoPhotoSrc;
     QWidget *blankSpace;
+    QScrollArea *scroll;
 
     int leftNameCardOffset;
     double textCardNameSize;
@@ -43,8 +48,8 @@ private:
     int rightNextIconOffset;
 
     QVBoxLayout *cardListLayout;
-    QWidgetList childWidgets;
-    QList<QLayout *> childLayouts;
+    //QWidgetList childWidgets;
+    //QList<QLayout *> childLayouts;
 
     DATA_SOURCE srcType;
     int colorName;

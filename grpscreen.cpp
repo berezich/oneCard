@@ -72,9 +72,15 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst, QString grpIconPath, bool editable)
     Icon *icon;
     int numItems = columnsNum*rowsNum;
     clearGrid();
-    if(numItems < grpLst.length())
+
+    if(numItems <= grpLst.length())
+    {
         numItems = grpLst.length();
-    QSize gridItemSize = QSize(screenSize.width()/columnsNum,(screenSize.height()-capHeight)/rowsNum - 10*scaleFactor);
+        if(editable)
+            numItems++;
+    }
+
+    QSize gridItemSize = QSize(screenSize.width()/columnsNum,(screenSize.height()-capHeight)/rowsNum );
 
     for(int i=0; i<numItems; i++)
     {

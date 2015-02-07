@@ -68,7 +68,6 @@ public slots:
     void onNewCardSelected();
     void showFileDialog();
 
-    void onChangeLanguage();
     void onAppStateChange(Qt::ApplicationState state);
 
     //slots for server
