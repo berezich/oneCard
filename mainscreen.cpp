@@ -212,11 +212,11 @@ void MainScreen::showGrpScreen()
 
     if(appState->getCurGrpType()==SERVER)
     {
-        screen->setGrpLst(*(server->getGrpLastLst()),InterFace::getGrpViewFolder(settings->grpView()),false);
+        screen->setGrpLst(*(server->getGrpLastLst()),InterFace::getGrpViewFolder(settings->grpView()),(appState->getCurOS()!=WINDOWS),false);
 
     }
     else
-        screen->setGrpLst(dataM->getGroups(appState->getCurGrpType()),InterFace::getGrpViewFolder(settings->grpView()));
+        screen->setGrpLst(dataM->getGroups(appState->getCurGrpType()),InterFace::getGrpViewFolder(settings->grpView()),(appState->getCurOS()!=WINDOWS));
     //screen->initMenu();
     screen->hide();
     connect(screen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
@@ -464,7 +464,7 @@ void MainScreen::showGrpNewScreen()
 void MainScreen::newGrpConfigured(QString name, QString grpImgSrc)
 {
     dataM->addNewGrp(name,grpImgSrc);
-    grpScreen->setGrpLst(dataM->getGroups(LOCAL),InterFace::getGrpViewFolder(settings->grpView()));
+    grpScreen->setGrpLst(dataM->getGroups(LOCAL),InterFace::getGrpViewFolder(settings->grpView()),(appState->getCurOS()!=WINDOWS));
     showGrpScreen();
 }
 

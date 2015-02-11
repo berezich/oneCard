@@ -56,6 +56,8 @@ GrpScreen::GrpScreen(QScreen *screenInfo,QSize appScrSize, int colorName, QWidge
 
     scroll->setWidget(gridWidget);
     scroll->setWidgetResizable(true);
+    scrollBar = scroll->verticalScrollBar();
+
 
 }
 
@@ -67,11 +69,12 @@ GrpScreen::~GrpScreen()
             delete(children().last());
 }
 
-void GrpScreen::setGrpLst(QList<Grp> grpLst, QString grpIconPath, bool editable)
+void GrpScreen::setGrpLst(QList<Grp> grpLst, QString grpIconPath, bool isSwipe, bool editable)
 {
     Icon *icon;
     int numItems = columnsNum*rowsNum;
     clearGrid();
+    this->grpLst = grpLst;
 
     if(numItems <= grpLst.length())
     {
@@ -80,7 +83,7 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst, QString grpIconPath, bool editable)
             numItems++;
     }
 
-    QSize gridItemSize = QSize(screenSize.width()/columnsNum,(screenSize.height()-capHeight)/rowsNum );
+    gridItemSize = QSize(screenSize.width()/columnsNum,(screenSize.height()-capHeight)/rowsNum );
 
     for(int i=0; i<numItems; i++)
     {
@@ -89,6 +92,7 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst, QString grpIconPath, bool editable)
             icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpIconPath+grpLst[i].getImgSrc(), "", iconSize, gridItemSize);
             connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickGrpIcon(int)));
             gridLayout->addWidget(icon, qFloor(i/columnsNum),i%columnsNum);
+            qDebug()<<"Name: "<<grpLst[i].getName()<<"grpId: "<<grpLst[i].getId();
         }
         else if(i == grpLst.length()&&editable)
         {
@@ -101,7 +105,13 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst, QString grpIconPath, bool editable)
             gridLayout->addWidget(new QWidget(), qFloor(i/columnsNum),i%columnsNum);
 
     }
-
+    gridWidget->adjustSize();
+    adjustSize();
+    if(isSwipe)
+    {
+        swipeCover = new SwipeCover(screenSize.height()-capHeight,gridWidget->size().height() - (screenSize.height()-capHeight),scrollBar,blankSpace);
+        connect(swipeCover,SIGNAL(onClick(QPoint)),this,SLOT(onClickPos(QPoint)));
+    }
     //blankSpace->adjustSize();
 }
 
@@ -135,6 +145,24 @@ void GrpScreen::onKeyBackPressed(QKeyEvent *event)
 void GrpScreen::onClickGrpIcon(int grpId)
 {
     emit selectLocalGrp(grpId);
+}
+
+void GrpScreen::onClickPos(QPoint pos)
+{
+    if(pos.y()>= 0 && pos.x() >= 0)
+    {
+        int iRow = qFloor(pos.y()/gridItemSize.height());
+        int iCol = qFloor(pos.x()/gridItemSize.width());
+        int iGrp = iRow*columnsNum + iCol;
+        if(iGrp<grpLst.length())
+        {
+
+            onClickGrpIcon(grpLst[iGrp].getId());
+        }
+        else if( iGrp == grpLst.length())
+            onClickGrpIcon(-1); //new Grp
+    }
+
 }
 /*
 void GrpScreen::onMenuClick()

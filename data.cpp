@@ -189,8 +189,8 @@ QStringList Data::getGrpImgSrc()
 void Data::addNewGrp(QString name, QString grpImgSrc)
 {
 
-    Grp gr1(localGrpLst.length(), name, grpImgSrc, "");
-    localGrpLst.insert(localGrpLst.length(),gr1);
+    Grp gr1(localGrpLst.length()+1, name, grpImgSrc, "");
+    localGrpLst.append(gr1);
 }
 
 void Data::setGrpLst(QList<Grp> *grpLst, DATA_SOURCE src)
