@@ -74,6 +74,17 @@ void Grp::setCardLst(QList<CardInfo> *cards)
         cardsLst->append((*cards)[i]);
 }
 
+QList<CardInfo *> *Grp::getCardsByIdSrv(int cardIdSrv)
+{
+    QList<CardInfo *> *cards = new QList<CardInfo*>();
+    cards->clear();
+    for(int i=0; i < cardsLst->length(); i++)
+        if((*cardsLst)[i].idSrv()==cardIdSrv)
+            cards->append(&((*cardsLst)[i]));
+
+    return cards;
+}
+
 QDataStream& operator<<(QDataStream& out, const Grp& grp)
 {
     out << grp.getId() << grp.getIdSrv() << grp.getName() << grp.getImgSrc() << *grp.getCards();

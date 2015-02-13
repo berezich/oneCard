@@ -46,6 +46,18 @@ void CardInfo::setCardInfo(CardInfo *card)
 
 }
 
+bool CardInfo::cmpCardData(CardInfo *card)
+{
+    if(name == card->getCardName())
+        if(imgSrc.indexOf(card->getCardImgSrc())>=0)
+            if(imgBackSrc.indexOf(card->getCardImgBackSrc())>=0)
+                if(_isImgLocal == card->isImgLocal())
+                    if(isMagnetLine == card->getIsMagnetLine())
+                        if(magnet == card->getMagnet())
+                            return true;
+    return false;
+}
+
 QDataStream& operator<<(QDataStream& out, const CardInfo& card)
 {
     out << card.getId() << card.idSrv() << card.getGrpId() << card.idGrpSrv() << card.getCardName() << card.getCardImgSrc() << card.getCardImgBackSrc() << card.getIsMagnetLine() << card.getMagnet() << card.isImgLocal();

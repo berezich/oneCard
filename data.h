@@ -24,6 +24,7 @@ public:
     void addNewGrp(QString name, QString grpImgSrc);
     void setGrpLst(QList<Grp> *grpLst, DATA_SOURCE src);
     void setCardInfo(int grpId, int cardId, CardInfo *card);
+    void saveCardFromSrv(Grp *grp, CardInfo *card, QString toSrcDir, QSize imgSaveSize);
 
 private:
     QString cameraDir;
@@ -36,7 +37,7 @@ private:
     {
         cameraDir = "/storage/emulated/0/DCIM/camera/";
     }
-
+    Grp *findLocalGrp(QString grpName, QString grpIcon);
 };
 QDataStream& operator<<(QDataStream& out, const Data& data);
 QDataStream& operator>>(QDataStream& in, Data& data);

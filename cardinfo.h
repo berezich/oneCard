@@ -43,6 +43,7 @@ public:
     void setMagnet(QString magnetLine){magnet = magnetLine;}
     void setIsImgLocal(bool val){_isImgLocal = val;}
     void setCardInfo(CardInfo *card);
+    bool cmpCardData(CardInfo *card);
 
 };
 QDataStream& operator<<(QDataStream& out, const CardInfo& card);

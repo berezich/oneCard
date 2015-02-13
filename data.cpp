@@ -213,6 +213,47 @@ void Data::setCardInfo(int grpId, int cardId, CardInfo *card)
     if((cardInfo = getLocalCard(grpId,cardId))!= NULL)
         cardInfo->setCardInfo(card);
 }
+
+Grp *Data::findLocalGrp(QString grpName, QString grpIcon)
+{
+    for(int i=0; i<localGrpLst.length(); i++)
+        if(localGrpLst[i].getName() == grpName && localGrpLst[i].getImgSrc()==grpIcon)
+            return &localGrpLst[i];
+    return NULL;
+}
+
+void Data::saveCardFromSrv(Grp *grp, CardInfo *card, QString toSrcDir, QSize imgSaveSize)
+{
+    CardInfo *cardInf;
+    QString name;
+    Grp *grp1;
+    if(grp!=NULL && card!=NULL)
+    {
+        if((grp1 = findLocalGrp(grp->getName(),grp->getImgSrc()))==NULL)
+        {
+            addNewGrp(grp->getName(),grp->getImgSrc());
+            grp1 = findLocalGrp(grp->getName(),grp->getImgSrc());
+        }
+        if(grp1!=NULL)
+        {
+            QList<CardInfo *> *cards;
+            if((cards = grp1->getCardsByIdSrv(card->idSrv()))!=NULL)
+            {
+                for(int i=0; i<cards->length(); i++)
+                    if(cards->at(i)->cmpCardData(card))
+                        return;
+            }
+            if((cardInf = grp1->createNewCard())!=NULL)
+            {
+                cardInf->setCardInfo(card);
+                if((name = card->getCardImgSrc())!="")
+                    saveImg(name,toSrcDir+"/"+QString::number(cardInf->getGrpId())+"_"+QString::number(cardInf->getId())+"_"+name,imgSaveSize);
+                if((name = card->getCardImgBackSrc())!="")
+                    saveImg(name,toSrcDir+"/"+QString::number(cardInf->getGrpId())+"_"+QString::number(cardInf->getId())+"_"+name,imgSaveSize);
+            }
+        }
+    }
+}
 QDataStream& operator<<(QDataStream& out, const Data& data)
 {
     out << data.getLocalGroups();

@@ -425,9 +425,9 @@ void MainScreen::setCardImgSrc(QString file)
     CardInfo *cardInf = appState->tmpCardInfo();
     QString imgName;
     if(appState->getCurCardSideState()==FRONTSIDE)
-        imgName= cardInf->getCardName()+"_front";
+        imgName= cardInf->getCardName()+"_"+QString::number(grpId)+"_"+QString::number(cardId)+"_f";
     else
-        imgName= cardInf->getCardName()+"_back";
+        imgName= cardInf->getCardName()+"_"+QString::number(grpId)+"_"+QString::number(cardId)+"_b";
     QString saveSrc = appDataLocation+"/"+imgName;
     qDebug()<<"dir+fileName = "<<file;
     qDebug()<<"saveSrc = "<<saveSrc;
@@ -607,6 +607,8 @@ void MainScreen::onCardDataDownloaded(SERVER_ERRORS servError, QString errorMsg)
 
     switch (servError) {
     case REQ_OK:
+        dataM->saveCardFromSrv(server->getGrpTmp(appState->getCurGrpId()),server->getCardTmp(appState->getCurGrpId(),appState->getCurCardId()),appDataLocation,imgSaveSize);
+                //saveCardFormSrv();
         msgScreen->hide();
         showCardInfoScreen();
         //delete(msgScreen);

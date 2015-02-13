@@ -55,6 +55,7 @@ public:
     CardInfo *getCardInfo(int cardId);
     void clearCards(){cardsLst->clear();}
     void setCardLst(QList<CardInfo> *cards);
+    QList<CardInfo *> *getCardsByIdSrv(int cardIdSrv);
 };
 QDataStream& operator<<(QDataStream& out, const Grp& grp);
 QDataStream& operator>>(QDataStream& in, Grp& grp);
