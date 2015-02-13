@@ -98,6 +98,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
     {
         //line->addStretch(1);
         icon = new SimpleIcon(0,iconsFolder+"pen.svg","",editIconSize);
+        connect(icon,SIGNAL(click(int)),this,SLOT(onEditName()));
         icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
         childWidgets.append(icon);
         line->addWidget(icon);
@@ -109,7 +110,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
     widgetLine->setMinimumWidth(screenSize.width());
     cardInfoListLayout->addWidget(widgetLine);
     childWidgets.append(widgetLine);
-    connect(icon,SIGNAL(click(int)),this,SLOT(onEditName()));
+
 
     //frontside of card-------------------
     line = new QHBoxLayout();
@@ -123,7 +124,8 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         cardIcon = new SimpleIcon(0,card->getCardImgSrc(),"",cardIconSize);
     else
         cardIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
-    connect(cardIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
+    if(dataSrc==LOCAL)
+        connect(cardIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
     cardIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
     line->addWidget(cardIcon);
     childWidgets.append(cardIcon);
@@ -179,7 +181,8 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         cardIcon = new SimpleIcon(0,card->getCardImgBackSrc(),"",cardIconSize);
     else
         cardIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
-    connect(cardIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
+    if(dataSrc==LOCAL)
+        connect(cardIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
     cardIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
     line->addWidget(cardIcon);
     childWidgets.append(cardIcon);
@@ -239,7 +242,8 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         iconMagnet = new SimpleIcon(0,":/svg/tools/magnetyes.svg","",infoIconSize);
     else
         iconMagnet = new SimpleIcon(0,":/svg/tools/magnetno.svg","",infoIconSize);
-    connect(iconMagnet,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
+    if(dataSrc==LOCAL)
+        connect(iconMagnet,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
 
     //iconMagnet->setAlignment(Qt::AlignCenter);
     iconMagnet->setAlignment(Qt::AlignHCenter| Qt::AlignVCenter);
