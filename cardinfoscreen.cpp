@@ -123,6 +123,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         cardIcon = new SimpleIcon(0,card->getCardImgSrc(),"",cardIconSize);
     else
         cardIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
+    connect(cardIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
     cardIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
     line->addWidget(cardIcon);
     childWidgets.append(cardIcon);
@@ -143,12 +144,14 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         icon = new SimpleIcon(0,iconsFolder+"photo.svg","",editIconSize);
         icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
         connect(icon,SIGNAL(click(int)),this,SIGNAL(editFrontSideCameraImg()));
+        connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
         vLine->addWidget(icon);
         childWidgets.append(icon);
 
         icon = new SimpleIcon(0,iconsFolder+"gallery.svg","",editIconSize);
         icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
         connect(icon,SIGNAL(click(int)),this,SIGNAL(editFrontSideGalleryImg()));
+        connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
         vLine->addWidget(icon);
         line->addWidget(vLineWidget);
         childWidgets.append(icon);
@@ -176,7 +179,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         cardIcon = new SimpleIcon(0,card->getCardImgBackSrc(),"",cardIconSize);
     else
         cardIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
-
+    connect(cardIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
     cardIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
     line->addWidget(cardIcon);
     childWidgets.append(cardIcon);
@@ -193,12 +196,14 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         icon = new SimpleIcon(0,iconsFolder+"photo.svg","",editIconSize);
         icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
         connect(icon,SIGNAL(click(int)),this,SIGNAL(editBackSideCameraImg()));
+        connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
         vLine->addWidget(icon);
         childWidgets.append(icon);
 
         icon = new SimpleIcon(0,iconsFolder+"gallery.svg","",editIconSize);
         icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
         connect(icon,SIGNAL(click(int)),this,SIGNAL(editBackSideGalleryImg()));
+        connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
         vLine->addWidget(icon);
         line->addWidget(vLineWidget);
         childWidgets.append(icon);
@@ -234,6 +239,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         iconMagnet = new SimpleIcon(0,":/svg/tools/magnetyes.svg","",infoIconSize);
     else
         iconMagnet = new SimpleIcon(0,":/svg/tools/magnetno.svg","",infoIconSize);
+    connect(iconMagnet,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
 
     //iconMagnet->setAlignment(Qt::AlignCenter);
     iconMagnet->setAlignment(Qt::AlignHCenter| Qt::AlignVCenter);
@@ -246,7 +252,6 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         magnetLineEdit->setFont(QFont("Calibri",textMagnetLineSize));
         magnetLineEdit->setAlignment(Qt::AlignHCenter| Qt::AlignTop);
         magnetLineEdit->setReadOnly(false);
-        //magnetLineEdit->setMaxLength(14);
         magnetLineEdit->setStyleSheet("border: "+QString::number(scaleFactor)+"px solid gray; border-radius: "+QString::number(15*scaleFactor)+"px; padding: 0 0px; background: #ffffff;");
         if(!card->getIsMagnetLine())
             magnetLineEdit->hide();
@@ -263,6 +268,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         icon = new SimpleIcon(0,iconsFolder+"pen.svg","",editIconSize);
         icon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
         connect(icon,SIGNAL(click(int)),this,SLOT(editFlagMagnetLine()));
+        connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
         lineMagnetLayout->addWidget(icon);
         childWidgets.append(icon);
         lineMagnetLayout->addSpacing(rightEditIconOffset);
@@ -311,18 +317,24 @@ void CardInfoScreen::onEditName()
     //nameEditLine->setReadOnly(!nameEditLine->isReadOnly());
     nameEditLine->setReadOnly(false);
     nameEditLine->setFocus();
+    QApplication::inputMethod()->show();
 }
 
 void CardInfoScreen::onEditCard()
 {
+
+    clearFocusAll();
     //emit editCard(nameEditLine->text(),imgSrc);
+
+    /*
     cardInfo->setCardName(nameEditLine->text());
     cardInfo->setCardImgSrc(imgSrc);
     if(cardInfo->getIsMagnetLine())
         if(magnetLineEdit!=NULL)
-        cardInfo->setMagnet(magnetLineEdit->text());
-    else
-        cardInfo->setMagnet("");
+            cardInfo->setMagnet(magnetLineEdit->text());
+        else
+            cardInfo->setMagnet("");
+    */
     emit backPressed(0);
 }
 
@@ -334,20 +346,43 @@ void CardInfoScreen::editFlagMagnetLine()
     {
         icon = new SimpleIcon(0,":/svg/tools/magnetyes.svg","",infoIconSize);
         if(magnetLineEdit!=NULL)
+        {
             magnetLineEdit->show();
+            magnetLineEdit->setText("");
+        }
     }
     else
     {
         icon = new SimpleIcon(0,":/svg/tools/magnetno.svg","",infoIconSize);
         if(magnetLineEdit!=NULL)
+        {
             magnetLineEdit->hide();
+            cardInfo->setMagnet("");
+        }
     }
-    icon->setObjectName("test");
+    connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
     icon->setAlignment(Qt::AlignCenter);
     //childWidgets.append(icon);
     lineMagnetLayout->replaceWidget(iconMagnet,icon);
     childWidgets.removeOne(iconMagnet);
     delete(iconMagnet);
     iconMagnet = icon;
+}
+
+void CardInfoScreen::clearFocusAll()
+{
+    if(magnetLineEdit!=NULL)
+    {
+        magnetLineEdit->clearFocus();
+        cardInfo->setMagnet(magnetLineEdit->text());
+    }
+    nameEditLine->clearFocus();
+    cardInfo->setCardName(nameEditLine->text());
+    QApplication::inputMethod()->hide();
+}
+
+void CardInfoScreen::mousePressEvent(QMouseEvent *event)
+{
+    clearFocusAll();
 }
 

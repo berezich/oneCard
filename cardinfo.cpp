@@ -6,7 +6,6 @@ CardInfo::CardInfo(int id, int grpId, QString cardName, QString cardCom, QString
     this->id = id;
     this->grpId = grpId;
     name = cardName;
-    comment = cardCom;
     imgSrc = iSrc;
     imgBackSrc = iBackSrc;
     isMagnetLine = magnetLine;
@@ -21,7 +20,6 @@ CardInfo::CardInfo(int id, int idSrv, int grpId, int grpIdSrv, QString cardName,
     this->grpId = grpId;
     this->_idGrpSrv = grpIdSrv;
     name = cardName;
-    comment = cardCom;
     imgSrc = iSrc;
     imgBackSrc = iBackSrc;
     isMagnetLine = magnetLine;
@@ -32,6 +30,19 @@ CardInfo::CardInfo(int id, int idSrv, int grpId, int grpIdSrv, QString cardName,
 
 CardInfo::~CardInfo()
 {
+
+}
+
+void CardInfo::setCardInfo(CardInfo *card)
+{
+    _idSrv = card->idSrv();
+    _idGrpSrv = card->idGrpSrv();
+    name = card->getCardName();
+    imgSrc = card->getCardImgSrc();
+    imgBackSrc = card->getCardImgBackSrc();
+    _isImgLocal = card->isImgLocal();
+    isMagnetLine = card->getIsMagnetLine();
+    magnet = card->getMagnet();
 
 }
 

@@ -2,6 +2,7 @@
 #define APPSTATE_H
 #include "interface.h"
 #include "datalocationtype.h"
+#include "cardinfo.h"
 
 enum SCREEN_TYPE{MAIN_CHOICE_SCREEN, GRP_SCREEN,CARD_LST_SCREEN,CARD_INFO_SCREEN,GALLERY_SCREEN, CAMERAQML_SCREEN, NEW_GRP_SCREEN};
 enum CARD_SIDE{FRONTSIDE, BACKSIDE};
@@ -16,6 +17,8 @@ private:
     SCREEN_TYPE curScreen;
     OS curOS;
     bool isFixedWinSize;
+    CardInfo _tmpCardInfo;
+
 
     //settings
 public:
@@ -41,6 +44,9 @@ public:
 
     bool getIsFixedWinSize(){return isFixedWinSize;}
     void setIsFixedWinSize(bool val){isFixedWinSize = val;}
+
+    CardInfo *tmpCardInfo(){return &_tmpCardInfo;}
+    void setTmpCardInfo(CardInfo *tmpCardInfo);
 
 
 private:

@@ -23,6 +23,7 @@ public:
     QStringList getGrpImgSrc();
     void addNewGrp(QString name, QString grpImgSrc);
     void setGrpLst(QList<Grp> *grpLst, DATA_SOURCE src);
+    void setCardInfo(int grpId, int cardId, CardInfo *card);
 
 private:
     QString cameraDir;

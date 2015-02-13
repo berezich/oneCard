@@ -129,7 +129,7 @@ CardInfo *Data::getLocalCard(int grpId, int cardId)
                 card = localGrpLst[i].getCardInfo(cardId);
                 return card;
             }
-    return new CardInfo();
+    return NULL;
 }
 
 void Data::saveImg(QString fromSrc, QString toSrc, QSize imgSaveSize, bool replace)
@@ -205,6 +205,13 @@ void Data::setGrpLst(QList<Grp> *grpLst, DATA_SOURCE src)
     default:
         break;
     }
+}
+
+void Data::setCardInfo(int grpId, int cardId, CardInfo *card)
+{
+    CardInfo *cardInfo;
+    if((cardInfo = getLocalCard(grpId,cardId))!= NULL)
+        cardInfo->setCardInfo(card);
 }
 QDataStream& operator<<(QDataStream& out, const Data& data)
 {

@@ -5,6 +5,9 @@
 #include <QLineEdit>
 #include <QStandardPaths>
 #include <QDir>
+#include <QApplication>
+#include <QInputMethod>
+#include <QMouseEvent>
 #include "interface.h"
 #include "datalocationtype.h"
 
@@ -23,6 +26,7 @@ private slots:
     void onEditName();
     void onEditCard();
     void editFlagMagnetLine();
+    void clearFocusAll();
 signals:
     void backPressed(int i);
     void editCard(QString name, QString src);
@@ -58,7 +62,7 @@ private:
     QHBoxLayout *lineMagnetLayout;
     QLineEdit *magnetLineEdit;
     double textMagnetLineSize;
-
+    void 	mousePressEvent ( QMouseEvent * event );
     void init()
     {
         capLeftIconOffset = 10;

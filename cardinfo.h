@@ -14,7 +14,6 @@ private:
     int grpId;
     int _idGrpSrv;
     QString name;
-    QString comment;
     QString imgSrc;
     QString imgBackSrc;
     bool _isImgLocal;
@@ -27,7 +26,6 @@ public:
     int idGrpSrv()const{return _idGrpSrv;}
     int getGrpId()const{return grpId;}
     QString getCardName()const{return name;}
-    QString getCardComment()const{return comment;}
     QString getCardImgSrc()const{return imgSrc;}
     QString getCardImgBackSrc()const{return imgBackSrc;}
     bool getIsMagnetLine()const{return isMagnetLine;}
@@ -44,6 +42,7 @@ public:
     void setFlagMagnetLine(bool flag){isMagnetLine=flag;}
     void setMagnet(QString magnetLine){magnet = magnetLine;}
     void setIsImgLocal(bool val){_isImgLocal = val;}
+    void setCardInfo(CardInfo *card);
 
 };
 QDataStream& operator<<(QDataStream& out, const CardInfo& card);

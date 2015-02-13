@@ -276,6 +276,7 @@ void MainScreen::onCardSelected(int cardId)
 {
     int grpId = appState->getCurGrpId();
     appState->setCurCardId(cardId);
+
     if(appState->getCurGrpType()==LOCAL)
         showCardInfoScreen();
     else if(appState->getCurGrpType() == SERVER)
@@ -304,14 +305,31 @@ void MainScreen::onCardSelected(int cardId)
     }
 
 }
-void MainScreen::showCardInfoScreen()
+void MainScreen::showCardInfoScreen(bool fromTmpCardInfo)
 {
     int cardId = appState->getCurCardId();
     int grpId = appState->getCurGrpId();
     CardInfo *card;
-    appState->setCurCardId(appState->getCurCardId());
+
     //CardInfoScreen *screen = new CardInfoScreen(screenInfo,this);
     CardInfoScreen *screen = new CardInfoScreen(screenInfo,window()->size(),settings->skinColor(),this);
+
+    if(appState->getCurGrpType()==LOCAL)
+    {
+        if(!fromTmpCardInfo)
+            appState->setTmpCardInfo(dataM->getLocalCard(grpId,cardId));
+        screen->showCardInfo(appState->tmpCardInfo());
+    }
+    else
+    {
+        if(!fromTmpCardInfo)
+        {
+            card = server->getCardTmp(grpId,cardId);
+            appState->setTmpCardInfo(card);
+        }
+        screen->showCardInfo(appState->tmpCardInfo(),SERVER);
+    }
+    /*
     if(appState->getCurGrpType()==LOCAL)
     {
         screen->showCardInfo(dataM->getLocalCard(grpId,cardId));
@@ -321,11 +339,13 @@ void MainScreen::showCardInfoScreen()
        card = server->getCardTmp(grpId,cardId);
        screen->showCardInfo(card,SERVER);
     }
+    */
+
     mainLayout->replaceWidget(cardInfoScreen,screen);
     delete(cardInfoScreen);
     cardInfoScreen = screen;
 
-    connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen()));
+    connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(onPressBackCardInfo()));
     connect(cardInfoScreen,SIGNAL(editFrontSideGalleryImg()),this,SLOT(showGalleryScreenF()));
     connect(cardInfoScreen,SIGNAL(editFrontSideCameraImg()),this,SLOT(showCameraQmlScreenF()));
     connect(cardInfoScreen,SIGNAL(editBackSideGalleryImg()),this,SLOT(showGalleryScreenB()));
@@ -385,6 +405,15 @@ void MainScreen::setCardImgSrc(QString dir, QString fileName)
     setCardImgSrc(dir+fileName);
 }
 
+void MainScreen::onPressBackCardInfo()
+{
+    if(appState->getCurGrpType()==LOCAL)
+    {
+        dataM->setCardInfo(appState->getCurGrpId(),appState->getCurCardId(),appState->tmpCardInfo());
+    }
+    showCardScreen();
+}
+
 void MainScreen::setCardImgSrc(QString file)
 {
     //if(galleryScreen!=NULL)
@@ -392,8 +421,8 @@ void MainScreen::setCardImgSrc(QString file)
 
     int cardId = appState->getCurCardId();
     int grpId = appState->getCurGrpId();
-    CardInfo *cardInf = dataM->getLocalCard(grpId, cardId);
-    //QString imgName = cardInf->getCardName()+"_"+fileName;
+    //CardInfo *cardInf = dataM->getLocalCard(grpId, cardId);
+    CardInfo *cardInf = appState->tmpCardInfo();
     QString imgName;
     if(appState->getCurCardSideState()==FRONTSIDE)
         imgName= cardInf->getCardName()+"_front";
@@ -405,17 +434,17 @@ void MainScreen::setCardImgSrc(QString file)
     dataM->saveImg(file,saveSrc,imgSaveSize);
 
     if(appState->getCurCardSideState()==FRONTSIDE)
-        dataM->getLocalCard(grpId,cardId)->setCardImgSrc(saveSrc);
+        cardInf->setCardImgSrc(saveSrc);
     else
-        dataM->getLocalCard(grpId,cardId)->setCardImgBackSrc(saveSrc);
+        cardInf->setCardImgBackSrc(saveSrc);
 
-    showCardInfoScreen();
+    showCardInfoScreen(true);
 }
 
 void MainScreen::onPressBackGalleryScreen()
 {
     delete(galleryScreen);
-    showCardInfoScreen();
+    showCardInfoScreen(true);
 }
 
 void MainScreen::showCameraQmlScreenF()
@@ -445,7 +474,7 @@ void MainScreen::showCameraQmlScreen(int i)
 void MainScreen::onPressBackCameraQmlScreen()
 {
     //delete(cameraQmlScreen);
-    showCardInfoScreen();
+    showCardInfoScreen(true);
 }
 
 
@@ -666,10 +695,10 @@ void MainScreen::keyPressEvent(QKeyEvent *event)
             return;
         case GALLERY_SCREEN:
             delete(galleryScreen);
-            showCardInfoScreen();
+            showCardInfoScreen(true);
             return;
         case CAMERAQML_SCREEN:
-            showCardInfoScreen();
+            showCardInfoScreen(true);
             return;
         case NEW_GRP_SCREEN:
             showGrpScreen();

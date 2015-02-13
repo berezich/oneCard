@@ -51,13 +51,14 @@ public slots:
     //void updateGrpScreen();
     void showCardScreen();
     void onCardSelected(int cardId);
-    void showCardInfoScreen();
+    void showCardInfoScreen(bool fromTmpCardInfo=false);
     void showGalleryScreenF();
     void showGalleryScreenB();
     void showGalleryScreen(int i);
     void setCardImgSrcGallery(QString dir, QString fileName);
     void setCardImgSrc(QString file);
     void setCardImgSrc(QString dir, QString fileName);
+    void onPressBackCardInfo();
     void onPressBackGalleryScreen();
     void showCameraQmlScreenF();
     void showCameraQmlScreenB();

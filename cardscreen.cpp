@@ -117,6 +117,7 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
             cardIcon = new SimpleIcon(card->getId(),InterFace::getSkinColor(colorName).iconFolder() + imgNoPhotoSrc,"",cardIconSize);
         else
             cardIcon = new SimpleIcon(card->getId(),card->getCardImgSrc(),"",cardIconSize);
+        connect(cardIcon,SIGNAL(click(int)),this,SIGNAL(cardSelected(int)));
         cardIcon-> setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
         line->addWidget(cardIcon);
         //childWidgets.append(cardIcon);
@@ -155,7 +156,7 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
     //childWidgets.append(blankSpace);
     adjustSize();
     cardLstWidget->adjustSize();
-    if(isSwipe)
+    if(isSwipe && (cardLstWidget->size().height()>screenSize.height()-capHeight))
     {
         swipeCover = new SwipeCover(screenSize.height()-capHeight,cardLstWidget->size().height() - (screenSize.height()-capHeight),scrollBar,blankSpace);
         connect(swipeCover,SIGNAL(onClick(QPoint)),this,SLOT(onClickPos(QPoint)));
