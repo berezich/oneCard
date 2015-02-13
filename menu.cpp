@@ -151,6 +151,7 @@ void Menu::showSubMenu(int mainItem)
     }
     else if(mainItem==1)//синхронизция с сервером
     {
+        menuLayout->addSpacing(10*scaleFactor);
         QLabel *lbl = new QLabel(tr("сервер"),this);
         menuLayout->addWidget(lbl);
         lbl->setContentsMargins(0,0,0,0);
@@ -164,6 +165,7 @@ void Menu::showSubMenu(int mainItem)
         endPoint->setStyleSheet("color : "+lblTxtColor+";");
         endPoint->setText(settings->endPoint());
 
+        menuLayout->addSpacing(10*scaleFactor);
         lbl = new QLabel(tr("логин"),this);
         menuLayout->addWidget(lbl);
         lbl->setContentsMargins(0,0,0,0);
@@ -171,14 +173,13 @@ void Menu::showSubMenu(int mainItem)
         lbl->setStyleSheet("color : "+titleColor+";");
         lbl->setAlignment(Qt::AlignLeft|Qt::AlignTop);
 
-
         login = new QLineEdit();
         menuLayout->addWidget(login);
         login->setFont(QFont("Calibri",menuItemTxtSize));
         login->setStyleSheet("color : "+lblTxtColor+";");
         login->setText(settings->login());
 
-
+        menuLayout->addSpacing(10*scaleFactor);
         lbl = new QLabel(tr("пароль"),this);
         menuLayout->addWidget(lbl);
         lbl->setContentsMargins(0,0,0,0);
@@ -249,6 +250,28 @@ void Menu::showSubMenu(int mainItem)
             menuLayout->addWidget(itemB);
         }
     }
+    else if(mainItem==4)//вход в каталог
+    {
+
+        MenuItem *itemB,*itemB1;
+        //menuItemBLst.clear();
+        defEnterOptions.clear();
+
+        itemB = new MenuItem(1,tr("включить"),menuItemTxtSize,10*scaleFactor+arrowBackSize.width(), 20*scaleFactor);
+        itemB1 = new MenuItem(0,tr("выключить"),menuItemTxtSize,10*scaleFactor+arrowBackSize.width(), 20*scaleFactor);
+        defEnterOptions.append(itemB1);
+        defEnterOptions.append(itemB);
+        if(settings->defEnterApp())
+            itemB->setUnerLine(true);
+        else
+            itemB1->setUnerLine(true);
+
+        connect(itemB,SIGNAL(click(int)),this,SLOT(onChangeDefEnter(int)));
+        connect(itemB1,SIGNAL(click(int)),this,SLOT(onChangeDefEnter(int)));
+        //menuItemBLst.append(itemB);
+        menuLayout->addWidget(itemB);
+        menuLayout->addWidget(itemB1);
+    }
     menuLayout->addStretch(1);
 }
 
@@ -307,5 +330,20 @@ void Menu::onChangeGrpView(int grpView)
     ((MenuItem*)grpViewOptions[settings->grpView()])->setUnerLine(false);
     settings->setGrpView(grpView);
     emit changeSettings(GRP_VIEW);
+}
+
+void Menu::onChangeDefEnter(int isEnter)
+{
+    settings->setDefEnterApp(isEnter==1);
+    if(isEnter==1)
+    {
+        ((MenuItem*)defEnterOptions[1])->setUnerLine(true);
+        ((MenuItem*)defEnterOptions[0])->setUnerLine(false);
+    }
+    else
+    {
+        ((MenuItem*)defEnterOptions[1])->setUnerLine(false);
+        ((MenuItem*)defEnterOptions[0])->setUnerLine(true);
+    }
 }
 

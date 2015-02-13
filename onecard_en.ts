@@ -20,7 +20,7 @@
 <context>
     <name>CardScreen</name>
     <message>
-        <location filename="cardscreen.h" line="61"/>
+        <location filename="cardscreen.h" line="70"/>
         <source>Название группы</source>
         <translation>Group name</translation>
     </message>
@@ -36,7 +36,7 @@
 <context>
     <name>GrpScreen</name>
     <message>
-        <location filename="grpscreen.h" line="56"/>
+        <location filename="grpscreen.h" line="66"/>
         <source>ВАШИ КАРТЫ</source>
         <translation>YOUR CARDS</translation>
     </message>
@@ -149,7 +149,7 @@
 <context>
     <name>MainScreen</name>
     <message>
-        <location filename="mainscreen.cpp" line="484"/>
+        <location filename="mainscreen.cpp" line="486"/>
         <source>Images (*.png *.bmp *.jpg)</source>
         <translation></translation>
     </message>
@@ -165,24 +165,29 @@ Loading data
 <context>
     <name>Menu</name>
     <message>
-        <location filename="menu.h" line="84"/>
+        <location filename="menu.h" line="86"/>
         <source>синхронизация устройства</source>
         <translation>synch device</translation>
     </message>
     <message>
-        <location filename="menu.h" line="85"/>
+        <location filename="menu.h" line="87"/>
         <source>синхронизация с сервером</source>
         <translation>synch server</translation>
     </message>
     <message>
-        <location filename="menu.h" line="86"/>
+        <location filename="menu.h" line="88"/>
         <source>интерфейс</source>
         <translation>interface</translation>
     </message>
     <message>
-        <location filename="menu.h" line="87"/>
+        <location filename="menu.h" line="89"/>
         <source>язык</source>
         <translation>language</translation>
+    </message>
+    <message>
+        <location filename="menu.h" line="90"/>
+        <source>переход в каталог</source>
+        <translation>open ctalog</translation>
     </message>
     <message>
         <location filename="menu.cpp" line="74"/>
@@ -190,22 +195,32 @@ Loading data
         <translation>SETTINGS</translation>
     </message>
     <message>
-        <location filename="menu.cpp" line="154"/>
+        <location filename="menu.cpp" line="155"/>
         <source>сервер</source>
         <translation>server</translation>
     </message>
     <message>
-        <location filename="menu.cpp" line="167"/>
+        <location filename="menu.cpp" line="169"/>
         <source>логин</source>
         <translation>login</translation>
     </message>
     <message>
-        <location filename="menu.cpp" line="182"/>
+        <location filename="menu.cpp" line="183"/>
         <source>пароль</source>
         <translation>pass</translation>
     </message>
     <message>
-        <location filename="menu.h" line="100"/>
+        <location filename="menu.cpp" line="260"/>
+        <source>включить</source>
+        <translation>turn off</translation>
+    </message>
+    <message>
+        <location filename="menu.cpp" line="261"/>
+        <source>выключить</source>
+        <translation>turn on</translation>
+    </message>
+    <message>
+        <location filename="menu.h" line="103"/>
         <source>вид иконок</source>
         <translation>icons view</translation>
     </message>

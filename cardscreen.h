@@ -14,6 +14,8 @@
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QScroller>
+#include "swipecover.h"
+
 class CardScreen : public BlankScreen
 {
     Q_OBJECT
@@ -21,9 +23,11 @@ public:
     //explicit CardScreen(QScreen *screenInfo,QWidget *parent=0);
     explicit CardScreen(QScreen *screenInfo,QSize appScrSize, int colorName, DATA_SOURCE srcType = LOCAL, QWidget *parent=0);
     ~CardScreen();
-    void setCardList(QString title, QString grpImgSrc, QList<CardInfo> *cardList);
+    void setCardList(QString title, QString grpImgSrc, QList<CardInfo> *cardList, bool isSwipe);
 public slots:
     void onCapBack(int i);
+private slots:
+    void onClickPos(QPoint pos);
 signals:
     void backPressed(int i);
     void cardSelected(int cardId);
@@ -48,8 +52,13 @@ private:
     int rightNextIconOffset;
 
     QVBoxLayout *cardListLayout;
+    QWidget *cardLstWidget;
     //QWidgetList childWidgets;
     //QList<QLayout *> childLayouts;
+    SwipeCover *swipeCover;
+    QScrollBar *scrollBar;
+
+    QList<CardInfo> *cardList;
 
     DATA_SOURCE srcType;
     int colorName;

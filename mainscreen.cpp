@@ -80,9 +80,10 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     mainLayout->addWidget(mainChoiceScreen);
     mainChoiceScreen->hide();
     connect(mainChoiceScreen,SIGNAL(iconPressed(MAIN_ICONS)),this,SLOT(onMainIconPressed(MAIN_ICONS)));
-    connect(mainChoiceScreen,SIGNAL(changeSettings(OPTIONS)),this,SLOT(onChangeLanguage()));
+    //connect(mainChoiceScreen,SIGNAL(changeSettings(OPTIONS)),this,SLOT(onChangeLanguage()));
 
-    grpScreen = new GrpScreen(this);
+    //grpScreen = new GrpScreen();
+    grpScreen = new GrpScreen(screenInfo,appWidowSize,settings->skinColor(),this);
     /*
     grpScreen = new GrpScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
 
@@ -207,6 +208,7 @@ void MainScreen::onGrpBackPressed()
 
 void MainScreen::showGrpScreen()
 {
+    adjustSize();
     GrpScreen *screen = new GrpScreen(screenInfo,window()->size(),settings->skinColor(),this);
     //screen->setGrpLst(dataM->getLocalGroups());
 
@@ -247,7 +249,7 @@ void MainScreen::showCardScreen()
     if(grp!=NULL)
     {
         screen = new CardScreen(screenInfo,window()->size(),settings->skinColor(),appState->getCurGrpType(),this);
-        screen ->setCardList(grp->getName(),InterFace::getGrpViewFolder(settings->grpView())+ grp->getImgSrc(),grp->getCards());
+        screen ->setCardList(grp->getName(),InterFace::getGrpViewFolder(settings->grpView())+ grp->getImgSrc(),grp->getCards(),appState->getCurOS()!=WINDOWS);
     }
     else
     {
@@ -515,18 +517,7 @@ void MainScreen::onAppStateChange(Qt::ApplicationState state)
         break;
     }
 }
-/*
-void MainScreen::onChangeSettings(OPTIONS option)
-{
-    switch (option) {
-    case COLOR:
-        grpScreen
-        break;
-    default:
-        break;
-    }
-}
-*/
+
 
 
 void MainScreen::showMsgScreen(QString msg)
@@ -608,7 +599,8 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
 
     switch (scr) {
     case MAIN_CHOICE_SCREEN:
-        mainChoiceScreen->show();
+        //mainChoiceScreen->show();
+        mainChoiceScreen->showMainChoice();
         break;
     case GRP_SCREEN:
         grpScreen->show();
@@ -673,6 +665,7 @@ void MainScreen::keyPressEvent(QKeyEvent *event)
             showCardScreen();
             return;
         case GALLERY_SCREEN:
+            delete(galleryScreen);
             showCardInfoScreen();
             return;
         case CAMERAQML_SCREEN:
@@ -701,12 +694,6 @@ void MainScreen::closeEvent(QCloseEvent *event)
  {
     serializeData();
     event->accept();
-//    if (maybeSave()) {
-//         writeSettings();
-//         event->accept();
-//     } else {
-//         event->ignore();
-//     }
  }
 
 bool MainScreen::serializeData()

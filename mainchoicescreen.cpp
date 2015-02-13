@@ -48,7 +48,7 @@ MainChoiceScreen::MainChoiceScreen( QSize appScrSize, Settings *settings, QWidge
 
     basicLayout->addStretch(1);
 
-
+/*
     QWidget *defEnterWidget = new QWidget(this);
     QHBoxLayout *defEnterLayout = new QHBoxLayout(defEnterWidget);
     defEnterLayout->setContentsMargins(screenSize.width()/6,0,screenSize.width()/6,0);
@@ -75,8 +75,9 @@ MainChoiceScreen::MainChoiceScreen( QSize appScrSize, Settings *settings, QWidge
     defEnterLayout->addWidget(defLabel);
 
 
-
+*/
     basicLayout->addStretch(1);
+
 
     setGrpLst();
 
@@ -119,7 +120,16 @@ void MainChoiceScreen::setGrpLst()
 void MainChoiceScreen::showMainChoice()
 {
     show();
-    setMaximumSize(window()->geometry().size());
+    if(window()->size().height()<screenSize.height() || window()->size().width()<screenSize.width())
+    {
+        setMaximumSize(screenSize);
+        setMinimumSize(screenSize);
+    }
+    else
+    {
+        setMaximumSize(window()->size());
+        setMinimumSize(window()->size());
+    }
 
 }
 
@@ -176,7 +186,7 @@ void MainChoiceScreen::onChangeSettings(OPTIONS option)
 void MainChoiceScreen::retranslate()
 {
     translateNames();
-    defLabel->setText(defText);
+    //defLabel->setText(defText);
     setGrpLst();
 }
 

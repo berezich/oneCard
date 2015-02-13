@@ -119,8 +119,6 @@
         <file>svg/tools/orange/nophoto.svg</file>
         <file>svg/tools/orange/pen.svg</file>
         <file>svg/tools/orange/penPUSH.svg</file>
-        <file>svg/tools/orange/photonew.svg</file>
-        <file>svg/tools/orange/photonewPUSH.svg</file>
         <file>svg/tools/orange/plus.svg</file>
         <file>svg/tools/orange/plusPUSH.svg</file>
         <file>svg/tools/orange/syncin.svg</file>
@@ -145,8 +143,6 @@
         <file>svg/tools/red/nophoto.svg</file>
         <file>svg/tools/red/pen.svg</file>
         <file>svg/tools/red/penPUSH.svg</file>
-        <file>svg/tools/red/photonew.svg</file>
-        <file>svg/tools/red/photonewPUSH.svg</file>
         <file>svg/tools/red/plus.svg</file>
         <file>svg/tools/red/plusPUSH.svg</file>
         <file>svg/tools/red/syncin.svg</file>
@@ -172,5 +168,7 @@
         <file>onecard_en.qm</file>
         <file>onecard_ru.qm</file>
         <file>svg/tools/teal/nophoto.svg</file>
+        <file>svg/tools/orange/photo.svg</file>
+        <file>svg/tools/orange/photoPUSH.svg</file>
     </qresource>
 </RCC>

@@ -105,8 +105,9 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst, QString grpIconPath, bool isSwipe, 
             gridLayout->addWidget(new QWidget(), qFloor(i/columnsNum),i%columnsNum);
 
     }
-    gridWidget->adjustSize();
     adjustSize();
+    gridWidget->adjustSize();
+
     if(isSwipe)
     {
         swipeCover = new SwipeCover(screenSize.height()-capHeight,gridWidget->size().height() - (screenSize.height()-capHeight),scrollBar,blankSpace);

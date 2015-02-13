@@ -36,6 +36,7 @@ private slots:
     void onChangeServer();
     void onChangeLanguage(int lang);
     void onChangeGrpView(int grpView);
+    void onChangeDefEnter(int isEnter);
 
 protected:
 private:
@@ -65,6 +66,7 @@ private:
     QWidgetList colorOptions;
     QWidgetList grpViewOptions;
     QWidgetList languageOptions;
+    QWidgetList defEnterOptions;
 
     Settings *settings;
 
@@ -85,6 +87,7 @@ private:
         mainMenuItemTxt.append(tr("синхронизация с сервером"));
         mainMenuItemTxt.append(tr("интерфейс"));
         mainMenuItemTxt.append(tr("язык"));
+        mainMenuItemTxt.append(tr("переход в каталог"));
 
         languages.clear();
         for(int lng=RUSSIAN; lng<=ENGLISH; lng++)
@@ -98,6 +101,8 @@ private:
         for(int view=STANDART; view<=NON_STANDART; view++)
             grpViews.append(InterFace::getGrpViewName(view));
         grpViewLblText = tr("вид иконок");
+
+
     }
 
     void init()

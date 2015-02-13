@@ -28,38 +28,39 @@ CardScreen::CardScreen(QScreen *screenInfo, QSize appScrSize , int colorName, DA
     }
 
     //childLayouts.append(blankLayout);
-        blankLayout->addWidget(cap);
+    blankLayout->addWidget(cap);
 
-        //blankLayout->addSpacing(capSpacerH);
+    //blankLayout->addSpacing(capSpacerH);
 
-        blankSpace = new QWidget();
-        blankLayout->addWidget(blankSpace);
+    blankSpace = new QWidget();
+    blankLayout->addWidget(blankSpace);
 
-        setLayout(blankLayout);
-
-
-        QVBoxLayout *blankSpaceLayout = new QVBoxLayout(blankSpace);
-        blankSpace->setLayout(blankSpaceLayout);
-        blankSpaceLayout->setContentsMargins(0,0,0,0);
-
-        scroll = new QScrollArea(blankSpace);
-        blankSpaceLayout->addWidget(scroll);
-        scroll->horizontalScrollBar()->hide();
-
-        QWidget *cardLstWidget = new QWidget(scroll);
-        cardLstWidget->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Expanding);
-
-        scroll->setWidget(cardLstWidget);
-        scroll->setWidgetResizable(true);
+    setLayout(blankLayout);
 
 
-        cardListLayout = new QVBoxLayout();
-        //childLayouts.append(cardListLayout);
-        cardListLayout->setSpacing(spacingSize);
-        cardLstWidget->setLayout(cardListLayout);
+    QVBoxLayout *blankSpaceLayout = new QVBoxLayout(blankSpace);
+    blankSpace->setLayout(blankSpaceLayout);
+    blankSpaceLayout->setContentsMargins(0,0,0,0);
 
-        //blankSpace->setLayout(cardListLayout);
-        //blankSpace->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
+    scroll = new QScrollArea(blankSpace);
+    blankSpaceLayout->addWidget(scroll);
+    scroll->horizontalScrollBar()->hide();
+    scrollBar = scroll->verticalScrollBar();
+
+    cardLstWidget = new QWidget(scroll);
+    cardLstWidget->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Expanding);
+
+    scroll->setWidget(cardLstWidget);
+    scroll->setWidgetResizable(true);
+
+
+    cardListLayout = new QVBoxLayout();
+    //childLayouts.append(cardListLayout);
+    cardListLayout->setSpacing(spacingSize);
+    cardLstWidget->setLayout(cardListLayout);
+
+    //blankSpace->setLayout(cardListLayout);
+    //blankSpace->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
 }
 
 CardScreen::~CardScreen()
@@ -77,7 +78,7 @@ CardScreen::~CardScreen()
             */
 }
 
-void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *cardList)
+void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *cardList, bool isSwipe)
 {
     QHBoxLayout *line;
     QLabel *cardIcon;
@@ -86,6 +87,7 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
     CardInfo *card;
     QWidget *widgetLine;
 
+    this->cardList = cardList;
     this->title = title;
     cap->setTitle(title,textTitleSize,titleLeftMargin);
 
@@ -151,6 +153,13 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
     }
     cardListLayout->addStretch(1);
     //childWidgets.append(blankSpace);
+    adjustSize();
+    cardLstWidget->adjustSize();
+    if(isSwipe)
+    {
+        swipeCover = new SwipeCover(screenSize.height()-capHeight,cardLstWidget->size().height() - (screenSize.height()-capHeight),scrollBar,blankSpace);
+        connect(swipeCover,SIGNAL(onClick(QPoint)),this,SLOT(onClickPos(QPoint)));
+    }
 
 }
 
@@ -158,6 +167,32 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
 void CardScreen::onCapBack(int i)
 {
     emit backPressed(i);
+
+}
+
+void CardScreen::onClickPos(QPoint pos)
+{
+    if(pos.y()>0 && pos.x()>0)
+    {
+        int lineHeigt = cardLstWidget->size().height()/cardList->length();
+        int iCard = pos.y()/lineHeigt;
+        if(iCard<cardList->length())
+            emit cardSelected((*cardList)[iCard].getId());
+    }
+
+//    if(pos.y()>= 0 && pos.x() >= 0)
+//    {
+//        int iRow = qFloor(pos.y()/gridItemSize.height());
+//        int iCol = qFloor(pos.x()/gridItemSize.width());
+//        int iGrp = iRow*columnsNum + iCol;
+//        if(iGrp<grpLst.length())
+//        {
+
+//            onClickGrpIcon(grpLst[iGrp].getId());
+//        }
+//        else if( iGrp == grpLst.length())
+//            onClickGrpIcon(-1); //new Grp
+//    }
 
 }
 
