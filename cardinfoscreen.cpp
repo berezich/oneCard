@@ -125,7 +125,10 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
     else
         cardIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
     if(dataSrc==LOCAL)
+    {
         connect(cardIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
+        connect(cardIcon,SIGNAL(click(int)),this,SIGNAL(editFrontSideCropImg()));
+    }
     cardIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
     line->addWidget(cardIcon);
     childWidgets.append(cardIcon);
@@ -182,7 +185,10 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
     else
         cardIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
     if(dataSrc==LOCAL)
+    {
         connect(cardIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
+        connect(cardIcon,SIGNAL(click(int)),this,SIGNAL(editBackSideCropImg()));
+    }
     cardIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
     line->addWidget(cardIcon);
     childWidgets.append(cardIcon);

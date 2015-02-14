@@ -31,8 +31,9 @@ HEADERS       = button.h \
     spinner.h \
     msgscreen.h \
     settings.h \
-    test.h \
-    swipecover.h
+    swipecover.h \
+    cropimgscreen.h \
+    cropper.h
 SOURCES       = button.cpp \
                 main.cpp \
     blankscreen.cpp \
@@ -61,8 +62,9 @@ SOURCES       = button.cpp \
     spinner.cpp \
     msgscreen.cpp \
     settings.cpp \
-    test.cpp \
-    swipecover.cpp
+    swipecover.cpp \
+    cropimgscreen.cpp \
+    cropper.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/oneCard

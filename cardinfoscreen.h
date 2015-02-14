@@ -35,6 +35,8 @@ signals:
     void editBackSideCameraImg();
     void editBackSideGalleryImg();
     void editFrontSideImg();
+    void editFrontSideCropImg();
+    void editBackSideCropImg();
     void editBackSideImg();
 private:
     int capLeftIconOffset;

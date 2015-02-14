@@ -1,6 +1,6 @@
 #include "imgicon.h"
 
-ImgIcon::ImgIcon(int id, QString imgScr,  QSize imgSize, QWidget *parent)
+ImgIcon::ImgIcon(int id, QString imgScr,  QSize imgSize, bool isExpand, QWidget *parent):QLabel(parent)
 {
     this->id = id;
     this->imgScr = imgScr;
@@ -16,20 +16,30 @@ ImgIcon::ImgIcon(int id, QString imgScr,  QSize imgSize, QWidget *parent)
         picImg = picImgRotate;
     }
 
-    //pixmap = pixmap.fromImage(picImg->scaled(imgSize,Qt::KeepAspectRatio));
-    pixmap = pixmap.fromImage(picImg->scaled(imgSize,Qt::KeepAspectRatioByExpanding));
-
-    delete(picImg);
+    if(isExpand)
+    {
+        *picImg = picImg->scaled(imgSize,Qt::KeepAspectRatioByExpanding);
+        pixmap = pixmap.fromImage(*picImg);
+    }
+    else
+    {
+        *picImg = picImg->scaled(imgSize,Qt::KeepAspectRatio);
+        pixmap = pixmap.fromImage(*picImg);
+        //pixmap = pixmap.fromImage(picImg->scaled(imgSize,Qt::KeepAspectRatio));
+    }
+    //delete(picImg);
     picIcon = new QIcon(pixmap);
     setPixmap(pixmap);
 
-    setMinimumSize(imgSize);
+    if(isExpand)
+        setMinimumSize(imgSize);
     adjustSize();
 }
 
 ImgIcon::~ImgIcon()
 {
     delete(picIcon);
+    delete(picImg);
 }
 void ImgIcon::mousePressEvent(QMouseEvent *)
 {

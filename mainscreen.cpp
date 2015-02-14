@@ -350,6 +350,8 @@ void MainScreen::showCardInfoScreen(bool fromTmpCardInfo)
     connect(cardInfoScreen,SIGNAL(editFrontSideCameraImg()),this,SLOT(showCameraQmlScreenF()));
     connect(cardInfoScreen,SIGNAL(editBackSideGalleryImg()),this,SLOT(showGalleryScreenB()));
     connect(cardInfoScreen,SIGNAL(editBackSideCameraImg()),this,SLOT(showCameraQmlScreenB()));
+    connect(cardInfoScreen,SIGNAL(editFrontSideCropImg()),this,SLOT(showCropScreenFront()));
+    connect(cardInfoScreen,SIGNAL(editBackSideCropImg()),this,SLOT(showCropScreenBack()));
 
 //    connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
 //    connect(cardInfoScreen,SIGNAL(editFrontSideImg()),this,SLOT(showGalleryScreenF()));
@@ -475,6 +477,40 @@ void MainScreen::onPressBackCameraQmlScreen()
 {
     //delete(cameraQmlScreen);
     showCardInfoScreen(true);
+}
+
+void MainScreen::showCropScreenFront()
+{
+    appState->setCurCardSideState(FRONTSIDE);
+    showCropScreen();
+}
+
+void MainScreen::showCropScreenBack()
+{
+    appState->setCurCardSideState(BACKSIDE);
+    showCropScreen();
+}
+
+void MainScreen::showCropScreen()
+{
+    if(cropImgScreen!=NULL)
+    {
+        delete(cropImgScreen);
+        cropImgScreen = NULL;
+    }
+    if(appState->getCurCardSideState()==FRONTSIDE)
+    {
+        if(appState->tmpCardInfo()->getCardImgSrc()=="")
+            return;
+        cropImgScreen = new CropImgScreen(window()->size(),scaleFactor,appState->tmpCardInfo()->getCardImgSrc(),this);
+    }
+    else
+    {
+        if(appState->tmpCardInfo()->getCardImgBackSrc()=="")
+            return;
+        cropImgScreen = new CropImgScreen(window()->size(),scaleFactor,appState->tmpCardInfo()->getCardImgBackSrc(),this);
+    }
+    cropImgScreen->show();
 }
 
 

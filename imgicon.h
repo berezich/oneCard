@@ -11,8 +11,9 @@ public:
 
     Q_OBJECT
 public:
-    ImgIcon(int id, QString imgScr,  QSize imgSize, QWidget *parent=0);
+    ImgIcon(int id, QString imgScr,  QSize imgSize, bool isExpand=true, QWidget *parent=0);
     ~ImgIcon();
+    QImage *getQImg(){return picImg;}
 signals:
     void click(int iconId);
 private:

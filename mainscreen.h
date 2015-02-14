@@ -21,6 +21,7 @@
 #include "galeryscreen.h"
 #include "cameraqmlscreen.h"
 #include "msgscreen.h"
+#include "cropimgscreen.h"
 #include "icon.h"
 #include "data.h"
 #include "appstate.h"
@@ -64,6 +65,9 @@ public slots:
     void showCameraQmlScreenB();
     void showCameraQmlScreen(int i);
     void onPressBackCameraQmlScreen();
+    void showCropScreenFront();
+    void showCropScreenBack();
+    void showCropScreen();
     void showGrpNewScreen();
     void newGrpConfigured(QString name, QString grpImgSrc);
     void onNewCardSelected();
@@ -113,6 +117,7 @@ private:
     CardInfoScreen *cardInfoScreen;
     GalleryScreen *galleryScreen;
     CameraQmlScreen *cameraQmlScreen;
+    CropImgScreen *cropImgScreen;
     NewGrpModal *newGrpModal;
     MsgScreen *msgScreen;
     bool initNewGrpModal;
@@ -158,6 +163,7 @@ private:
 
         msgScreen = NULL;
         newGrpModal = NULL;
+        cropImgScreen = NULL;
 
         translateNames();
     }
