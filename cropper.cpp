@@ -27,7 +27,7 @@ Cropper::~Cropper()
 void Cropper::saveCropImg()
 {
     QImage cropped = getQImg()->copy(startPos.x(),startPos.y(),curPos.x(),curPos.y());
-    cropped.save("C:\\Users\\Sashka\\AppData\\Roaming\\oneCard\\crop_");
+    //cropped.save("C:\\Users\\Sashka\\AppData\\Roaming\\oneCard\\crop_");
 }
 
 bool Cropper::event(QEvent *e)
