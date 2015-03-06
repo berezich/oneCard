@@ -72,6 +72,7 @@ public slots:
     void newGrpConfigured(QString name, QString grpImgSrc);
     void onNewCardSelected();
     void showFileDialog();
+    void onImgCropped(QString fileName);
 
     void onAppStateChange(Qt::ApplicationState state);
 

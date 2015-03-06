@@ -7,16 +7,8 @@ Cropper::Cropper(double scale, int id, QString imgScr, QSize imgSize, bool isExp
     this->scaleFactor = scale;
     this->frameWidth = frameWidth*scaleFactor;
     this->imageSrc = imgScr;
-    /*
-    this->screenSize = imgSize;
-
-    this->sideOff = sideOff;
-    this->bottomOff = bottomOff;
-    this->topOffset = isExpand;
-    setMinimumSize(((QWidget*)parent)->height(),imgSize.width());
-    setMaximumSize(((QWidget*)parent)->height(),imgSize.width());
-    */
-    //setContentsMargins(sideOff,0,sideOff,0);
+    this->imgSize = getQImg()->size();
+    this->sideOff = ((parent->size()-imgSize)/2).width();
 }
 
 Cropper::~Cropper()
@@ -24,10 +16,11 @@ Cropper::~Cropper()
 
 }
 
-void Cropper::saveCropImg()
+void Cropper::saveCropImg(QString file)
 {
-    QImage cropped = getQImg()->copy(startPos.x(),startPos.y(),curPos.x(),curPos.y());
-    //cropped.save("C:\\Users\\Sashka\\AppData\\Roaming\\oneCard\\crop_");
+    QImage cropped = getQImg()->copy(startPos.x(),startPos.y(),curPos.x()-startPos.x(),curPos.y()-startPos.y());
+    bool res = cropped.save(file);
+    qDebug()<<"cropped save res = "<<res;
 }
 
 bool Cropper::event(QEvent *e)
@@ -37,7 +30,12 @@ bool Cropper::event(QEvent *e)
     case QEvent::MouseButtonPress:
     {
         curPos  =  ((QMouseEvent*)e)->pos();
-        startPos = curPos;
+
+        curPos -= QPoint(sideOff,0);
+        if(curPos.x() >= 0 && curPos.y()>=0)
+            startPos = curPos;
+        else
+            startPos = QPoint(-1,-1);
         qDebug() <<"Press: " << curPos;
         update();
 
@@ -46,17 +44,18 @@ bool Cropper::event(QEvent *e)
     case QEvent::MouseMove:
     {
         QPoint curPos1  =  ((QMouseEvent*)e)->pos();
-        qDebug() <<"Move: " << curPos;
-        //if(curPos1.x()>=sideOff && curPos1.x() < screenSize.width()-sideOff)
-            //if(curPos1.y()>0 && curPos1.y() < ((QWidget*)parent())->height())
-            //{
-        if(curPos1.x()>=0 && curPos1.x() < ((QWidget*)parent())->width()-2)
-            if(curPos1.y()>0 && curPos1.y() < ((QWidget*)parent())->height()-6)
-                {
-                    qDebug()<<"parent height = " <<((QWidget*)parent())->height();
-                    curPos = curPos1;
-                    update();
-                }
+        curPos1 -= QPoint(sideOff,0);
+        if(startPos.x() >= 0 && startPos.y()>=0)
+            if(curPos1.x()>=0 && curPos1.x() < imgSize.width())
+            {
+                curPos.setX(curPos1.x());
+                update();
+            }
+            if(curPos1.y()>0 && curPos1.y() < imgSize.height())
+            {
+                curPos.setY(curPos1.y());
+                update();
+            }
 
 
         return true;
@@ -71,23 +70,13 @@ bool Cropper::event(QEvent *e)
 void Cropper::paintEvent(QPaintEvent *e)
 {
     ImgIcon::paintEvent(e);
-    if(curPos!=startPos)
+    if(curPos.x() >= 0 && curPos.y()>=0 && curPos!=startPos)
     {
         QPainter customPainter(this);
 
         QPen pen(Qt::red);
         pen.setWidth(frameWidth);
-        /*
-        if(curPos.y()>screenSize.height()-bottomOff)
-            curPos.setY(screenSize.height()-bottomOff);
-        if(curPos.y()<2)
-            curPos.setY(2);
-        if(curPos.x()>screenSize.width()-sideOff)
-            curPos.setX(screenSize.width()-sideOff);
-        if(curPos.x()<sideOff)
-            curPos.setX(sideOff);
-            */
-        QRectF rectangle( QRectF(startPos,curPos) );
+        QRectF rectangle( QRectF(startPos+QPoint(sideOff,0),curPos+QPoint(sideOff,0)) );
         customPainter.setPen(pen);
         customPainter.drawRect(rectangle);
     }

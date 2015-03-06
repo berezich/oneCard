@@ -1,8 +1,9 @@
 #include "cropimgscreen.h"
 
-CropImgScreen::CropImgScreen(QSize size, double scale, QString imgSrc, QWidget *parent):Overlay(parent)
+CropImgScreen::CropImgScreen(QSize size, double scale, QString imgSrc, QString fileNameForSave, QWidget *parent):Overlay(parent)
 {
     init();
+    this->fileNameForSave = fileNameForSave;
     scaleFactor = scale;
     screenSize = size;
     setMinimumSize(size);
@@ -56,7 +57,8 @@ void CropImgScreen::onIconPressed(int i)
 {
     if(i==0)//ok
     {
-        imgIcon->saveCropImg();
+        imgIcon->saveCropImg(fileNameForSave);
+        emit imgCropped(fileNameForSave);
     }
     this->hide();
 }

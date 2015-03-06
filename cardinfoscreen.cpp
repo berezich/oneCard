@@ -48,12 +48,17 @@ CardInfoScreen::CardInfoScreen(QScreen *screenInfo,QSize appScrSize, int colorNa
 
 CardInfoScreen::~CardInfoScreen()
 {
+    /*
     for(int i=0; i<childLayouts.length(); i++)
         if(childLayouts.at(i)!=NULL)
             delete(childLayouts.at(i));
     for(int i=0; i<childWidgets.length(); i++)
         if(childWidgets.at(i)!=NULL)
             delete(childWidgets.at(i));
+    */
+    while(children().length()>0)
+            if(children().last())
+                delete(children().last());
     magnetLineEdit=NULL;
 }
 
@@ -113,26 +118,26 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
 
 
     //frontside of card-------------------
-    line = new QHBoxLayout();
+    lineFSide = new QHBoxLayout();
 
     //для симметричности
     //line->addSpacing(editIconSize.width());
 
-    line->addStretch(1);
+    lineFSide->addStretch(1);
 
     if(card->getCardImgSrc()!="")
-        cardIcon = new SimpleIcon(0,card->getCardImgSrc(),"",cardIconSize);
+        cardFIcon = new SimpleIcon(0,card->getCardImgSrc(),"",cardIconSize);
     else
-        cardIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
+        cardFIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
     if(dataSrc==LOCAL)
     {
-        connect(cardIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
-        connect(cardIcon,SIGNAL(click(int)),this,SIGNAL(editFrontSideCropImg()));
+        connect(cardFIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
+        connect(cardFIcon,SIGNAL(click(int)),this,SIGNAL(editFrontSideCropImg()));
     }
-    cardIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
-    line->addWidget(cardIcon);
-    childWidgets.append(cardIcon);
-    line->addStretch(1);
+    cardFIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
+    lineFSide->addWidget(cardFIcon);
+    childWidgets.append(cardFIcon);
+    lineFSide->addStretch(1);
     QWidget *vLineWidget;
     QVBoxLayout *vLine;
     if(dataSrc == LOCAL)
@@ -143,7 +148,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         vLineWidget->setLayout(vLine);
         vLine->setContentsMargins(0,0,0,0);
         childLayouts.append(vLine);
-        childLayouts.append(line);
+        childLayouts.append(lineFSide);
 
 
         icon = new SimpleIcon(0,iconsFolder+"photo.svg","",editIconSize);
@@ -158,41 +163,41 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         connect(icon,SIGNAL(click(int)),this,SIGNAL(editFrontSideGalleryImg()));
         connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
         vLine->addWidget(icon);
-        line->addWidget(vLineWidget);
+        lineFSide->addWidget(vLineWidget);
         childWidgets.append(icon);
 
         vLine->addStretch(1);
         childWidgets.append(vLineWidget);
 
-        line->addSpacing(rightEditIconOffset);
+        lineFSide->addSpacing(rightEditIconOffset);
     }
 
     widgetLine = new QWidget();
     widgetLine->setMinimumWidth(screenSize.width());
-    widgetLine->setLayout(line);
+    widgetLine->setLayout(lineFSide);
     cardInfoListLayout->addWidget(widgetLine);
     childWidgets.append(widgetLine);
 
     //backside of card-----------------
-    line = new QHBoxLayout();
+    lineBSide = new QHBoxLayout();
     //для симметричности
     //line->addSpacing(editIconSize.width());
-    line->addStretch(1);
+    lineBSide->addStretch(1);
 
     //cardIcon = new SimpleIcon(0,card->getCardImgBackSrc(),"",cardIconSize);
     if(card->getCardImgBackSrc()!="")
-        cardIcon = new SimpleIcon(0,card->getCardImgBackSrc(),"",cardIconSize);
+        cardBIcon = new SimpleIcon(0,card->getCardImgBackSrc(),"",cardIconSize);
     else
-        cardIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
+        cardBIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
     if(dataSrc==LOCAL)
     {
-        connect(cardIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
-        connect(cardIcon,SIGNAL(click(int)),this,SIGNAL(editBackSideCropImg()));
+        connect(cardBIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
+        connect(cardBIcon,SIGNAL(click(int)),this,SIGNAL(editBackSideCropImg()));
     }
-    cardIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
-    line->addWidget(cardIcon);
-    childWidgets.append(cardIcon);
-    line->addStretch(1);
+    cardBIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
+    lineBSide->addWidget(cardBIcon);
+    childWidgets.append(cardBIcon);
+    lineBSide->addStretch(1);
     if(dataSrc == LOCAL)
     {
         vLineWidget = new QWidget();
@@ -200,7 +205,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         vLineWidget->setLayout(vLine);
         vLine->setContentsMargins(0,0,0,0);
         childLayouts.append(vLine);
-        childLayouts.append(line);
+        childLayouts.append(lineBSide);
 
         icon = new SimpleIcon(0,iconsFolder+"photo.svg","",editIconSize);
         icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
@@ -214,7 +219,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         connect(icon,SIGNAL(click(int)),this,SIGNAL(editBackSideGalleryImg()));
         connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
         vLine->addWidget(icon);
-        line->addWidget(vLineWidget);
+        lineBSide->addWidget(vLineWidget);
         childWidgets.append(icon);
 
         vLine->addStretch(1);
@@ -227,11 +232,11 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
     //    childWidgets.append(icon);
 
 
-        line->addSpacing(rightEditIconOffset);
+        lineBSide->addSpacing(rightEditIconOffset);
     }
     widgetLine = new QWidget();
     widgetLine->setMinimumWidth(screenSize.width());
-    widgetLine->setLayout(line);
+    widgetLine->setLayout(lineBSide);
     cardInfoListLayout->addWidget(widgetLine);
     childWidgets.append(widgetLine);
     //----------------------------------------
@@ -320,6 +325,30 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
     childWidgets.append(blankSpace);
 
     //childLayouts.append(blankLayout);
+}
+
+void CardInfoScreen::updateImg(CARD_SIDE cardSide)
+{
+    SimpleIcon *cardIcon1;
+    if(cardSide == FRONTSIDE)
+    {
+        cardIcon1 = new SimpleIcon(0,cardInfo->getCardImgSrc(),"",cardIconSize);
+        lineFSide->replaceWidget(cardFIcon,cardIcon1);
+        delete(cardFIcon);
+        cardFIcon = cardIcon1;
+        connect(cardIcon1,SIGNAL(click(int)),this,SIGNAL(editFrontSideCropImg()));
+    }
+    else
+    {
+        cardIcon1 = new SimpleIcon(0,cardInfo->getCardImgBackSrc(),"",cardIconSize);
+        lineBSide->replaceWidget(cardBIcon,cardIcon1);
+        delete(cardBIcon);
+        cardBIcon = cardIcon1;
+        connect(cardIcon1,SIGNAL(click(int)),this,SIGNAL(editBackSideCropImg()));
+    }
+    cardIcon1->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
+    connect(cardIcon1,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
+
 }
 
 void CardInfoScreen::onEditName()

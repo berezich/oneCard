@@ -502,14 +502,15 @@ void MainScreen::showCropScreen()
     {
         if(appState->tmpCardInfo()->getCardImgSrc()=="")
             return;
-        cropImgScreen = new CropImgScreen(window()->size(),scaleFactor,appState->tmpCardInfo()->getCardImgSrc(),this);
+        cropImgScreen = new CropImgScreen(window()->size(),scaleFactor,appState->tmpCardInfo()->getCardImgSrc(),appDataLocation+"/"+appState->tmpCardInfo()->getCardName()+"_"+QString::number(appState->tmpCardInfo()->getGrpId())+"_"+QString::number(appState->tmpCardInfo()->getId())+"_f.png",this);
     }
     else
     {
         if(appState->tmpCardInfo()->getCardImgBackSrc()=="")
             return;
-        cropImgScreen = new CropImgScreen(window()->size(),scaleFactor,appState->tmpCardInfo()->getCardImgBackSrc(),this);
+        cropImgScreen = new CropImgScreen(window()->size(),scaleFactor,appState->tmpCardInfo()->getCardImgBackSrc(),appDataLocation+"/"+appState->tmpCardInfo()->getCardName()+"_"+QString::number( appState->tmpCardInfo()->getGrpId())+"_"+QString::number(appState->tmpCardInfo()->getId())+"_b.png",this);
     }
+    connect(cropImgScreen,SIGNAL(imgCropped(QString)),this,SLOT(onImgCropped(QString)));
     cropImgScreen->show();
 }
 
@@ -558,6 +559,17 @@ void MainScreen::showFileDialog()
             setCardImgSrc(fileNames.first());
 
     }
+}
+
+void MainScreen::onImgCropped(QString fileName)
+{
+    if(appState->getCurCardSideState()==FRONTSIDE)
+        appState->tmpCardInfo()->setCardImgSrc(fileName);
+    else
+        appState->tmpCardInfo()->setCardImgBackSrc(fileName);
+    cardInfoScreen->updateImg(appState->getCurCardSideState());
+
+
 }
 
 

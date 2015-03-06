@@ -13,7 +13,7 @@ class CropImgScreen : public Overlay
 {
     Q_OBJECT
 public:
-    CropImgScreen(QSize size, double scale,QString imgSrc,QWidget *parent = 0);
+    CropImgScreen(QSize size, double scale, QString imgSrc, QString fileNameForSave, QWidget *parent = 0);
     ~CropImgScreen();
 private:
     int frameWidth;
@@ -26,6 +26,7 @@ private:
     SimpleIcon *iconOk;
     SimpleIcon *iconNo;
     int sideOff;
+    QString fileNameForSave;
     void init()
     {
         sideOff = 20;
@@ -34,6 +35,8 @@ private:
     }
 private slots:
     void onIconPressed(int i);
+signals:
+    void imgCropped(QString fileName);
 };
 
 #endif // CROPIMGSCREEN_H

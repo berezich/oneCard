@@ -10,6 +10,7 @@
 #include <QMouseEvent>
 #include "interface.h"
 #include "datalocationtype.h"
+#include "appstate.h"
 
 class CardInfoScreen : public BlankScreen
 {
@@ -20,6 +21,7 @@ public:
     ~CardInfoScreen();
     void showCardInfo(CardInfo *card,DATA_SOURCE dataSrc = LOCAL);
     QSize getCardIconSize(){return cardIconSize;}
+    void updateImg(CARD_SIDE cardSide);
 public slots:
     //void onCapBack(int i);
 private slots:
@@ -56,6 +58,10 @@ private:
     QString iconsFolder;
 
     QVBoxLayout *cardInfoListLayout;
+    SimpleIcon *cardFIcon;
+    QHBoxLayout *lineFSide;
+    SimpleIcon *cardBIcon;
+    QHBoxLayout *lineBSide;
 
     QWidgetList childWidgets;
     QList<QLayout*> childLayouts;

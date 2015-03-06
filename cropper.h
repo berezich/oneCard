@@ -15,7 +15,7 @@ class Cropper : public ImgIcon
 public:
     explicit Cropper(double scale, int id,QString imgScr,  QSize imgSize, bool isExpand=true, QWidget *parent=0);
     ~Cropper();
-    void saveCropImg();
+    void saveCropImg(QString file);
 signals:
 
 public slots:
@@ -24,6 +24,7 @@ private:
     QPoint curPos;
     QPoint startPos;
     QSize screenSize;
+    QSize imgSize;
     QString imageSrc;
     int sideOff;
     int bottomOff;
