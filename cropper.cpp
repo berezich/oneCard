@@ -3,7 +3,7 @@
 Cropper::Cropper(double scale, int id, QString imgScr, QSize imgSize, bool isExpand, QWidget *parent) : ImgIcon(id,imgScr,imgSize, isExpand, parent)
 {
     curPos = QPoint(0,0);
-    startPos=QPoint(0,0);
+    startPos=QPoint(-1,-1);
     this->scaleFactor = scale;
     this->frameWidth = frameWidth*scaleFactor;
     this->imageSrc = imgScr;
@@ -18,9 +18,22 @@ Cropper::~Cropper()
 
 void Cropper::saveCropImg(QString file)
 {
-    QImage cropped = getQImg()->copy(startPos.x(),startPos.y(),curPos.x()-startPos.x(),curPos.y()-startPos.y());
-    bool res = cropped.save(file);
-    qDebug()<<"cropped save res = "<<res;
+    if(startPos!=QPoint(-1,-1)&&curPos!=startPos)
+    {
+        QImage cropped = getQImg()->copy(startPos.x(),startPos.y(),curPos.x()-startPos.x(),curPos.y()-startPos.y());
+        bool res = cropped.save(file);
+        qDebug()<<"cropped save res = "<<res;
+    }
+    else
+    {
+        if(!QFile::exists(file))
+        {
+            getQImg()->save(file);
+            qDebug()<<"cropped save res = seve the same size";
+        }
+        else
+            qDebug()<<"cropped save res = undefined size of img";
+    }
 }
 
 bool Cropper::event(QEvent *e)
@@ -70,7 +83,7 @@ bool Cropper::event(QEvent *e)
 void Cropper::paintEvent(QPaintEvent *e)
 {
     ImgIcon::paintEvent(e);
-    if(curPos.x() >= 0 && curPos.y()>=0 && curPos!=startPos)
+    if(startPos!=QPoint(-1,-1)&&curPos.x() >= 0 && curPos.y()>=0 && curPos!=startPos)
     {
         QPainter customPainter(this);
 

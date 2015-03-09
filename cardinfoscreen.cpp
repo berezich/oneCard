@@ -126,9 +126,11 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
     lineFSide->addStretch(1);
 
     if(card->getCardImgSrc()!="")
-        cardFIcon = new SimpleIcon(0,card->getCardImgSrc(),"",cardIconSize);
+        //cardFIcon = new SimpleIcon(0,card->getCardImgSrc(),"",cardIconSize);
+        cardFIcon = new ImgIcon(0,card->getCardImgSrc(),cardIconSize,false);
     else
-        cardFIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
+        //cardFIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
+        cardFIcon = new ImgIcon(0,iconsFolder+imgNoPhotoSrc,cardIconSize);
     if(dataSrc==LOCAL)
     {
         connect(cardFIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
@@ -330,13 +332,17 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
 void CardInfoScreen::updateImg(CARD_SIDE cardSide)
 {
     SimpleIcon *cardIcon1;
+    ImgIcon *cardIcon2;
     if(cardSide == FRONTSIDE)
     {
-        cardIcon1 = new SimpleIcon(0,cardInfo->getCardImgSrc(),"",cardIconSize);
-        lineFSide->replaceWidget(cardFIcon,cardIcon1);
+        //cardIcon1 = new SimpleIcon(0,cardInfo->getCardImgSrc(),"",cardIconSize);
+        cardIcon2 = new ImgIcon(0,cardInfo->getCardImgSrc(),cardIconSize,false);
+        lineFSide->replaceWidget(cardFIcon,cardIcon2);
         delete(cardFIcon);
-        cardFIcon = cardIcon1;
-        connect(cardIcon1,SIGNAL(click(int)),this,SIGNAL(editFrontSideCropImg()));
+        cardFIcon = cardIcon2;
+        connect(cardIcon2,SIGNAL(click(int)),this,SIGNAL(editFrontSideCropImg()));
+        cardIcon2->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
+        connect(cardIcon2,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
     }
     else
     {
@@ -345,9 +351,10 @@ void CardInfoScreen::updateImg(CARD_SIDE cardSide)
         delete(cardBIcon);
         cardBIcon = cardIcon1;
         connect(cardIcon1,SIGNAL(click(int)),this,SIGNAL(editBackSideCropImg()));
+        cardIcon1->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
+        connect(cardIcon1,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
     }
-    cardIcon1->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
-    connect(cardIcon1,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
+
 
 }
 

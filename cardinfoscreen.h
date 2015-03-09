@@ -11,6 +11,7 @@
 #include "interface.h"
 #include "datalocationtype.h"
 #include "appstate.h"
+#include "imgicon.h"
 
 class CardInfoScreen : public BlankScreen
 {
@@ -58,7 +59,8 @@ private:
     QString iconsFolder;
 
     QVBoxLayout *cardInfoListLayout;
-    SimpleIcon *cardFIcon;
+    //SimpleIcon *cardFIcon;
+    ImgIcon *cardFIcon;
     QHBoxLayout *lineFSide;
     SimpleIcon *cardBIcon;
     QHBoxLayout *lineBSide;
