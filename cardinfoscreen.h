@@ -62,7 +62,8 @@ private:
     //SimpleIcon *cardFIcon;
     ImgIcon *cardFIcon;
     QHBoxLayout *lineFSide;
-    SimpleIcon *cardBIcon;
+    ImgIcon *cardBIcon;
+    //SimpleIcon *cardBIcon;
     QHBoxLayout *lineBSide;
 
     QWidgetList childWidgets;

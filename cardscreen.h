@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include "cardinfo.h"
 #include "simpleicon.h"
+#include "imgicon.h"
 #include <QSpacerItem>
 #include <QKeyEvent>
 #include <QEvent>

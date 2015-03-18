@@ -81,7 +81,8 @@ CardScreen::~CardScreen()
 void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *cardList, bool isSwipe)
 {
     QHBoxLayout *line;
-    QLabel *cardIcon;
+    //QLabel *cardIcon;
+    ImgIcon *cardIcon;
     QLabel *nameLbl;
     QLabel *nextIcon;
     CardInfo *card;
@@ -114,9 +115,11 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
         line->addSpacing(leftCardOffset);
         card = &(*cardList)[i];
         if(card->getCardImgSrc()=="" || (srcType==SERVER && !card->isImgLocal()))
-            cardIcon = new SimpleIcon(card->getId(),InterFace::getSkinColor(colorName).iconFolder() + imgNoPhotoSrc,"",cardIconSize);
+            //cardIcon = new SimpleIcon(card->getId(),InterFace::getSkinColor(colorName).iconFolder() + imgNoPhotoSrc,"",cardIconSize);
+            cardIcon = new ImgIcon(card->getId(),InterFace::getSkinColor(colorName).iconFolder() + imgNoPhotoSrc,cardIconSize,false);
         else
-            cardIcon = new SimpleIcon(card->getId(),card->getCardImgSrc(),"",cardIconSize);
+            //cardIcon = new SimpleIcon(card->getId(),card->getCardImgSrc(),"",cardIconSize);
+            cardIcon = new ImgIcon(card->getId(),card->getCardImgSrc(),cardIconSize,false);
         connect(cardIcon,SIGNAL(click(int)),this,SIGNAL(cardSelected(int)));
         cardIcon-> setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
         line->addWidget(cardIcon);

@@ -188,9 +188,11 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
 
     //cardIcon = new SimpleIcon(0,card->getCardImgBackSrc(),"",cardIconSize);
     if(card->getCardImgBackSrc()!="")
-        cardBIcon = new SimpleIcon(0,card->getCardImgBackSrc(),"",cardIconSize);
+        //cardBIcon = new SimpleIcon(0,card->getCardImgBackSrc(),"",cardIconSize);
+        cardBIcon = new ImgIcon(0,card->getCardImgBackSrc(),cardIconSize,false);
     else
-        cardBIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
+        //cardBIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
+        cardBIcon = new ImgIcon(0,iconsFolder+imgNoPhotoSrc,cardIconSize,false);
     if(dataSrc==LOCAL)
     {
         connect(cardBIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
@@ -331,22 +333,23 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
 
 void CardInfoScreen::updateImg(CARD_SIDE cardSide)
 {
-    SimpleIcon *cardIcon1;
-    ImgIcon *cardIcon2;
+    //SimpleIcon *cardIcon1;
+    ImgIcon *cardIcon1;
     if(cardSide == FRONTSIDE)
     {
         //cardIcon1 = new SimpleIcon(0,cardInfo->getCardImgSrc(),"",cardIconSize);
-        cardIcon2 = new ImgIcon(0,cardInfo->getCardImgSrc(),cardIconSize,false);
-        lineFSide->replaceWidget(cardFIcon,cardIcon2);
+        cardIcon1 = new ImgIcon(0,cardInfo->getCardImgSrc(),cardIconSize,false);
+        lineFSide->replaceWidget(cardFIcon,cardIcon1);
         delete(cardFIcon);
-        cardFIcon = cardIcon2;
-        connect(cardIcon2,SIGNAL(click(int)),this,SIGNAL(editFrontSideCropImg()));
-        cardIcon2->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
-        connect(cardIcon2,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
+        cardFIcon = cardIcon1;
+        connect(cardIcon1,SIGNAL(click(int)),this,SIGNAL(editFrontSideCropImg()));
+        cardIcon1->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
+        connect(cardIcon1,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
     }
     else
     {
-        cardIcon1 = new SimpleIcon(0,cardInfo->getCardImgBackSrc(),"",cardIconSize);
+        //cardIcon1 = new SimpleIcon(0,cardInfo->getCardImgBackSrc(),"",cardIconSize);
+        cardIcon1 = new ImgIcon(0,cardInfo->getCardImgBackSrc(),cardIconSize,false);
         lineBSide->replaceWidget(cardBIcon,cardIcon1);
         delete(cardBIcon);
         cardBIcon = cardIcon1;
