@@ -59,7 +59,7 @@ public slots:
     void setCardImgSrcGallery(QString dir, QString fileName);
     void setCardImgSrc(QString file);
     void setCardImgSrc(QString dir, QString fileName);
-    void onPressBackCardInfo();
+    void onPressBackCardInfo(bool cancelChanges);
     void onPressBackGalleryScreen();
     void showCameraQmlScreenF();
     void showCameraQmlScreenB();

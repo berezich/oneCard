@@ -18,8 +18,8 @@ BlankScreen::BlankScreen(QScreen *screenInfo, QSize appScrSize, int colorName, Q
 
     scaleFactor = qMin(scaleFactorW,scaleFactorH);
 
-    qDebug()<<"scaleW = "<< scaleFactorW <<" scaleH = "<< scaleFactorH;
-    qDebug()<<"scale = "<< scaleFactor;
+    //qDebug()<<"scaleW = "<< scaleFactorW <<" scaleH = "<< scaleFactorH;
+    //qDebug()<<"scale = "<< scaleFactor;
 
     capHeight = capHeight*scaleFactor;
     titleLeftMargin =titleLeftMargin*scaleFactor;

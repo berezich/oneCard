@@ -8,6 +8,7 @@
 #include <QApplication>
 #include <QInputMethod>
 #include <QMouseEvent>
+#include <QKeyEvent>
 #include "interface.h"
 #include "datalocationtype.h"
 #include "appstate.h"
@@ -31,7 +32,7 @@ private slots:
     void editFlagMagnetLine();
     void clearFocusAll();
 signals:
-    void backPressed(int i);
+    void backPressed(bool cancelChanges=false);
     void editCard(QString name, QString src);
     void editFrontSideCameraImg();
     void editFrontSideGalleryImg();
@@ -74,6 +75,7 @@ private:
     QLineEdit *magnetLineEdit;
     double textMagnetLineSize;
     void 	mousePressEvent ( QMouseEvent * event );
+    void keyPressEvent(QKeyEvent *event);
     void init()
     {
         capLeftIconOffset = 10;

@@ -42,7 +42,6 @@ CardInfoScreen::CardInfoScreen(QScreen *screenInfo,QSize appScrSize, int colorNa
 
     childLayouts.append(cardInfoListLayout);
     childLayouts.append(blankLayout);
-
     //blankLayout->addStretch();
 }
 
@@ -130,7 +129,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         cardFIcon = new ImgIcon(0,card->getCardImgSrc(),cardIconSize,false);
     else
         //cardFIcon = new SimpleIcon(0,iconsFolder+imgNoPhotoSrc,"",cardIconSize);
-        cardFIcon = new ImgIcon(0,iconsFolder+imgNoPhotoSrc,cardIconSize);
+        cardFIcon = new ImgIcon(0,iconsFolder+imgNoPhotoSrc,cardIconSize,false);
     if(dataSrc==LOCAL)
     {
         connect(cardFIcon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
@@ -384,7 +383,7 @@ void CardInfoScreen::onEditCard()
         else
             cardInfo->setMagnet("");
     */
-    emit backPressed(0);
+    emit backPressed();
 }
 
 void CardInfoScreen::editFlagMagnetLine()
@@ -435,3 +434,11 @@ void CardInfoScreen::mousePressEvent(QMouseEvent *event)
     clearFocusAll();
 }
 
+void CardInfoScreen::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key()==Qt::Key_Back)
+    {
+        emit backPressed(true);
+        return;
+    }
+}

@@ -27,6 +27,7 @@ private:
     SimpleIcon *iconNo;
     int sideOff;
     QString fileNameForSave;
+    void keyPressEvent(QKeyEvent *event);
     void init()
     {
         sideOff = 20;

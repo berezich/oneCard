@@ -345,7 +345,7 @@ void MainScreen::showCardInfoScreen(bool fromTmpCardInfo)
     delete(cardInfoScreen);
     cardInfoScreen = screen;
 
-    connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(onPressBackCardInfo()));
+    connect(cardInfoScreen,SIGNAL(backPressed(bool)),this,SLOT(onPressBackCardInfo(bool)));
     connect(cardInfoScreen,SIGNAL(editFrontSideGalleryImg()),this,SLOT(showGalleryScreenF()));
     connect(cardInfoScreen,SIGNAL(editFrontSideCameraImg()),this,SLOT(showCameraQmlScreenF()));
     connect(cardInfoScreen,SIGNAL(editBackSideGalleryImg()),this,SLOT(showGalleryScreenB()));
@@ -389,7 +389,7 @@ void MainScreen::showGalleryScreen(int i)
         connect(galleryScreen,SIGNAL(pressBack()),this,SLOT(onPressBackGalleryScreen()));
 
         connect(galleryScreen,SIGNAL(selectPic(QString,QString)),this,SLOT(setCardImgSrcGallery(QString,QString)));
-
+        setFocus();
         showScreen(GALLERY_SCREEN);
     }
 
@@ -407,12 +407,13 @@ void MainScreen::setCardImgSrc(QString dir, QString fileName)
     setCardImgSrc(dir+fileName);
 }
 
-void MainScreen::onPressBackCardInfo()
+void MainScreen::onPressBackCardInfo(bool cancelChanges)
 {
-    if(appState->getCurGrpType()==LOCAL)
+    if(appState->getCurGrpType()==LOCAL && !cancelChanges)
     {
         dataM->setCardInfo(appState->getCurGrpId(),appState->getCurCardId(),appState->tmpCardInfo());
     }
+    setFocus();
     showCardScreen();
 }
 
@@ -470,6 +471,7 @@ void MainScreen::showCameraQmlScreen(int i)
     connect(cameraQmlScreen,SIGNAL(pressedCancel()),this,SLOT(onPressBackCameraQmlScreen()));
     connect(cameraQmlScreen,SIGNAL(selectPhoto(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
     window()->update();
+    setFocus();
     showScreen(CAMERAQML_SCREEN);
 
 }
@@ -512,6 +514,7 @@ void MainScreen::showCropScreen()
     }
     connect(cropImgScreen,SIGNAL(imgCropped(QString)),this,SLOT(onImgCropped(QString)));
     cropImgScreen->show();
+    cropImgScreen->setFocus();
 }
 
 
@@ -689,6 +692,7 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
         break;
     case CARD_INFO_SCREEN:
         cardInfoScreen->show();
+        cardInfoScreen->setFocus();
         break;
     case GALLERY_SCREEN:
         galleryScreen->show();
@@ -730,6 +734,7 @@ void MainScreen::keyPressEvent(QKeyEvent *event)
 {
     if(event->key()==Qt::Key_Back)
     {
+        qDebug() << "Key_Back event screen = " << appState->getCurScreen();
         switch (appState->getCurScreen()) {
         case MAIN_CHOICE_SCREEN:
             mainChoiceScreen->onKeyBackPressed(event);

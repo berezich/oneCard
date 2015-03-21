@@ -53,6 +53,15 @@ CropImgScreen::~CropImgScreen()
             delete(children().last());
 }
 
+void CropImgScreen::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key()==Qt::Key_Back)
+    {
+        hide();
+        return;
+    }
+}
+
 void CropImgScreen::onIconPressed(int i)
 {
     if(i==0)//ok

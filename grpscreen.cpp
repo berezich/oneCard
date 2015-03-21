@@ -92,7 +92,7 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst, QString grpIconPath, bool isSwipe, 
             icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpIconPath+grpLst[i].getImgSrc(), "", iconSize, gridItemSize);
             connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickGrpIcon(int)));
             gridLayout->addWidget(icon, qFloor(i/columnsNum),i%columnsNum);
-            qDebug()<<"Name: "<<grpLst[i].getName()<<"grpId: "<<grpLst[i].getId();
+            //qDebug()<<"Name: "<<grpLst[i].getName()<<"grpId: "<<grpLst[i].getId();
         }
         else if(i == grpLst.length()&&editable)
         {
