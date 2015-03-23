@@ -14,12 +14,14 @@ public:
     ImgIcon(int id, QString imgScr,  QSize imgSize, bool isExpand=true, QWidget *parent=0);
     ~ImgIcon();
     QImage *getQImg(){return picImg;}
+    QImage *getOrigQImg(){return picOrigImg;}
 signals:
     void click(int iconId);
 private:
     int id;
     QIcon *picIcon;
     QImage *picImg;
+    QImage *picOrigImg;
     QImage *picImgRotate;
     QPixmap pixmap;
     QString imgScr;

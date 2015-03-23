@@ -159,7 +159,8 @@ private:
         */
 
         initNewGrpModal = false;
-        imgSaveSize = QSize(480,360);
+        imgSaveSize = QSize(960,720);
+        //imgSaveSize = QSize(480,360);
         cacheImgNum = 8;
 
         msgScreen = NULL;

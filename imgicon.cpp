@@ -14,8 +14,9 @@ ImgIcon::ImgIcon(int id, QString imgScr,  QSize imgSize, bool isExpand, QWidget 
         picImgRotate = new QImage( picImg->transformed(trans.rotate(-90)));
         delete(picImg);
         picImg = picImgRotate;
-    }
 
+    }
+    picOrigImg = new QImage(*picImg);
     if(isExpand)
     {
         *picImg = picImg->scaled(imgSize,Qt::KeepAspectRatioByExpanding);
@@ -40,6 +41,7 @@ ImgIcon::~ImgIcon()
 {
     delete(picIcon);
     delete(picImg);
+    delete(picOrigImg);
 }
 void ImgIcon::mousePressEvent(QMouseEvent *)
 {

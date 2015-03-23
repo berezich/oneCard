@@ -20,7 +20,12 @@ void Cropper::saveCropImg(QString file)
 {
     if(startPos!=QPoint(-1,-1)&&curPos!=startPos)
     {
-        QImage cropped = getQImg()->copy(startPos.x(),startPos.y(),curPos.x()-startPos.x(),curPos.y()-startPos.y());
+        qDebug()<<"OrigQImg size = "<<getOrigQImg()->size();
+        qDebug()<<"QImg size = "<<imgSize;
+        double k = ((double) getOrigQImg()->size().width())/((double)imgSize.width());
+        qDebug()<<"koef = "<<k;
+        //QImage cropped = getQImg()->copy(startPos.x(),startPos.y(),curPos.x()-startPos.x(),curPos.y()-startPos.y());
+        QImage cropped = getOrigQImg()->copy(startPos.x()*k,startPos.y()*k,(curPos.x()-startPos.x())*k,(curPos.y()-startPos.y())*k);
         bool res = cropped.save(file);
         qDebug()<<"cropped save res = "<<res;
     }

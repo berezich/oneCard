@@ -55,6 +55,7 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     double scaleFactorH = ((double)appWidowSize.height())/(double)defaultHeight;
 
     scaleFactor = qMin(scaleFactorW,scaleFactorH);
+    imgSaveSize = imgSaveSize*scaleFactor;
     settings = new Settings();
     dataM = new Data();
     deserializeData();
@@ -101,7 +102,7 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     mainLayout->addWidget(cardScreen);
 
     cardInfoScreen = new CardInfoScreen(screenInfo,appWidowSize,settings->skinColor(),this);
-    imgSaveSize = cardInfoScreen->getCardIconSize();
+    //imgSaveSize = cardInfoScreen->getCardIconSize();
     cardInfoScreen->hide();
     //connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen()));
     mainLayout->addWidget(cardInfoScreen);
