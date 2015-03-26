@@ -9,7 +9,6 @@ SimpleIcon::SimpleIcon(int id, QString imgScr,  QString imgPushScr, QSize imgSiz
     this->staySelected = staySelected;
     picIcon = new QIcon(imgScr);
     setPixmap(picIcon->pixmap(imgSize));
-    //setAlignment(Qt::AlignVCenter | Qt::AlignRight);
     setMinimumSize(imgSize);
     adjustSize();
 }
@@ -45,10 +44,6 @@ void SimpleIcon::mouseReleaseEvent(QMouseEvent *)
     if(!staySelected)
     {
         unselectIcon();
-//        QPixmap pixmap=picIcon->pixmap(imgSize,QIcon::Normal);
-//        setPixmap(pixmap);
-//        setEnabled(!pixmap.isNull());
-//        adjustSize();
     }
     emit click(id);
 }

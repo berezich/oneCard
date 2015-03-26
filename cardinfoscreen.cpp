@@ -14,14 +14,13 @@ CardInfoScreen::CardInfoScreen(QScreen *screenInfo,QSize appScrSize, int colorNa
 
     capSpacerH = capSpacerH*scaleFactorH;
     iconsFolder = InterFace::getSkinColor(colorName).iconFolder();
+
     //шапка
     cap = new Cap(capHeight, skinColor);
     cap->setTitle(title,textTitleSize,titleLeftMargin);
-    //-------
-
     blankLayout->addWidget(cap);
-    //childWidgets.append(cap);
     blankLayout->addSpacing(capSpacerH);
+    //-------
 
     blankSpace = new QWidget();
     blankLayout->addWidget(blankSpace);
@@ -31,11 +30,8 @@ CardInfoScreen::CardInfoScreen(QScreen *screenInfo,QSize appScrSize, int colorNa
     cardInfoListLayout = new QVBoxLayout();
     cardInfoListLayout->setSpacing(spacingSize);
     cardInfoListLayout->setContentsMargins(0,0,0,0);
-
     blankSpace->setLayout(cardInfoListLayout);
 
-    //childLayouts.append(cardInfoListLayout);
-    //childLayouts.append(blankLayout);
 }
 
 CardInfoScreen::~CardInfoScreen()
@@ -49,7 +45,6 @@ CardInfoScreen::~CardInfoScreen()
 void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
 {
     QHBoxLayout *line;
-    //SimpleIcon *cardIcon;
     QWidget *widgetLine;
     imgSrc = card->getCardImgSrc();
     cardInfo = card;
@@ -63,7 +58,6 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
 
     //cardName-------------------------
     line = new QHBoxLayout();
-    //childLayouts.append(line);
 
     nameEditLine = new QLineEdit(card->getCardName());
     nameEditLine->setObjectName("cardName");
@@ -73,16 +67,12 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
     nameEditLine->setMaxLength(14);
     nameEditLine->setStyleSheet("border: 0px; background: "+backGroundColor+";");
 
-
     line->addWidget(nameEditLine);
-    //childWidgets.append(nameEditLine);
-
     if(dataSrc == LOCAL)
     {
         icon = new SimpleIcon(0,iconsFolder+"pen.svg","",editIconSize);
         connect(icon,SIGNAL(click(int)),this,SLOT(onEditName()));
         icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
-        //childWidgets.append(icon);
         line->addWidget(icon);
         line->addSpacing(rightEditIconOffset);
     }
@@ -91,8 +81,6 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
     widgetLine->setLayout(line);
     widgetLine->setMinimumWidth(screenSize.width());
     cardInfoListLayout->addWidget(widgetLine);
-    //childWidgets.append(widgetLine);
-
 
     //frontside of card-------------------
     lineFSide = new QHBoxLayout();
@@ -109,7 +97,6 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
     }
     cardFIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
     lineFSide->addWidget(cardFIcon);
-    //childWidgets.append(cardFIcon);
     lineFSide->addStretch(1);
     QWidget *vLineWidget;
     QVBoxLayout *vLine;
@@ -120,16 +107,12 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         vLine = new QVBoxLayout();
         vLineWidget->setLayout(vLine);
         vLine->setContentsMargins(0,0,0,0);
-        //childLayouts.append(vLine);
-        //childLayouts.append(lineFSide);
-
 
         icon = new SimpleIcon(0,iconsFolder+"photo.svg","",editIconSize);
         icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
         connect(icon,SIGNAL(click(int)),this,SIGNAL(editFrontSideCameraImg()));
         connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
         vLine->addWidget(icon);
-        //childWidgets.append(icon);
 
         icon = new SimpleIcon(0,iconsFolder+"gallery.svg","",editIconSize);
         icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
@@ -137,10 +120,7 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
         vLine->addWidget(icon);
         lineFSide->addWidget(vLineWidget);
-        //childWidgets.append(icon);
-
         vLine->addStretch(1);
-        //childWidgets.append(vLineWidget);
 
         lineFSide->addSpacing(rightEditIconOffset);
     }
@@ -149,7 +129,6 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
     widgetLine->setMinimumWidth(screenSize.width());
     widgetLine->setLayout(lineFSide);
     cardInfoListLayout->addWidget(widgetLine);
-    //childWidgets.append(widgetLine);
 
     //backside of card-----------------
     lineBSide = new QHBoxLayout();
@@ -166,7 +145,6 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
     }
     cardBIcon->setAlignment(Qt::AlignHCenter| Qt::AlignTop );
     lineBSide->addWidget(cardBIcon);
-    //childWidgets.append(cardBIcon);
     lineBSide->addStretch(1);
     if(dataSrc == LOCAL)
     {
@@ -174,15 +152,12 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         vLine = new QVBoxLayout();
         vLineWidget->setLayout(vLine);
         vLine->setContentsMargins(0,0,0,0);
-        //childLayouts.append(vLine);
-        //childLayouts.append(lineBSide);
 
         icon = new SimpleIcon(0,iconsFolder+"photo.svg","",editIconSize);
         icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
         connect(icon,SIGNAL(click(int)),this,SIGNAL(editBackSideCameraImg()));
         connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
         vLine->addWidget(icon);
-        //childWidgets.append(icon);
 
         icon = new SimpleIcon(0,iconsFolder+"gallery.svg","",editIconSize);
         icon->setAlignment(Qt::AlignTop | Qt::AlignRight);
@@ -190,22 +165,17 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
         vLine->addWidget(icon);
         lineBSide->addWidget(vLineWidget);
-        //childWidgets.append(icon);
 
         vLine->addStretch(1);
-        //childWidgets.append(vLineWidget);
         lineBSide->addSpacing(rightEditIconOffset);
     }
     widgetLine = new QWidget();
     widgetLine->setMinimumWidth(screenSize.width());
     widgetLine->setLayout(lineBSide);
     cardInfoListLayout->addWidget(widgetLine);
-    //childWidgets.append(widgetLine);
 
     //magnet line-----------------------------
     lineMagnetLayout = new QHBoxLayout();
-    //childLayouts.append(lineMagnetLayout);
-
     lineMagnetLayout->addStretch(1);
 
     if(card->getIsMagnetLine())
@@ -217,7 +187,6 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
 
     iconMagnet->setAlignment(Qt::AlignHCenter| Qt::AlignVCenter);
     lineMagnetLayout->addWidget(iconMagnet);
-    //childWidgets.append(iconMagnet);
 
     if(dataSrc == LOCAL)
     {
@@ -229,7 +198,6 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         if(!card->getIsMagnetLine())
             magnetLineEdit->hide();
         lineMagnetLayout->addWidget(magnetLineEdit);
-        //childWidgets.append(magnetLineEdit);
     }
 
     lineMagnetLayout->addStretch(1);
@@ -241,18 +209,15 @@ void CardInfoScreen::showCardInfo(CardInfo *card, DATA_SOURCE dataSrc)
         connect(icon,SIGNAL(click(int)),this,SLOT(editFlagMagnetLine()));
         connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
         lineMagnetLayout->addWidget(icon);
-        //childWidgets.append(icon);
         lineMagnetLayout->addSpacing(rightEditIconOffset);
     }
 
     widgetLine = new QWidget();
     widgetLine->setMinimumWidth(screenSize.width());
-    //childWidgets.append(widgetLine);
     widgetLine->setLayout(lineMagnetLayout);
 
     cardInfoListLayout->addWidget(widgetLine);
     cardInfoListLayout->addStretch(1);
-    //childWidgets.append(blankSpace);
 
 }
 
@@ -322,7 +287,6 @@ void CardInfoScreen::editFlagMagnetLine()
     connect(icon,SIGNAL(click(int)),this,SLOT(clearFocusAll()));
     icon->setAlignment(Qt::AlignCenter);
     lineMagnetLayout->replaceWidget(iconMagnet,icon);
-    //childWidgets.removeOne(iconMagnet);
     delete(iconMagnet);
     iconMagnet = icon;
 }

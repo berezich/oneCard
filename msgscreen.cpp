@@ -41,8 +41,6 @@ void MsgScreen::showSpinner(bool val)
         if(spin!=NULL)
         {
             spin->hide();
-            //delete(spin);
-            //spin=NULL;
         }
     }
 }
@@ -54,8 +52,6 @@ void MsgScreen::showOkIcon(bool val)
         if(iconWidget!=NULL)
         {
             iconWidget->show();
-            //delete(iconWidget);
-            //iconWidget = NULL;
         }
         else
         {
@@ -66,14 +62,12 @@ void MsgScreen::showOkIcon(bool val)
             scrLayout->addWidget(iconWidget);
             QVBoxLayout *iconLayout = new QVBoxLayout(iconWidget);
             iconWidget->setLayout(iconLayout);
-            //iconLayout->addStretch(1);
             SimpleIcon *icon = new SimpleIcon(0,":/svg/tools/loginok.svg","",iconSize,false,iconWidget);
             connect(icon,SIGNAL(click(int)),this,SLOT(onIconPressed()));
             icon->setAlignment(Qt::AlignCenter);
             iconLayout->addWidget(icon);
             iconWidget->show();
             update();
-            //iconLayout->addStretch(1);
         }
     }
     else
@@ -89,7 +83,6 @@ void MsgScreen::paintEvent(QPaintEvent *e)
 {
     QPainter customPainter(this);
     QFont font ("Calibri",fontSize);
-    //QPen pen(QColor(txtColor));
     QPen pen(txtColor);
     customPainter.setRenderHint(QPainter::Antialiasing);
     customPainter.setBrush(QBrush(QColor(backGroundColor)));

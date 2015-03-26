@@ -59,7 +59,6 @@ void NewGrpModal::setIconLst()
     grpName->setMaxLength(10);
     editNameLayout->addWidget(grpName);
     editNameLayout->addSpacing(20*scaleFactor);
-    //formLayout->addWidget(grpName);
     formLayout->addWidget(editName);
 
     choiceLbl = new QLabel(lbl2);
@@ -72,9 +71,7 @@ void NewGrpModal::setIconLst()
     lineWidget->setLayout(lineGridLayout);
 
     gridWidget = new QWidget();
-    //gridWidget->setContentsMargins(0,0,0,0);
     gridLayout = new QGridLayout();
-    //gridWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::MinimumExpanding);
     gridLayout->setSpacing(gridSpace);
     lineGridLayout->addStretch(1);
     lineGridLayout->addWidget(gridWidget);
@@ -87,7 +84,6 @@ void NewGrpModal::setIconLst()
     {
         if(i < imgSrcLst.length())
         {
-            //icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpLst[i].getImgSrc(), grpLst[i].getImgPushSrc(), QSize(190*scaleFactor,190*scaleFactor)/*,*new QSize(230*scaleFactor,210*scaleFactor)*/);
             icon = new SimpleIcon(i,grpViewFolder+imgSrcLst[i],"",iconSize,true);
             if(i==0)
             {
@@ -96,8 +92,7 @@ void NewGrpModal::setIconLst()
 
             }
             iconsGrid.append(icon);
-            icon->setAlignment(Qt::AlignVCenter /*| Qt::AlignRight*/);
-            //icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpLst[i].getImgSrc(), grpLst[i].getImgPushSrc(), QSize(190*scaleFactor,190*scaleFactor)/*,*new QSize(230*scaleFactor,210*scaleFactor)*/);
+            icon->setAlignment(Qt::AlignVCenter);
             connect(icon,SIGNAL(click(int)),this,SLOT(onClickGrpIcon(int)));
             gridLayout->addWidget(icon, qFloor(i/columnsNum),i%columnsNum);
         }
@@ -107,7 +102,6 @@ void NewGrpModal::setIconLst()
     }
     formLayout->addStretch(1);
 
-    //SimpleIcon *icon;
     QWidget *confLineWidget = new QWidget();
     QHBoxLayout *confLineLayout = new QHBoxLayout();
     confLineWidget->setLayout(confLineLayout);
@@ -128,17 +122,14 @@ void NewGrpModal::setIconLst()
     confLineLayout->addStretch(1);
 
     formLayout->addWidget(confLineWidget);
-    //this->hide();
 }
 
 void NewGrpModal::paintEvent(QPaintEvent *event)
 {
-    //Overlay::paintEvent(event);
     QPainter customPainter(this);
     customPainter.setRenderHint(QPainter::Antialiasing);
     customPainter.setBrush(QBrush(QColor(backGroundColor)));
     customPainter.drawRoundedRect(QRect(rectPoint,rectSize),xRound,yRound);
-    //setIconLst();
 }
 
 void NewGrpModal::onClickGrpOk()

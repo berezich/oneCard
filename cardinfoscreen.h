@@ -63,9 +63,6 @@ private:
     ImgIcon *cardBIcon;
     QHBoxLayout *lineBSide;
 
-    //QWidgetList childWidgets;
-    //QList<QLayout*> childLayouts;
-
     SimpleIcon *iconMagnet;
     QHBoxLayout *lineMagnetLayout;
     QLineEdit *magnetLineEdit;

@@ -23,7 +23,6 @@ CropImgScreen::CropImgScreen(QSize size, double scale, QString imgSrc, QString f
     layout->addSpacing(topOffset);
     layout->addWidget(imgIcon);
     imgIcon->setAlignment(Qt::AlignCenter);
-    //imgIcon->setStyleSheet("border: 1px solid red;");
     layout->addStretch(1);
     QWidget *lineWidget = new QWidget(this);
     QHBoxLayout *lineLayout = new QHBoxLayout(lineWidget);
@@ -42,8 +41,6 @@ CropImgScreen::CropImgScreen(QSize size, double scale, QString imgSrc, QString f
     layout->addWidget(lineWidget);
     layout->addSpacing(10*scaleFactor);
     lineWidget->adjustSize();
-    //cropper = new Cropper(size,sideOff,topOffset,lineWidget->height()+10*scaleFactor,frameWidth,imgIcon);
-    //cropper->setStyleSheet("border: 2px solid red;");
 }
 
 CropImgScreen::~CropImgScreen()

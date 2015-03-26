@@ -9,7 +9,6 @@ Menu::Menu(QSize size, double scale, Settings *settings, QWidget *parent):Overla
     setMinimumSize(size);
     setMaximumSize(size);
 
-    //rectSize = rectSize*scale;
     menuWidth = menuWidth*scale;
     arrowBackSize = arrowBackSize*scale;
     menuTitleTxtSize =  qSqrt(qSqrt(scale))*menuTitleTxtSize;
@@ -25,11 +24,6 @@ Menu::Menu(QSize size, double scale, Settings *settings, QWidget *parent):Overla
     setLayout(menuBasicLayout);
     menuWidget = new QWidget();
     menuBasicLayout->addWidget(menuWidget);
-
-    //showMainMenu();
-
-
-
 }
 
 Menu::~Menu()
@@ -44,7 +38,6 @@ void Menu::mousePressEvent(QMouseEvent *event)
         menuExists=false;
         this->hide();
     }
-
 }
 
 void Menu::showMainMenu(bool showInAnyway)
@@ -62,7 +55,6 @@ void Menu::showMainMenu(bool showInAnyway)
     delete(menuWidget);
     menuWidget = menuWidget1;
     QPalette Pal(menuWidget->palette());
-    // set black background
     Pal.setColor(QPalette::Background, backGroundColor);
     menuWidget->setAutoFillBackground(true);
     menuWidget->setPalette(Pal);
@@ -80,12 +72,10 @@ void Menu::showMainMenu(bool showInAnyway)
     menuLayout->addSpacing(10*scaleFactor);
 
     MenuItem *itemB;
-    //menuItemBLst.clear();
     for(int i=0; i<mainMenuItemTxt.length(); i++)
     {
         itemB = new MenuItem(i,mainMenuItemTxt[i],menuItemTxtSize,10*scaleFactor, 20*scaleFactor);
         connect(itemB,SIGNAL(click(int)),this,SLOT(showSubMenu(int)));
-        //menuItemBLst.append(itemB);
         menuLayout->addWidget(itemB);
     }
     menuLayout->addStretch(1);
@@ -100,7 +90,6 @@ void Menu::showSubMenu(int mainItem)
     delete(menuWidget);
     menuWidget = menuWidget1;
     QPalette Pal(menuWidget->palette());
-    // set black background
     Pal.setColor(QPalette::Background, backGroundColor);
     menuWidget->setAutoFillBackground(true);
     menuWidget->setPalette(Pal);
@@ -126,7 +115,6 @@ void Menu::showSubMenu(int mainItem)
     menuLayout->addWidget(titleWidget);
     menuLayout->addSpacing(10*scaleFactor);
 
-
     if(mainItem==0)//синхронизация с устройством
     {
         QWidget *line = new QWidget();
@@ -134,7 +122,6 @@ void Menu::showSubMenu(int mainItem)
         line->setLayout(lineLayout);
         menuLayout->addWidget(line);
 
-        //226x272
         SimpleIcon *icon = new SimpleIcon(0, InterFace::getSkinColor(settings->skinColor()).iconFolder()+"syncin.svg","",iconBluetoothSize);
         icon->setAlignment(Qt::AlignCenter);
         lineLayout->addWidget(icon);
@@ -143,7 +130,6 @@ void Menu::showSubMenu(int mainItem)
         icon->setAlignment(Qt::AlignCenter);
         lineLayout->addWidget(icon);
 
-        //123x158
         icon = new SimpleIcon(0,":/svg/tools/bluetooth.svg","",iconDevSyncSize);
         icon->setAlignment(Qt::AlignCenter);
         lineLayout->addWidget(icon);
@@ -237,7 +223,6 @@ void Menu::showSubMenu(int mainItem)
     {
 
         MenuItem *itemB;
-        //menuItemBLst.clear();
         languageOptions.clear();
         for(int i=0; i<languages.length(); i++)
         {
@@ -246,7 +231,6 @@ void Menu::showSubMenu(int mainItem)
             if(i==settings->lang())
                 itemB->setUnerLine(true);
             connect(itemB,SIGNAL(click(int)),this,SLOT(onChangeLanguage(int)));
-            //menuItemBLst.append(itemB);
             menuLayout->addWidget(itemB);
         }
     }
@@ -254,7 +238,6 @@ void Menu::showSubMenu(int mainItem)
     {
 
         MenuItem *itemB,*itemB1;
-        //menuItemBLst.clear();
         defEnterOptions.clear();
 
         itemB = new MenuItem(1,tr("включить"),menuItemTxtSize,10*scaleFactor+arrowBackSize.width(), 20*scaleFactor);
@@ -268,7 +251,6 @@ void Menu::showSubMenu(int mainItem)
 
         connect(itemB,SIGNAL(click(int)),this,SLOT(onChangeDefEnter(int)));
         connect(itemB1,SIGNAL(click(int)),this,SLOT(onChangeDefEnter(int)));
-        //menuItemBLst.append(itemB);
         menuLayout->addWidget(itemB);
         menuLayout->addWidget(itemB1);
     }
@@ -287,7 +269,6 @@ void Menu::onChangeColor(int color)
     settings->setSkinColor(color);
     backGroundColor = InterFace::getSkinColor(settings->skinColor()).options();
     QPalette Pal(menuWidget->palette());
-    // set black background
     Pal.setColor(QPalette::Background, backGroundColor);
     menuWidget->setAutoFillBackground(true);
     menuWidget->setPalette(Pal);
@@ -321,7 +302,6 @@ void Menu::onChangeLanguage(int lang)
     qDebug()<<"set ts file = "+tsFile;
     translateNames();
     showSubMenu(curSubMenu);
-    //emit changeSettings(LANGUAGE);
 }
 
 void Menu::onChangeGrpView(int grpView)

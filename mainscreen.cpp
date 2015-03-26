@@ -13,11 +13,6 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     this->mainApp = mainApp;
     QDesktopWidget *desktop = ((QApplication*)mainApp)->desktop();
     screenAvailableGeometry = desktop->availableGeometry();
-    //int dpiY = desktop->physicalDpiY();
-    //int dpiX = desktop->physicalDpiX();
-    //double displayWidthInch = screenAvailableGeometry.width() / dpiX;
-    //double displayHeightInch = screenAvailableGeometry.height() / dpiY;
-    //double displayDiagonalInch = sqrt(displayWidthInch*displayWidthInch + displayHeightInch*displayHeightInch); // screen diagonal size in inches
     this->screenInfo = mainApp->primaryScreen();
 
     QStringList dirs = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
@@ -65,8 +60,6 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     myappTranslator->load(tsFile);
     QApplication::instance()->installTranslator(myappTranslator);
     qDebug()<<"set ts file = "+tsFile;
-    //translateNames();
-
 
     connect(mainApp,SIGNAL(applicationStateChanged(Qt::ApplicationState)),this,SLOT( onAppStateChange(Qt::ApplicationState)));
 
@@ -81,36 +74,22 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     mainLayout->addWidget(mainChoiceScreen);
     mainChoiceScreen->hide();
     connect(mainChoiceScreen,SIGNAL(iconPressed(MAIN_ICONS)),this,SLOT(onMainIconPressed(MAIN_ICONS)));
-    //connect(mainChoiceScreen,SIGNAL(changeSettings(OPTIONS)),this,SLOT(onChangeLanguage()));
 
-    //grpScreen = new GrpScreen();
     grpScreen = new GrpScreen(screenInfo,appWidowSize,settings->skinColor(),this);
-    /*
-    grpScreen = new GrpScreen(screenInfo,appWidowSize,appState->curSkinColor(),this);
-
-    grpScreen->setGrpLst(dataM->getGroups(appState->getCurGrpType()));
-    grpScreen->initMenu();
-    grpScreen->hide();
-    connect(grpScreen,SIGNAL(backPressed()),this,SLOT(onGrpBackPressed()));
-    connect(grpScreen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
-    */
     mainLayout->addWidget(grpScreen);
 
     cardScreen = new CardScreen(screenInfo,appWidowSize,settings->skinColor(),LOCAL,this);
     cardScreen->hide();
-    //connect(cardScreen,SIGNAL(backPressed(int)),this,SLOT(showGrpScreen()));
     mainLayout->addWidget(cardScreen);
 
     cardInfoScreen = new CardInfoScreen(screenInfo,appWidowSize,settings->skinColor(),this);
-    //imgSaveSize = cardInfoScreen->getCardIconSize();
     cardInfoScreen->hide();
-    //connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen()));
     mainLayout->addWidget(cardInfoScreen);
 
-    // cache!!!!!!!!! !!!
+    // cache last photo form camera dir
     if(appState->getCurOS()!=WINDOWS)
         dataM->cacheLastImg(cameraDir,appDataLocation+cacheDir,cacheImgNum,imgSaveSize);
-    // cache!!!!!!!!! !!!
+    // cache
 
     if(appState->getCurOS()==WINDOWS)
         cameraQmlScreen = new CameraQmlScreen(appWidowSize,"WINDOWS");
@@ -123,8 +102,6 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     mainLayout->setMargin(0);
     setLayout(mainLayout);
 
-
-
     if(settings->defEnterApp())
     {
         appState->setCurGrpType(LOCAL);
@@ -132,8 +109,6 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     }
     else
         showScreen(MAIN_CHOICE_SCREEN);
-
-
 }
 
 MainScreen::~MainScreen()
@@ -150,7 +125,6 @@ void MainScreen::onMainIconPressed(MAIN_ICONS icon)
         break;
     case SRV_ICON:
         appState->setCurGrpType(SERVER);
-        //showGrpScreen();
         if(!server->isGrpLstDownloaded())
         {
             showMsgScreen(msgWaitLoading);
@@ -204,40 +178,32 @@ void MainScreen::onGrpSelected(int grpId)
 void MainScreen::onGrpBackPressed()
 {
     showScreen(MAIN_CHOICE_SCREEN);
-
 }
 
 void MainScreen::showGrpScreen()
 {
     adjustSize();
     GrpScreen *screen = new GrpScreen(screenInfo,window()->size(),settings->skinColor(),this);
-    //screen->setGrpLst(dataM->getLocalGroups());
 
     if(appState->getCurGrpType()==SERVER)
     {
         screen->setGrpLst(*(server->getGrpLastLst()),InterFace::getGrpViewFolder(settings->grpView()),(appState->getCurOS()!=WINDOWS),false);
-
     }
     else
         screen->setGrpLst(dataM->getGroups(appState->getCurGrpType()),InterFace::getGrpViewFolder(settings->grpView()),(appState->getCurOS()!=WINDOWS));
-    //screen->initMenu();
     screen->hide();
     connect(screen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
     connect(screen,SIGNAL(backPressed()),this,SLOT(onGrpBackPressed()));
     mainLayout->replaceWidget(grpScreen,screen);
     delete(grpScreen);
     grpScreen = screen;
-
     showScreen(GRP_SCREEN);
-
-
 }
 
 void MainScreen::showCardScreen()
 {
     Grp *grp;
     int grpId = appState->getCurGrpId();
-    //CardScreen *screen = new CardScreen(screenInfo,this);
     CardScreen *screen=NULL;
     if(appState->getCurGrpType()==LOCAL)
     {
@@ -270,7 +236,6 @@ void MainScreen::showCardScreen()
         connect(cardScreen,SIGNAL(cardSelected(int)),this,SLOT(onCardSelected(int)));
     }
     showScreen(CARD_LST_SCREEN);
-
 }
 
 void MainScreen::onCardSelected(int cardId)
@@ -302,7 +267,6 @@ void MainScreen::onCardSelected(int cardId)
         }
         else
             return;
-
     }
 
 }
@@ -312,7 +276,6 @@ void MainScreen::showCardInfoScreen(bool fromTmpCardInfo)
     int grpId = appState->getCurGrpId();
     CardInfo *card;
 
-    //CardInfoScreen *screen = new CardInfoScreen(screenInfo,this);
     CardInfoScreen *screen = new CardInfoScreen(screenInfo,window()->size(),settings->skinColor(),this);
 
     if(appState->getCurGrpType()==LOCAL)
@@ -330,17 +293,6 @@ void MainScreen::showCardInfoScreen(bool fromTmpCardInfo)
         }
         screen->showCardInfo(appState->tmpCardInfo(),SERVER);
     }
-    /*
-    if(appState->getCurGrpType()==LOCAL)
-    {
-        screen->showCardInfo(dataM->getLocalCard(grpId,cardId));
-    }
-    else
-    {
-       card = server->getCardTmp(grpId,cardId);
-       screen->showCardInfo(card,SERVER);
-    }
-    */
 
     mainLayout->replaceWidget(cardInfoScreen,screen);
     delete(cardInfoScreen);
@@ -353,13 +305,6 @@ void MainScreen::showCardInfoScreen(bool fromTmpCardInfo)
     connect(cardInfoScreen,SIGNAL(editBackSideCameraImg()),this,SLOT(showCameraQmlScreenB()));
     connect(cardInfoScreen,SIGNAL(editFrontSideCropImg()),this,SLOT(showCropScreenFront()));
     connect(cardInfoScreen,SIGNAL(editBackSideCropImg()),this,SLOT(showCropScreenBack()));
-
-//    connect(cardInfoScreen,SIGNAL(backPressed(int)),this,SLOT(showCardScreen(int)));
-//    connect(cardInfoScreen,SIGNAL(editFrontSideImg()),this,SLOT(showGalleryScreenF()));
-
-//    //--------TEST----------
-//    //connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showGalleryScreenB()));
-//    connect(cardInfoScreen,SIGNAL(editBackSideImg()),this,SLOT(showCameraQmlScreenB()));
 
     showScreen(CARD_INFO_SCREEN);
 
@@ -393,7 +338,6 @@ void MainScreen::showGalleryScreen(int i)
         setFocus();
         showScreen(GALLERY_SCREEN);
     }
-
 }
 
 void MainScreen::setCardImgSrcGallery(QString dir, QString fileName)
@@ -420,12 +364,8 @@ void MainScreen::onPressBackCardInfo(bool cancelChanges)
 
 void MainScreen::setCardImgSrc(QString file)
 {
-    //if(galleryScreen!=NULL)
-    //    delete(galleryScreen);
-
     int cardId = appState->getCurCardId();
     int grpId = appState->getCurGrpId();
-    //CardInfo *cardInf = dataM->getLocalCard(grpId, cardId);
     CardInfo *cardInf = appState->tmpCardInfo();
     QString imgName;
     if(appState->getCurCardSideState()==FRONTSIDE)
@@ -474,11 +414,9 @@ void MainScreen::showCameraQmlScreen(int i)
     window()->update();
     setFocus();
     showScreen(CAMERAQML_SCREEN);
-
 }
 void MainScreen::onPressBackCameraQmlScreen()
 {
-    //delete(cameraQmlScreen);
     showCardInfoScreen(true);
 }
 
@@ -561,7 +499,6 @@ void MainScreen::showFileDialog()
         fileNames = dialog.selectedFiles();
         if(fileNames.length()>0)
             setCardImgSrc(fileNames.first());
-
     }
 }
 
@@ -572,10 +509,7 @@ void MainScreen::onImgCropped(QString fileName)
     else
         appState->tmpCardInfo()->setCardImgBackSrc(fileName);
     cardInfoScreen->updateImg(appState->getCurCardSideState());
-
-
 }
-
 
 void MainScreen::onAppStateChange(Qt::ApplicationState state)
 {
@@ -599,8 +533,6 @@ void MainScreen::onAppStateChange(Qt::ApplicationState state)
     }
 }
 
-
-
 void MainScreen::showMsgScreen(QString msg)
 {
     if(msgScreen!=NULL)
@@ -609,7 +541,6 @@ void MainScreen::showMsgScreen(QString msg)
         msgScreen = NULL;
     }
     msgScreen = new MsgScreen(window()->size(),scaleFactor,msg,this);
-    //mainLayout->addWidget(msgScreen);
     msgScreen->show();
 }
 
@@ -621,10 +552,8 @@ void MainScreen::onGetGrpFinished(SERVER_ERRORS servError, QString errorMsg)
     case REQ_OK:
         msgScreen->hide();
         showGrpScreen();
-        //delete(msgScreen);
         break;
     case TIMEOUT:
-        //qDebug()<< "gerGrpResp: "+errorMsg;
     default:
         msgScreen->setMsgText(errorMsg);
         msgScreen->showSpinner(false);
@@ -641,10 +570,7 @@ void MainScreen::onGetCardLstFinished(SERVER_ERRORS servError, QString errorMsg)
     case REQ_OK:
         msgScreen->hide();
         showCardScreen();
-        //delete(msgScreen);
         break;
-    case TIMEOUT:
-        //qDebug()<< "gerGrpResp: "+errorMsg;
     default:
         msgScreen->setMsgText(errorMsg);
         msgScreen->showSpinner(false);
@@ -656,17 +582,12 @@ void MainScreen::onGetCardLstFinished(SERVER_ERRORS servError, QString errorMsg)
 void MainScreen::onCardDataDownloaded(SERVER_ERRORS servError, QString errorMsg)
 {
     qDebug()<< "cardDataDownloadedResp: "+errorMsg;
-
     switch (servError) {
     case REQ_OK:
         dataM->saveCardFromSrv(server->getGrpTmp(appState->getCurGrpId()),server->getCardTmp(appState->getCurGrpId(),appState->getCurCardId()),appDataLocation,imgSaveSize);
-                //saveCardFormSrv();
         msgScreen->hide();
         showCardInfoScreen();
-        //delete(msgScreen);
         break;
-    case TIMEOUT:
-        //qDebug()<< "gerGrpResp: "+errorMsg;
     default:
         msgScreen->setMsgText(errorMsg);
         msgScreen->showSpinner(false);
@@ -679,10 +600,8 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
 {
     hideAllScreens();
     appState->setCurScreen(scr);
-
     switch (scr) {
     case MAIN_CHOICE_SCREEN:
-        //mainChoiceScreen->show();
         mainChoiceScreen->showMainChoice();
         break;
     case GRP_SCREEN:
@@ -702,7 +621,6 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
         cameraQmlScreen->showQML();
         break;
     default:
-
         break;
     }
 }
@@ -714,7 +632,6 @@ void MainScreen::hideAllScreens()
     cardScreen->hide();
     cardInfoScreen->hide();
     cameraQmlScreen->hide();
-    //galleryScreen->hide();
 }
 
 void MainScreen::resizeEvent(QResizeEvent *event)
@@ -759,9 +676,7 @@ void MainScreen::keyPressEvent(QKeyEvent *event)
         case NEW_GRP_SCREEN:
             showGrpScreen();
             return;
-
         default:
-
             break;
         }
     }

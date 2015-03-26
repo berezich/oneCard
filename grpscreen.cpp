@@ -20,18 +20,6 @@ GrpScreen::GrpScreen(QScreen *screenInfo,QSize appScrSize, int colorName, QWidge
     icon->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     cap->addLeftIcon(icon,capLeftIconOffset);
     connect(icon,SIGNAL(click(int)),this,SIGNAL(backPressed()));
-    /*
-    SimpleIcon *icon = new SimpleIcon(0,":svg/tools/menuicon.svg","",QSize(50*scaleFactor,25*scaleFactor));
-    icon->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    cap->addLeftIcon(icon,capLeftIconOffset);
-    connect(icon,SIGNAL(click(int)),this,SLOT(onMenuClick()));
-    */
-
-    /*
-    icon = new SimpleIcon(0,":/svg/tools/oblako.svg",":/svg/tools/oblakoPUSH.svg",QSize(80*scaleFactor,40*scaleFactor));
-    icon->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
-    cap->addRightIcon(icon,capRightIconOffset);
-    */
 
     blankLayout->setContentsMargins(0,0,0,0);
     blankLayout->addWidget(cap);
@@ -57,8 +45,6 @@ GrpScreen::GrpScreen(QScreen *screenInfo,QSize appScrSize, int colorName, QWidge
     scroll->setWidget(gridWidget);
     scroll->setWidgetResizable(true);
     scrollBar = scroll->verticalScrollBar();
-
-
 }
 
 
@@ -92,18 +78,15 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst, QString grpIconPath, bool isSwipe, 
             icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpIconPath+grpLst[i].getImgSrc(), "", iconSize, gridItemSize);
             connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickGrpIcon(int)));
             gridLayout->addWidget(icon, qFloor(i/columnsNum),i%columnsNum);
-            //qDebug()<<"Name: "<<grpLst[i].getName()<<"grpId: "<<grpLst[i].getId();
         }
         else if(i == grpLst.length()&&editable)
         {
             icon = new Icon(-1,"",-1, InterFace::getSkinColor(colorName).iconFolder()+"plus.svg", "", iconPlusSize, gridItemSize);
             connect(icon,SIGNAL(clickIcon(int)),this,SLOT(onClickGrpIcon(int)));
-
             gridLayout->addWidget(icon, qFloor(i/columnsNum),i%columnsNum);
         }
         else
             gridLayout->addWidget(new QWidget(), qFloor(i/columnsNum),i%columnsNum);
-
     }
     adjustSize();
     gridWidget->adjustSize();
@@ -113,7 +96,6 @@ void GrpScreen::setGrpLst(QList<Grp> grpLst, QString grpIconPath, bool isSwipe, 
         swipeCover = new SwipeCover(screenSize.height()-capHeight,gridWidget->size().height() - (screenSize.height()-capHeight),scrollBar,blankSpace);
         connect(swipeCover,SIGNAL(onClick(QPoint)),this,SLOT(onClickPos(QPoint)));
     }
-    //blankSpace->adjustSize();
 }
 
 void GrpScreen::clearGrid()
@@ -126,22 +108,6 @@ void GrpScreen::clearGrid()
     gridLayout->setSpacing(0);
     gridWidget->setLayout(gridLayout);
 }
-/*
-void GrpScreen::initMenu()
-{
-    menuWidget = new Menu(QSize(screenSize.width(),screenSize.height()-capHeight),scaleFactor,sett,blankSpace);
-    menuWidget->hide();
-}
-
-void GrpScreen::onKeyBackPressed(QKeyEvent *event)
-{
-    if(menuWidget->isMenuOpen())
-        menuWidget->showMainMenu();
-    else
-        QWidget::keyPressEvent(event);
-}
-*/
-
 
 void GrpScreen::onClickGrpIcon(int grpId)
 {
@@ -157,17 +123,10 @@ void GrpScreen::onClickPos(QPoint pos)
         int iGrp = iRow*columnsNum + iCol;
         if(iGrp<grpLst.length())
         {
-
             onClickGrpIcon(grpLst[iGrp].getId());
         }
         else if( iGrp == grpLst.length())
-            onClickGrpIcon(-1); //new Grp
+            onClickGrpIcon(-1); //new Grp plus is pressed
     }
 
 }
-/*
-void GrpScreen::onMenuClick()
-{
-    menuWidget->showMainMenu();
-}
-*/

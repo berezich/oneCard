@@ -39,6 +39,8 @@ BlankScreen::BlankScreen(QScreen *screenInfo, QSize appScrSize, int colorName, Q
 
 BlankScreen::~BlankScreen()
 {
-
+    while(children().length()>0)
+        if(children().last())
+            delete(children().last());
 }
 

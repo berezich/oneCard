@@ -4,8 +4,6 @@ MainChoiceScreen::MainChoiceScreen( QSize appScrSize, Settings *settings, QWidge
 {
     init();
     this->settings = settings;
-    //this->screenInfo = screenInfo;
-    //screenSize = screenInfo->geometry().size();
     screenSize = appScrSize;
     backGroundColor = InterFace::getSkinColor(settings->skinColor()).head();
 
@@ -20,7 +18,6 @@ MainChoiceScreen::MainChoiceScreen( QSize appScrSize, Settings *settings, QWidge
     setContentsMargins(0,0,0,0);
 
     QPalette Pal(palette());
-    // set black background
     Pal.setColor(QPalette::Background, backGroundColor);
     setAutoFillBackground(true);
     setPalette(Pal);
@@ -47,37 +44,7 @@ MainChoiceScreen::MainChoiceScreen( QSize appScrSize, Settings *settings, QWidge
 
 
     basicLayout->addStretch(1);
-
-/*
-    QWidget *defEnterWidget = new QWidget(this);
-    QHBoxLayout *defEnterLayout = new QHBoxLayout(defEnterWidget);
-    defEnterLayout->setContentsMargins(screenSize.width()/6,0,screenSize.width()/6,0);
-    defEnterWidget->setLayout(defEnterLayout);
-    basicLayout->addWidget(defEnterWidget);
-
-    checkBox = new SimpleIcon(0,":/svg/main_screen/greenok.svg","",okIconSize,true);
-    connect(checkBox,SIGNAL(click(int)),this,SLOT(onCheckBoxChanged()));
-    checkBox->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    if(!settings->defEnterApp())
-        checkBox->unselectIcon();
-    else
-        checkBox->selectIcon();
-    defEnterLayout->addWidget(checkBox);
-
-    defEnterLayout->addSpacing(defTextLeftOffset);
-
-    defLabel = new QLabel(defText);
-    defLabel->setWordWrap(true);
-    defLabel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::MinimumExpanding);
-    defLabel->setFont(QFont("Calibri",defTextSize));
-    defLabel->setStyleSheet("QLabel { color : "+defTextColor+"; }");
-    defLabel->setAlignment(Qt::AlignVCenter| Qt::AlignLeft);
-    defEnterLayout->addWidget(defLabel);
-
-
-*/
-    basicLayout->addStretch(1);
-
+//    basicLayout->addStretch(1);
 
     setGrpLst();
 
@@ -186,7 +153,6 @@ void MainChoiceScreen::onChangeSettings(OPTIONS option)
 void MainChoiceScreen::retranslate()
 {
     translateNames();
-    //defLabel->setText(defText);
     setGrpLst();
 }
 

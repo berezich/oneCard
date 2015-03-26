@@ -7,7 +7,6 @@ HttpManager::HttpManager(QObject *parent) : QObject(parent)
 
 HttpManager::~HttpManager()
 {
-
 }
 
 void HttpManager::startdownloadFile(QUrl httpUrl)
@@ -65,7 +64,6 @@ void HttpManager::httpFinished()
         {
             httpRequestAborted = true;
             qDebug()<<"HttpManager::httpFinished:  msg = "+reply->errorString();
-            //emit fileErrDownload(TIMEOUT,tr("СЕРВЕР НЕ ДОСТУПЕН"));
             reply->deleteLater();
             emit fileErrDownload(NO_CONNECTION,ServerEror::errToString(NO_CONNECTION));
         }
@@ -83,28 +81,8 @@ void HttpManager::httpFinished()
         return;
     }
 
-
-
-
-
     file->flush();
     file->close();
-
-    /*
-    QVariant redirectionTarget = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
-    if (reply->error()) {
-        file->remove();
-        emit fileErrDownload(11,reply->errorString());
-    } else if (!redirectionTarget.isNull()) {
-        QUrl newUrl = url.resolved(redirectionTarget.toUrl());
-        url = newUrl;
-        reply->deleteLater();
-        file->open(QIODevice::WriteOnly);
-        file->resize(0);
-        startRequest(url);
-        return;
-    }
-    */
 
     reply->deleteLater();
     reply = 0;
@@ -123,9 +101,7 @@ void HttpManager::httpReadyRead()
     if (file)
     {
         QByteArray bytes(reply->readAll());
-        qDebug()<<"bytes = "<<bytes;
-        int writeRes = file->write(bytes);
-        qDebug()<< "writeRes = "<<writeRes;
+        file->write(bytes);
     }
 }
 

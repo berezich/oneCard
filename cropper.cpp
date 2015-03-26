@@ -13,31 +13,22 @@ Cropper::Cropper(double scale, int id, QString imgScr, QSize imgSize, bool isExp
 
 Cropper::~Cropper()
 {
-
 }
 
 void Cropper::saveCropImg(QString file)
 {
     if(startPos!=QPoint(-1,-1)&&curPos!=startPos)
     {
-        qDebug()<<"OrigQImg size = "<<getOrigQImg()->size();
-        qDebug()<<"QImg size = "<<imgSize;
         double k = ((double) getOrigQImg()->size().width())/((double)imgSize.width());
-        qDebug()<<"koef = "<<k;
-        //QImage cropped = getQImg()->copy(startPos.x(),startPos.y(),curPos.x()-startPos.x(),curPos.y()-startPos.y());
         QImage cropped = getOrigQImg()->copy(startPos.x()*k,startPos.y()*k,(curPos.x()-startPos.x())*k,(curPos.y()-startPos.y())*k);
-        bool res = cropped.save(file);
-        qDebug()<<"cropped save res = "<<res;
+        cropped.save(file);
     }
     else
     {
         if(!QFile::exists(file))
         {
             getQImg()->save(file);
-            qDebug()<<"cropped save res = seve the same size";
         }
-        else
-            qDebug()<<"cropped save res = undefined size of img";
     }
 }
 
@@ -54,7 +45,6 @@ bool Cropper::event(QEvent *e)
             startPos = curPos;
         else
             startPos = QPoint(-1,-1);
-        qDebug() <<"Press: " << curPos;
         update();
 
         return true;

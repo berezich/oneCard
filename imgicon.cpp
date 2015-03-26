@@ -6,7 +6,6 @@ ImgIcon::ImgIcon(int id, QString imgScr,  QSize imgSize, bool isExpand, QWidget 
     this->imgScr = imgScr;
     this->imgSize = imgSize;
 
-
     picImg = new QImage(imgScr);
     if(picImg->height()>picImg->width())
     {
@@ -26,9 +25,7 @@ ImgIcon::ImgIcon(int id, QString imgScr,  QSize imgSize, bool isExpand, QWidget 
     {
         *picImg = picImg->scaled(imgSize,Qt::KeepAspectRatio);
         pixmap = pixmap.fromImage(*picImg);
-        //pixmap = pixmap.fromImage(picImg->scaled(imgSize,Qt::KeepAspectRatio));
     }
-    //delete(picImg);
     picIcon = new QIcon(pixmap);
     setPixmap(pixmap);
 

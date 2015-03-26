@@ -15,7 +15,6 @@ Data::Data()
     Grp gr7 (i++,"Магазины", "shop.svg", "");
     Grp gr8 (i++,"Солярий", "sun.svg", "");
     Grp gr9 (i++,"Разное", "different.svg", "");
-    //Grp gr10 (-1, "", "new.svg", "");
 
     localGrpLst.append(gr1);
     localGrpLst.append(gr2);
@@ -26,7 +25,6 @@ Data::Data()
     localGrpLst.append(gr7);
     localGrpLst.append(gr8);
     localGrpLst.append(gr9);
-    //localGrpLst.append(gr10);
 
     int k;
     for(i=0; i<localGrpLst.length(); i++)
@@ -41,15 +39,9 @@ Data::Data()
         if(i==2)
             for(int j=0; j<3; j++)
                 localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"НИХОН","КАРТА ПОСТЯННОГО КЛИЕНТА",":/cardsImg/food.png"));
-//        if(i==3)
-//            for(int j=0; j<3; j++)
-//                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"АВТОТЕРРИТОРИЯ","КАРТА СКИДКА 5%",":/cardsImg/auto.png"));
         if(i==4)
             for(int j=0; j<4; j++)
                 localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"ЧИП ТРИП","КАРТА СКИДКА 3%",":/cardsImg/travel.png"));
-//        if(i==5)
-//            for(int j=0; j<3; j++)
-//                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"АВТОТЕРРИТОРИЯ","КАРТА СКИДКА 5%",":/cardsImg/auto.png"));
         if(i==6)
             for(int j=0; j<1; j++)
                 localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"АШАН","КАРТА СКИДКА 5%",":/cardsImg/ashan.png"));
@@ -64,7 +56,6 @@ Data::Data()
             }
 
     }
-    //------------------------
     grpImgSrcLst.append("car.svg");
     grpImgSrcLst.append("fit.svg");
     grpImgSrcLst.append("food.svg");
@@ -153,7 +144,6 @@ void Data::saveImg(QString fromSrc, QString toSrc, QSize imgSaveSize, bool repla
             delete(picImg);
             file.close();
 
-            //pixmap.save(&file, "jpeg"/*,100*/);
         }
     }
 }

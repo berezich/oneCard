@@ -10,31 +10,21 @@ Overlay::Overlay(QWidget *parent) : QWidget(parent)
     QSize size = ((QWidget*)this->parent())->size();
     this->setMinimumHeight(size.height());
     this->setMinimumWidth(size.width());
-    QColor backgroundColor = "#191a1b" /*palette().light().color()*/;
+    QColor backgroundColor = "#191a1b";
 
     backgroundColor.setAlpha(200);
 
     QPalette Pal(palette());
-    // set black background
     Pal.setColor(QPalette::Background, backgroundColor);
     setAutoFillBackground(true);
     setPalette(Pal);
 
-    //setAttribute(Qt::WA_TransparentForMouseEvents);
 }
 
 Overlay::~Overlay()
 {
 
 }
-/*
-void Overlay::paintEvent(QPaintEvent *event)
-{
-
-}
-*/
-
-
 
 
 
