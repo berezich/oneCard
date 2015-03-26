@@ -21,7 +21,6 @@ class CardScreen : public BlankScreen
 {
     Q_OBJECT
 public:
-    //explicit CardScreen(QScreen *screenInfo,QWidget *parent=0);
     explicit CardScreen(QScreen *screenInfo,QSize appScrSize, int colorName, DATA_SOURCE srcType = LOCAL, QWidget *parent=0);
     ~CardScreen();
     void setCardList(QString title, QString grpImgSrc, QList<CardInfo> *cardList, bool isSwipe);
@@ -54,8 +53,6 @@ private:
 
     QVBoxLayout *cardListLayout;
     QWidget *cardLstWidget;
-    //QWidgetList childWidgets;
-    //QList<QLayout *> childLayouts;
     SwipeCover *swipeCover;
     QScrollBar *scrollBar;
 

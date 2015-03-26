@@ -14,7 +14,6 @@ class MainChoiceScreen : public QWidget
 {
     Q_OBJECT
 public:
-    //explicit MainChoiceScreen(QWidget *parent = 0);
     explicit MainChoiceScreen(QSize appScrSize, Settings *settings,QWidget *parent=0);
     ~MainChoiceScreen();
     void setGrpLst();

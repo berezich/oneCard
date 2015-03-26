@@ -42,16 +42,11 @@ private:
     Spinner *spin;
     QSize iconSize;
 
-
-    //QBasicTimer timer;
     int angel;
-
-
 
     QVBoxLayout *scrLayout;
 
     void paintEvent(QPaintEvent *e);
-    //void timerEvent(QTimerEvent *event);
 
     void init()
     {
@@ -65,7 +60,6 @@ private:
         rectSize = QSize(550,250);
         backGroundColor = "#e5e5e5";
         iconSize = QSize(70,70);
-        //spinImgSrc = ":/svg/tools/spinner.svg";
         angel = 0;
         spin=NULL;
         iconWidget = NULL;

@@ -37,7 +37,6 @@ public:
     explicit MainScreen(QWidget *parent = 0);
 
     explicit MainScreen(QApplication *mainApp, QWidget *parent = 0);
-    //explicit MainScreen(QScreen *screenInfo, QWidget *parent = 0);
     ~MainScreen();
 
 
@@ -49,7 +48,6 @@ public slots:
     void showGrpScreen();
     void onGrpSelected(int grpId);
     void onGrpBackPressed();
-    //void updateGrpScreen();
     void showCardScreen();
     void onCardSelected(int cardId);
     void showCardInfoScreen(bool fromTmpCardInfo=false);
@@ -92,7 +90,6 @@ private:
 
     QScreen *screenInfo;
     QRect screenAvailableGeometry;
-    //double scaleFactor = 1;
     QLayout *mainLayout;
 
     AppState *appState;
@@ -149,18 +146,8 @@ private:
         cameraDir="/storage/emulated/0/DCIM/camera/";
         cacheDir="/cameraCache/";
 
-        /*
-        ip = "http://onecard.bsv-grip.com";
-        port = -1;
-        path = "";
-
-        login = "oneCard";
-        pass = "123456";
-        */
-
         initNewGrpModal = false;
         imgSaveSize = QSize(960,720);
-        //imgSaveSize = QSize(480,360);
         cacheImgNum = 8;
 
         msgScreen = NULL;

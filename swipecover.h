@@ -38,40 +38,6 @@ private:
         delta = 1;
 
     }
-    /*
-    qreal getCurPos(qreal pos)
-    {
-        qreal res=curPos;
-        if(delta > 1)
-        {
-            qreal dx0 =posLst[1] - posLst[0];
-            qreal dx1;
-            for(int i=1; i<delta-1; i++)
-            {
-                dx1 = posLst[i+1]-posLst[i];
-                if(dx0*dx1<0)
-                    break;
-                dx0 = dx1;
-                if(i==delta-2)
-                    if((pos - posLst[delta-1])*dx0>=0)
-                        res = pos;
-            }
-            if(delta==2)
-                if((pos - posLst[1])*dx0>=0)
-                    res = pos;
-            for(int i=0; i<delta-1; i++)
-                posLst[i]=posLst[i+1];
-            posLst[delta-1]=pos;
-            return res;
-        }
-        else if(delta==1)
-            return pos;
-        else
-            return 0;
-
-
-    }
-    */
 };
 
 #endif // SWIPECOVER_H

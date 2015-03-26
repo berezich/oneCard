@@ -10,14 +10,6 @@ public:
     explicit Overlay(QWidget *parent = 0);
     ~Overlay();
 
-protected:
-
-    //void paintEvent(QPaintEvent *event);
-
-signals:
-
-public slots:
-
 private:
     QWidget *blankSpace;
     QSize size;

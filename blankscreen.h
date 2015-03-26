@@ -18,9 +18,7 @@ class BlankScreen : public QWidget
     Q_OBJECT
 public:
     explicit BlankScreen(QWidget *parent = 0);
-    //explicit BlankScreen(QScreen *screenInfo, QWidget *parent = 0);
     BlankScreen(QScreen *screenInfo, QSize appScrSize, int colorName, QWidget *parent = 0);
-    //explicit BlankScreen(QScreen *screenInfo);
     ~BlankScreen();
 
 signals:

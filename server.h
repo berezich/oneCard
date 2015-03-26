@@ -5,7 +5,6 @@
 #include <QList>
 #include <QXmlStreamReader>
 #include "grp.h"
-//#include "cardinfo.h"
 #include "httpmanager.h"
 #include "servererrors.h"
 class Server: public QObject
@@ -34,8 +33,6 @@ private slots:
     void onGrpLstDownloaded(QString fileName);
     void onCardLstDownloaded(QString fileName);
     void onCardDataDownloaded(QString fileName);
-//    void onFImgDownloaded(QFile *fileImg);
-//    void onBImgDownLoaded(QFile *fileImg);
     void onProcReqError(SERVER_ERRORS errCode, QString errMsg);
 private:
     REQ_TYPE reqType;

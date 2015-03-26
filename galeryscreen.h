@@ -24,7 +24,6 @@ private:
     int columnsNum;
     int rowsNum;
     QSize iconSize;
-    QSize imgSaveSize;
 
     QString title;
     QStringList photoLst;
@@ -40,10 +39,8 @@ protected:
         columnsNum = 2;
         rowsNum = 4;
         iconSize = QSize(345,262);
-        imgSaveSize = QSize(480,360);
         title=tr("ПОСЛЕДНИЕ ФОТО");
         cameraDir = "/storage/emulated/0/DCIM/camera/";
-        //QString cameraDir = "file:///D:/BEREZ/Фоты/";
     }
 
 };

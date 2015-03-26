@@ -18,14 +18,12 @@ class CardInfoScreen : public BlankScreen
 {
     Q_OBJECT
 public:
-    //explicit CardInfoScreen(QScreen *screenInfo,QWidget *parent=0);
     explicit CardInfoScreen(QScreen *screenInfo, QSize appScrSize, int colorName,QWidget *parent=0);
     ~CardInfoScreen();
     void showCardInfo(CardInfo *card,DATA_SOURCE dataSrc = LOCAL);
     QSize getCardIconSize(){return cardIconSize;}
     void updateImg(CARD_SIDE cardSide);
 public slots:
-    //void onCapBack(int i);
 private slots:
     void onEditName();
     void onEditCard();
@@ -60,15 +58,13 @@ private:
     QString iconsFolder;
 
     QVBoxLayout *cardInfoListLayout;
-    //SimpleIcon *cardFIcon;
     ImgIcon *cardFIcon;
     QHBoxLayout *lineFSide;
     ImgIcon *cardBIcon;
-    //SimpleIcon *cardBIcon;
     QHBoxLayout *lineBSide;
 
-    QWidgetList childWidgets;
-    QList<QLayout*> childLayouts;
+    //QWidgetList childWidgets;
+    //QList<QLayout*> childLayouts;
 
     SimpleIcon *iconMagnet;
     QHBoxLayout *lineMagnetLayout;

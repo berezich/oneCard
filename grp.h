@@ -8,11 +8,6 @@
 
 class Grp
 {
-//    Q_OBJECT
-//    Q_PROPERTY(QString _id READ getId WRITE setId)
-//    Q_PROPERTY(QString _name READ getName WRITE setName)
-//    Q_PROPERTY(QString _imgSrc READ getImgSrc WRITE setImgSrc)
-//    Q_PROPERTY(QString _imgPushSrc READ getImgPushSrc WRITE setImgPushSrc)
 private:
     int _id;
     int _idSrv;
@@ -25,7 +20,6 @@ public:
     QList<CardInfo> *cardsLst;
     Grp();
     Grp(int id, QString name, QString imgSrc, QString imgPushSrc, int idSrv=-1);
-    // if idSrv == -1 this is no the group on server
 
     void setId(int val);
 

@@ -4,7 +4,6 @@
 #include <QSize>
 #include "grp.h"
 #include "icon.h"
-//#include "overlay.h"
 #include <QResizeEvent>
 #include <QScrollArea>
 #include <QScrollBar>
@@ -13,22 +12,17 @@
 #include <QEvent>
 #include "menu.h"
 #include "swipecover.h"
-//#include "blankspace.h"
 
 class GrpScreen : public BlankScreen
 {
     Q_OBJECT
 public:
-    //explicit GrpScreen(QScreen *screenInfo,QWidget *parent=0);
     explicit GrpScreen(QWidget *parent=0);
     GrpScreen(QScreen *screenInfo,QSize appScrSize, int colorName,QWidget *parent=0);
-    //void showMenu();
-    //void initMenu();
     void onKeyBackPressed(QKeyEvent *event);
     ~GrpScreen();
     void setGrpLst(QList<Grp> grpLst, QString grpIconPath, bool isSwipe, bool editable=true);
 protected:
-   //BlankSpace *blankSpace;
     QWidget *blankSpace;
 signals:
     void backPressed();
@@ -37,7 +31,6 @@ private slots:
     void clearGrid();
     void onClickGrpIcon(int grpId);
     void onClickPos(QPoint pos);
-    //void onMenuClick();
 private:
     int columnsNum;
     int rowsNum;
@@ -54,8 +47,6 @@ private:
     SwipeCover *swipeCover;
     QList<Grp> grpLst;
 
-    //Menu *menuWidget;
-    //bool event(QEvent *);
     void init()
     {
         columnsNum = 3;

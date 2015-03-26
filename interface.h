@@ -5,7 +5,7 @@
 #include <QObject>
 
 
-enum SKIN_COLOR_NAME{RED,PINK,DEEP_PURPLE,INDIGO,BLUE/*,CYAN*/,TEAL,GREEN,DEEP_ORANGE,BROWN,GRAY};
+enum SKIN_COLOR_NAME{RED,PINK,DEEP_PURPLE,INDIGO,BLUE,TEAL,GREEN,DEEP_ORANGE,BROWN,GRAY};
 enum LANGUAGES{RUSSIAN, ENGLISH};
 enum GROUPS_VIEW{STANDART,NON_STANDART};
 class SkinColor
@@ -48,10 +48,6 @@ public:
             return SkinColor(INDIGO,"#5c6bc0","#5c6bc0",tr("синий"),":/svg/tools/indigo/");
         case BLUE:
             return SkinColor(BLUE,"#42a5f5","#90caf9",tr("голубой"),":/svg/tools/indigo/");
-        /*
-        case CYAN:
-            return SkinColor(CYAN,"#26c6da","#80deea",tr("светло-голубой"),":/svg/tools/deep_purple/");
-        */
         case TEAL:
             return SkinColor(TEAL,"#80bab7","#b2dfdb",tr("бирюзовый"),":/svg/tools/teal/");
         case GREEN:

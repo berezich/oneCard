@@ -54,7 +54,7 @@ private:
     QString titleColor;
     QSize arrowBackSize;
     int menuWidth;
-    QStringList mainMenuItemTxt; //{"НАСТРОЙКИ","синхронизация устройства","синхронизация с сервером","интерфейс","язык"};
+    QStringList mainMenuItemTxt;
     QStringList languages;
     QStringList skins;
     QStringList grpViews;
@@ -78,7 +78,6 @@ private:
 
     QTranslator *myappTranslator;
 
-    //QList<MenuItem*> menuItemBLst;
     void mousePressEvent(QMouseEvent *event);
     void translateNames()
     {
@@ -122,7 +121,6 @@ private:
         menuWidth = 500;
 
         iconBluetoothSize = QSize(46,60)*2;
-        // 226/272=0,83
         iconDevSyncSize = QSize(50,60)*2;
 
         iconAuthOkSize = QSize(60,60)*1.5;
