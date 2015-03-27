@@ -5,7 +5,7 @@
 class CardInfo
 {
 public:
-    CardInfo(int id, int grpId=-1, QString cardName="", QString cardCom="", QString iSrc="",QString iBackSrc="", bool magnetLine=true, QString magnet="");
+    CardInfo(int id, int grpId=-1, QString cardName="", QString iSrc="", QString iBackSrc="", bool magnetLine=true, QString magnet="");
     CardInfo(int id=-1, int idSrv = -1, int grpId=-1, int grpIdSrv = -1, QString cardName="", QString cardCom="", bool isImgLocal=true,QString iSrc="",QString iBackSrc="", bool magnetLine=false, QString magnet="");
     ~CardInfo();
 private:

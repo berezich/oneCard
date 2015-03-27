@@ -9,6 +9,7 @@
 #include <QDebug>
 #include "imgicon.h"
 
+// QWidget for cropping image
 class Cropper : public ImgIcon
 {
     Q_OBJECT

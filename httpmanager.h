@@ -11,6 +11,7 @@
 #include <QTimerEvent>
 #include "servererrors.h"
 
+//implementation of http get request to server
 class HttpManager : public QObject
 {
     Q_OBJECT

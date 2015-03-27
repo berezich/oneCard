@@ -4,6 +4,8 @@
 #include "datalocationtype.h"
 #include "cardinfo.h"
 
+//parameters of client session state
+
 enum SCREEN_TYPE{MAIN_CHOICE_SCREEN, GRP_SCREEN,CARD_LST_SCREEN,CARD_INFO_SCREEN,GALLERY_SCREEN, CAMERAQML_SCREEN, NEW_GRP_SCREEN};
 enum CARD_SIDE{FRONTSIDE, BACKSIDE};
 enum OS{NONE, WINDOWS, Android, IOS};
@@ -20,7 +22,6 @@ private:
     CardInfo _tmpCardInfo;
 
 
-    //settings
 public:
     AppState();
 

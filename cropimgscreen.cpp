@@ -16,7 +16,7 @@ CropImgScreen::CropImgScreen(QSize size, double scale, QString imgSrc, QString f
     layout->setSpacing(0);
     setLayout(layout);
     layout->setContentsMargins(0,0,0,0);
-    //
+
     imgIcon = new Cropper(scaleFactor,0,imgSrc,size-QSize(2*sideOff,0),false,this);
 
     int topOffset = (size.height()-imgIcon->height())/2;

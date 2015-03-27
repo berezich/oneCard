@@ -1,7 +1,7 @@
 #include "cardinfo.h"
 
 
-CardInfo::CardInfo(int id, int grpId, QString cardName, QString cardCom, QString iSrc,QString iBackSrc, bool magnetLine, QString magnet)
+CardInfo::CardInfo(int id, int grpId, QString cardName,QString iSrc,QString iBackSrc, bool magnetLine, QString magnet)
 {
     this->id = id;
     this->grpId = grpId;
@@ -10,7 +10,8 @@ CardInfo::CardInfo(int id, int grpId, QString cardName, QString cardCom, QString
     imgBackSrc = iBackSrc;
     isMagnetLine = magnetLine;
     this->magnet = magnet;
-    this->_idGrpSrv = -99;
+    this->_idGrpSrv = -1;
+    this->_idSrv = -1;
 }
 
 CardInfo::CardInfo(int id, int idSrv, int grpId, int grpIdSrv, QString cardName, QString cardCom, bool isImgLocal,QString iSrc, QString iBackSrc, bool magnetLine, QString magnet)

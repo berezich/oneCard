@@ -30,8 +30,6 @@ private:
     QGridLayout *gridLayout;
 
     QString cameraDir;
-    //QWidgetList childWidgets;
-    //QList<QLayout *> childLayouts;
 protected:
     QWidget *blankSpace;
     void init()

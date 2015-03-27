@@ -13,6 +13,9 @@
 #include "icon.h"
 #include "simpleicon.h"
 #include "interface.h"
+
+//parent QWidget for all screens with cap
+
 class BlankScreen : public QWidget
 {
     Q_OBJECT

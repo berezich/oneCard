@@ -17,6 +17,7 @@
 #include <QScroller>
 #include "swipecover.h"
 
+//screen which shows list of cards in the group, which was selected
 class CardScreen : public BlankScreen
 {
     Q_OBJECT

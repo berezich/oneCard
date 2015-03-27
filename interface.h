@@ -4,7 +4,7 @@
 #include <QList>
 #include <QObject>
 
-
+//definition of different skins and languages
 enum SKIN_COLOR_NAME{RED,PINK,DEEP_PURPLE,INDIGO,BLUE,TEAL,GREEN,DEEP_ORANGE,BROWN,GRAY};
 enum LANGUAGES{RUSSIAN, ENGLISH};
 enum GROUPS_VIEW{STANDART,NON_STANDART};

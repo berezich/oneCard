@@ -9,6 +9,8 @@
 #include "cropper.h"
 #include "simpleicon.h"
 
+//screen for cropping image of front and back side of card
+
 class CropImgScreen : public Overlay
 {
     Q_OBJECT

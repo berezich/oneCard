@@ -17,7 +17,7 @@
 #include "interface.h"
 #include "settings.h"
 
-
+//screen wich displays menu panel
 class Menu : public Overlay
 {
     Q_OBJECT

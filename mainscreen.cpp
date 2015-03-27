@@ -89,7 +89,7 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     // cache last photo form camera dir
     if(appState->getCurOS()!=WINDOWS)
         dataM->cacheLastImg(cameraDir,appDataLocation+cacheDir,cacheImgNum,imgSaveSize);
-    // cache
+    // ----cache-----
 
     if(appState->getCurOS()==WINDOWS)
         cameraQmlScreen = new CameraQmlScreen(appWidowSize,"WINDOWS");
@@ -147,7 +147,7 @@ void MainScreen::onGrpSelected(int grpId)
 {
     if(grpId==-1)
     {
-        //добавление новой группы
+        //new group add
         showGrpNewScreen();
         return;
     }
@@ -190,7 +190,7 @@ void MainScreen::showGrpScreen()
         screen->setGrpLst(*(server->getGrpLastLst()),InterFace::getGrpViewFolder(settings->grpView()),(appState->getCurOS()!=WINDOWS),false);
     }
     else
-        screen->setGrpLst(dataM->getGroups(appState->getCurGrpType()),InterFace::getGrpViewFolder(settings->grpView()),(appState->getCurOS()!=WINDOWS));
+        screen->setGrpLst(dataM->getLocalGroups(),InterFace::getGrpViewFolder(settings->grpView()),(appState->getCurOS()!=WINDOWS));
     screen->hide();
     connect(screen,SIGNAL(selectLocalGrp(int)),this,SLOT(onGrpSelected(int)));
     connect(screen,SIGNAL(backPressed()),this,SLOT(onGrpBackPressed()));
@@ -474,7 +474,7 @@ void MainScreen::showGrpNewScreen()
 void MainScreen::newGrpConfigured(QString name, QString grpImgSrc)
 {
     dataM->addNewGrp(name,grpImgSrc);
-    grpScreen->setGrpLst(dataM->getGroups(LOCAL),InterFace::getGrpViewFolder(settings->grpView()),(appState->getCurOS()!=WINDOWS));
+    grpScreen->setGrpLst(dataM->getLocalGroups(),InterFace::getGrpViewFolder(settings->grpView()),(appState->getCurOS()!=WINDOWS));
     showGrpScreen();
 }
 

@@ -7,6 +7,8 @@
 #include "grp.h"
 #include "httpmanager.h"
 #include "servererrors.h"
+
+//this class provides interface with server
 class Server: public QObject
 {
     Q_OBJECT

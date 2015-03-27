@@ -9,7 +9,7 @@
 #include "qmath.h"
 #include "simpleicon.h"
 
-
+//screen which displays spinner during request to server or error message
 class MsgScreen : public Overlay
 {
     Q_OBJECT

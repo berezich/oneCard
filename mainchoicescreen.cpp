@@ -44,8 +44,6 @@ MainChoiceScreen::MainChoiceScreen( QSize appScrSize, Settings *settings, QWidge
 
 
     basicLayout->addStretch(1);
-//    basicLayout->addStretch(1);
-
     setGrpLst();
 
     menuWidget = new Menu(screenSize,scaleFactor,settings,this);
@@ -138,7 +136,6 @@ void MainChoiceScreen::onChangeSettings(OPTIONS option)
     case COLOR:
         backGroundColor = InterFace::getSkinColor(settings->skinColor()).head();
         QPalette Pal(palette());
-        // set black background
         Pal.setColor(QPalette::Background, backGroundColor);
         setAutoFillBackground(true);
         setPalette(Pal);

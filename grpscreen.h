@@ -13,6 +13,8 @@
 #include "menu.h"
 #include "swipecover.h"
 
+//screen for presentaion list of groups
+
 class GrpScreen : public BlankScreen
 {
     Q_OBJECT

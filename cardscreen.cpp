@@ -13,7 +13,7 @@ CardScreen::CardScreen(QScreen *screenInfo, QSize appScrSize , int colorName, DA
     nextIconSize = nextIconSize*scaleFactor;
     capSpacerH = capSpacerH*scaleFactor;
 
-    //шапка
+    //cap
     cap = new Cap(capHeight, skinColor);
     this->colorName = colorName;
 

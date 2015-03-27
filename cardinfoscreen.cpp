@@ -15,7 +15,7 @@ CardInfoScreen::CardInfoScreen(QScreen *screenInfo,QSize appScrSize, int colorNa
     capSpacerH = capSpacerH*scaleFactorH;
     iconsFolder = InterFace::getSkinColor(colorName).iconFolder();
 
-    //шапка
+    //cap
     cap = new Cap(capHeight, skinColor);
     cap->setTitle(title,textTitleSize,titleLeftMargin);
     blankLayout->addWidget(cap);

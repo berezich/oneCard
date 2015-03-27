@@ -5,7 +5,7 @@ GalleryScreen::GalleryScreen(QScreen *screenInfo, QSize appScrSize, int colorNam
     init();
     iconSize = iconSize*scaleFactor;
     cameraDir = fotoDir;
-    //шапка
+    //cap
     cap = new Cap(capHeight, skinColor);
     cap->setTitle(title,textTitleSize,titleLeftMargin);
     blankLayout->addWidget(cap);

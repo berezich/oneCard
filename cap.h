@@ -7,6 +7,7 @@
 #include <QEvent>
 #include "simpleicon.h"
 #include "interface.h"
+
 class Cap : public QWidget
 {
 Q_OBJECT

@@ -30,6 +30,8 @@
 #include "servererrors.h"
 #include "interface.h"
 #include "settings.h"
+
+//this class contains the main logic of client session
 class MainScreen : public QWidget
 {
     Q_OBJECT

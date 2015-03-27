@@ -8,6 +8,8 @@
 #include <QLabel>
 #include <QtCore/qmath.h>
 #include "simpleicon.h"
+
+//screen for creating a new group
 class NewGrpModal : public Overlay
 {
     Q_OBJECT

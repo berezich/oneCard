@@ -14,6 +14,7 @@
 #include "appstate.h"
 #include "imgicon.h"
 
+//Screen which shows card info
 class CardInfoScreen : public BlankScreen
 {
     Q_OBJECT

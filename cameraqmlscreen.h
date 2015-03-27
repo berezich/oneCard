@@ -7,6 +7,7 @@
 #include <QQmlContext>
 #include <QDebug>
 
+//QWidget for launching Camera as QML Object
 class CameraQmlScreen : public QWidget
 {
     Q_OBJECT

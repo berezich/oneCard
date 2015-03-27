@@ -4,6 +4,7 @@
 #include <QDataStream>
 #include <QVariant>
 
+//current settings of application
 enum OPTIONS{COLOR,LANGUAGE,GRP_VIEW};
 class Settings
 {

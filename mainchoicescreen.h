@@ -9,6 +9,8 @@
 #include "icon.h"
 #include "menu.h"
 #include "settings.h"
+
+//start screen with 4 buttons
 enum MAIN_ICONS{LOCAL_ICON, SRV_ICON, DEV_ICON, OPTIONS_ICON};
 class MainChoiceScreen : public QWidget
 {

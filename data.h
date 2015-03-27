@@ -7,13 +7,14 @@
 #include <QPixmap>
 #include <QDir>
 #include "datalocationtype.h"
+
+// class for providing cards from local catalog and for saving images to location of application
 class Data
 {
 public:
     Data();
     ~Data();
 
-    QList<Grp> getGroups(DATA_SOURCE src);
     QList<Grp> getLocalGroups() const;
     QList<CardInfo> *getLocalCards(int grpId);
     Grp *getLocalGrp(int grpId);
@@ -29,8 +30,6 @@ public:
 private:
     QString cameraDir;
     QList<Grp> localGrpLst;
-    QList<Grp> serverGrpLst;
-    QList<Grp> deviceGrpLst;
 
     QStringList grpImgSrcLst;
     void init()

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 
+//empty screen with semi-transparent background
 class Overlay : public QWidget
 {
     Q_OBJECT

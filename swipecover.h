@@ -9,6 +9,8 @@
 #include <QList>
 #include <QPoint>
 
+//QWidget which is displayed over the list (grps or cards) in oder to implement scrolling with swipe
+//only for Andorid
 class SwipeCover : public QWidget
 {
     Q_OBJECT
