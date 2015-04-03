@@ -51,6 +51,7 @@ private:
 
     QSize nextIconSize;
     int rightNextIconOffset;
+    int rightScrollOffset;
 
     QVBoxLayout *cardListLayout;
     QWidget *cardLstWidget;
@@ -76,6 +77,7 @@ private:
          colorTextNameCard = "#000000";
          nextIconSize = QSize(80,80);
          rightNextIconOffset = 20;
+         rightScrollOffset = 15;
      }
 };
 

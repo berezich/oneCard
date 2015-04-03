@@ -10,6 +10,7 @@ CardScreen::CardScreen(QScreen *screenInfo, QSize appScrSize , int colorName, DA
     textCardNameSize = textCardNameSize*qSqrt(scaleFactor);
     leftNameCardOffset = leftNameCardOffset*scaleFactor;
     rightNextIconOffset = rightNextIconOffset*scaleFactor;
+    rightScrollOffset = rightScrollOffset*scaleFactor;
     nextIconSize = nextIconSize*scaleFactor;
     capSpacerH = capSpacerH*scaleFactor;
 
@@ -69,6 +70,8 @@ void CardScreen::setCardList(QString title, QString grpImgSrc, QList<CardInfo> *
     CardInfo *card;
     QWidget *widgetLine;
 
+    if(cardList->length()>8)
+        rightNextIconOffset+=rightScrollOffset;
     this->cardList = cardList;
     this->title = title;
     cap->setTitle(title,textTitleSize,titleLeftMargin);
