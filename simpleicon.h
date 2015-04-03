@@ -1,7 +1,6 @@
 #ifndef SIMPLEICON_H
 #define SIMPLEICON_H
 
-//#include <QWidget>
 #include <QLabel>
 #include <QIcon>
 
@@ -29,7 +28,7 @@ private:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
 public:
-    QString getImgSrc(){return imgScr;}
+    QString getImgSrc(){return imgScr.split("/")[imgScr.split("/").length()-1];}
 };
 
 #endif // SIMPLEICON_H

@@ -46,7 +46,6 @@ Rectangle {
     width: 800
     height: 480
     property double scaleFactor: width/720
-    //property string preview
     color: "black"
     state: "PhotoCapture"
 
@@ -87,15 +86,10 @@ Rectangle {
         captureMode: Camera.CaptureStillImage
         imageCapture {
             onImageCaptured: {
-                //photoPreview.source = preview;
-                //stillControls.previewAvailable = true
-                //cameraUI.state = "PhotoPreview"
-                //cameraUI.preview = preview
                 console.log("preview = " , preview);
 
             }
             onImageSaved:{
-                //photoPreview.source = camera.imageCapture.capture()
                 photoPreview.localSrcPic = camera.imageCapture.capturedImagePath
                 stillControls.previewAvailable = true
                 cameraUI.state = "PhotoPreview"
@@ -116,25 +110,9 @@ Rectangle {
         anchors.fill : parent
         scaleFactor: cameraUI.scaleFactor
         onClosed: cameraUI.state = "PhotoCapture"
-//        onOkAndClose: {
-//            cameraUI.state = "PhotoCapture"
-//            myApp.onPhotoOk(photoPreview.localSrcPic);
-
-//        }
         visible: cameraUI.state == "PhotoPreview"
         focus: visible
     }
-
-//    VideoPreview {
-//        id : videoPreview
-//        anchors.fill : parent
-//        onClosed: cameraUI.state = "VideoCapture"
-//        visible: cameraUI.state == "VideoPreview"
-//        focus: visible
-
-//        //don't load recorded video if preview is invisible
-//        source: visible ? camera.videoRecorder.actualLocation : ""
-//    }
 
     VideoOutput {
         id: viewfinder
@@ -142,11 +120,8 @@ Rectangle {
 
         x: 0
         y: 0
-        //width: parent.width - stillControls.buttonsPanelWidth
         width: parent.width
-        height: parent.height// - stillControls.buttonsPanelWidth
-
-
+        height: parent.height
         source: camera
         autoOrientation: true
     }
@@ -161,12 +136,4 @@ Rectangle {
         onVideoModeSelected: cameraUI.state = "VideoCapture"
     }
 
-//    VideoCaptureControls {
-//        id: videoControls
-//        anchors.fill: parent
-//        camera: camera
-//        visible: cameraUI.state == "VideoCapture"
-//        onPreviewSelected: cameraUI.state = "VideoPreview"
-//        onPhotoModeSelected: cameraUI.state = "PhotoCapture"
-//    }
 }

@@ -2,19 +2,19 @@
 
 Data::Data()
 {
+    init();
     int i=1;
-    //получение списка групп из файловой системы
+    //default groups and cards
     localGrpLst.clear();
-    Grp gr1(i++, "Транспорт", ":/svg/grpIcons/car.svg", ":/svg/grpIcons/carPUSH.svg");
-    Grp gr2 (i++,"Спорт", ":/svg/grpIcons/fit.svg", ":/svg/grpIcons/fitPUSH.svg");
-    Grp gr3 (i++,"Рестораны", ":/svg/grpIcons/food.svg", ":/svg/grpIcons/foodPUSH.svg");
-    Grp gr4 (i++,"Аптеки", ":/svg/grpIcons/med.svg", ":/svg/grpIcons/medPUSH.svg");
-    Grp gr5 (i++,"Туризм", ":/svg/grpIcons/plane.svg", ":/svg/grpIcons/planePUSH.svg");
-    Grp gr6 (i++,"Ремонт", ":/svg/grpIcons/rebild.svg", ":/svg/grpIcons/rebildPUSH.svg");
-    Grp gr7 (i++,"Магазины", ":/svg/grpIcons/shop.svg", ":/svg/grpIcons/shopPUSH.svg");
-    Grp gr8 (i++,"Солярий", ":/svg/grpIcons/sun.svg", ":/svg/grpIcons/sunPUSH.svg");
-    Grp gr9 (i++,"Разное", ":/svg/grpIcons/different.svg", ":/svg/grpIcons/differentPUSH.svg");
-    Grp gr10 (-1, "", ":/svg/grpIcons/new.svg", ":/svg/grpIcons/newPUSH.svg");
+    Grp gr1(i++, "Транспорт", "car.svg", "");
+    Grp gr2 (i++,"Спорт", "fit.svg", "");
+    Grp gr3 (i++,"Рестораны", "food.svg", "");
+    Grp gr4 (i++,"Аптеки", "med.svg", "");
+    Grp gr5 (i++,"Туризм", "plane.svg", "");
+    Grp gr6 (i++,"Ремонт", "rebild.svg", "");
+    Grp gr7 (i++,"Магазины", "shop.svg", "");
+    Grp gr8 (i++,"Солярий", "sun.svg", "");
+    Grp gr9 (i++,"Разное", "different.svg", "");
 
     localGrpLst.append(gr1);
     localGrpLst.append(gr2);
@@ -25,7 +25,6 @@ Data::Data()
     localGrpLst.append(gr7);
     localGrpLst.append(gr8);
     localGrpLst.append(gr9);
-    localGrpLst.append(gr10);
 
     int k;
     for(i=0; i<localGrpLst.length(); i++)
@@ -33,47 +32,43 @@ Data::Data()
         k=(i+1)*100;
         if(i==0)
             for(int j=0; j<1; j++)
-                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"АВТОТЕРРИТОРИЯ","КАРТА СКИДКА 5%",":/cardsImg/auto.png"));
+                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"АВТОТЕРРИТОРИЯ",":/cardsImg/auto.png"));
         if(i==1)
             for(int j=0; j<2; j++)
-                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"NICE FITNESS","КЛУБНАЯ КАРТА",":/cardsImg/fitnes.png"));
+                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"NICE FITNESS",":/cardsImg/fitnes.png"));
         if(i==2)
             for(int j=0; j<3; j++)
-                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"НИХОН","КАРТА ПОСТЯННОГО КЛИЕНТА",":/cardsImg/food.png"));
-//        if(i==3)
-//            for(int j=0; j<3; j++)
-//                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"АВТОТЕРРИТОРИЯ","КАРТА СКИДКА 5%",":/cardsImg/auto.png"));
+                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"НИХОН",":/cardsImg/food.png"));
         if(i==4)
             for(int j=0; j<4; j++)
-                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"ЧИП ТРИП","КАРТА СКИДКА 3%",":/cardsImg/travel.png"));
-//        if(i==5)
-//            for(int j=0; j<3; j++)
-//                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"АВТОТЕРРИТОРИЯ","КАРТА СКИДКА 5%",":/cardsImg/auto.png"));
+                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"ЧИП ТРИП",":/cardsImg/travel.png"));
         if(i==6)
             for(int j=0; j<1; j++)
-                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"АШАН","КАРТА СКИДКА 5%",":/cardsImg/ashan.png"));
+                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"АШАН",":/cardsImg/ashan.png"));
         if(i==7)
             for(int j=0; j<1; j++)
-                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"САН-СИТИ","КАРТА НАКОПИТЕЛЬНАЯ",":/cardsImg/sun.png"));
+                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"САН-СИТИ",":/cardsImg/sun.png"));
         if(i==8)
             for(int j=0; j<1; j++)
             {
-                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"ЖЕНСКАЯ ОДЕЖДА","АКЦИЯ 50%",":/cardsImg/other.png"));
-                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"ЛЕТУАЛЬ","НАКОПИТЕЛЬНАЯ КАРТА",":/cardsImg/letual.png"));
+                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"ЖЕНСКАЯ ОДЕЖДА",":/cardsImg/other.png"));
+                localGrpLst[i].addCard( CardInfo(k++,localGrpLst[i].getId(),"ЛЕТУАЛЬ",":/cardsImg/letual.png"));
             }
 
     }
-    //------------------------
-    grpImgSrcLst.append(":/svg/grpIcons/car.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/fit.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/food.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/med.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/plane.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/rebild.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/shop.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/sun.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/different.svg");
-    grpImgSrcLst.append(":/svg/grpIcons/star.svg");
+
+    //list of grp icon resources
+
+    grpImgSrcLst.append("car.svg");
+    grpImgSrcLst.append("fit.svg");
+    grpImgSrcLst.append("food.svg");
+    grpImgSrcLst.append("med.svg");
+    grpImgSrcLst.append("plane.svg");
+    grpImgSrcLst.append("rebild.svg");
+    grpImgSrcLst.append("shop.svg");
+    grpImgSrcLst.append("sun.svg");
+    grpImgSrcLst.append("different.svg");
+    grpImgSrcLst.append("star.svg");
 }
 
 Data::~Data()
@@ -81,10 +76,8 @@ Data::~Data()
 
 }
 
-QList<Grp> Data::getLocalGroups()
+QList<Grp> Data::getLocalGroups()const
 {
-
-
     return localGrpLst;
 }
 
@@ -113,7 +106,7 @@ CardInfo *Data::getLocalCard(int grpId, int cardId)
                 card = localGrpLst[i].getCardInfo(cardId);
                 return card;
             }
-    return new CardInfo();
+    return NULL;
 }
 
 void Data::saveImg(QString fromSrc, QString toSrc, QSize imgSaveSize, bool replace)
@@ -137,7 +130,6 @@ void Data::saveImg(QString fromSrc, QString toSrc, QSize imgSaveSize, bool repla
             delete(picImg);
             file.close();
 
-            //pixmap.save(&file, "jpeg"/*,100*/);
         }
     }
 }
@@ -173,6 +165,81 @@ QStringList Data::getGrpImgSrc()
 void Data::addNewGrp(QString name, QString grpImgSrc)
 {
 
-    Grp gr1(localGrpLst.length(), name, grpImgSrc, "");
-    localGrpLst.insert(localGrpLst.length()-1,gr1);
+    Grp gr1(localGrpLst.length()+1, name, grpImgSrc, "");
+    localGrpLst.append(gr1);
+}
+
+void Data::setGrpLst(QList<Grp> *grpLst, DATA_SOURCE src)
+{
+    switch (src) {
+    case LOCAL:
+        localGrpLst.clear();
+        for(int i=0; i<grpLst->length(); i++)
+            localGrpLst.append((*grpLst)[i]);
+        grpLst->clear();
+        break;
+    default:
+        break;
+    }
+}
+
+void Data::setCardInfo(int grpId, int cardId, CardInfo *card)
+{
+    CardInfo *cardInfo;
+    if((cardInfo = getLocalCard(grpId,cardId))!= NULL)
+        cardInfo->setCardInfo(card);
+}
+
+Grp *Data::findLocalGrp(QString grpName, QString grpIcon)
+{
+    for(int i=0; i<localGrpLst.length(); i++)
+        if(localGrpLst[i].getName() == grpName && localGrpLst[i].getImgSrc()==grpIcon)
+            return &localGrpLst[i];
+    return NULL;
+}
+
+void Data::saveCardFromSrv(Grp *grp, CardInfo *card, QString toSrcDir, QSize imgSaveSize)
+{
+    CardInfo *cardInf;
+    QString name;
+    Grp *grp1;
+    if(grp!=NULL && card!=NULL)
+    {
+        if((grp1 = findLocalGrp(grp->getName(),grp->getImgSrc()))==NULL)
+        {
+            addNewGrp(grp->getName(),grp->getImgSrc());
+            grp1 = findLocalGrp(grp->getName(),grp->getImgSrc());
+        }
+        if(grp1!=NULL)
+        {
+            QList<CardInfo *> *cards;
+            if((cards = grp1->getCardsByIdSrv(card->idSrv()))!=NULL)
+            {
+                for(int i=0; i<cards->length(); i++)
+                    if(cards->at(i)->cmpCardData(card))
+                        return;
+            }
+            if((cardInf = grp1->createNewCard())!=NULL)
+            {
+                cardInf->setCardInfo(card);
+                if((name = card->getCardImgSrc())!="")
+                    saveImg(name,toSrcDir+"/"+QString::number(cardInf->getGrpId())+"_"+QString::number(cardInf->getId())+"_"+name,imgSaveSize);
+                if((name = card->getCardImgBackSrc())!="")
+                    saveImg(name,toSrcDir+"/"+QString::number(cardInf->getGrpId())+"_"+QString::number(cardInf->getId())+"_"+name,imgSaveSize);
+            }
+        }
+    }
+}
+QDataStream& operator<<(QDataStream& out, const Data& data)
+{
+    out << data.getLocalGroups();
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, Data& data)
+{
+    QList<Grp> *grpLst = new QList<Grp>();
+    in >> *grpLst;
+    data.setGrpLst(grpLst,LOCAL);
+    return in;
 }

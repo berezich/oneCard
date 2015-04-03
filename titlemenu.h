@@ -6,13 +6,18 @@ class TitleMenu : public QLabel
 {
     Q_OBJECT
 private:
-    QString txtColor = "#ffffff";
-    //QString txtPressColor = "#81d4fa";
-    QString txtPressColor = "#b2dfdb";
+    QString txtColor;
+    QString txtPressColor;
 
     int textLeftOffset;
     int textTopOffset;
     int id;
+    void init()
+    {
+        txtColor = "#ffffff";
+        txtPressColor = "#b2dfdb";
+    }
+
 signals:
     void click(int id);
 public:

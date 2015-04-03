@@ -21,7 +21,19 @@ HEADERS       = button.h \
     menu.h \
     menuitem.h \
     titlemenu.h \
-    cameraqmlscreen.h
+    cameraqmlscreen.h \
+    server.h \
+    httpmanager.h \
+    servererrors.h \
+    interface.h \
+    datalocationtype.h \
+    mainchoicescreen.h \
+    spinner.h \
+    msgscreen.h \
+    settings.h \
+    swipecover.h \
+    cropimgscreen.h \
+    cropper.h
 SOURCES       = button.cpp \
                 main.cpp \
     blankscreen.cpp \
@@ -43,7 +55,16 @@ SOURCES       = button.cpp \
     menu.cpp \
     menuitem.cpp \
     titlemenu.cpp \
-    cameraqmlscreen.cpp
+    cameraqmlscreen.cpp \
+    server.cpp \
+    httpmanager.cpp \
+    mainchoicescreen.cpp \
+    spinner.cpp \
+    msgscreen.cpp \
+    settings.cpp \
+    swipecover.cpp \
+    cropimgscreen.cpp \
+    cropper.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/oneCard
@@ -51,6 +72,9 @@ INSTALLS += target
 
 RESOURCES += \
     onecard_res.qrc
+
+TRANSLATIONS = onecard_ru.ts \
+               onecard_en.ts
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 

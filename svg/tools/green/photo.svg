@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+]>
+<svg version="1.1"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 x="0px" y="0px" width="76px" height="79px" viewBox="0 -1.5 76 79" enable-background="new 0 -1.5 76 79" xml:space="preserve">
+<defs>
+</defs>
+<radialGradient id="SVGID_1_" cx="37.8662" cy="41.0234" r="36.3032" gradientUnits="userSpaceOnUse">
+	<stop  offset="0.0121" style="stop-color:#733003;stop-opacity:0.25"/>
+	<stop  offset="0.9091" style="stop-color:#260803;stop-opacity:0.25"/>
+	<stop  offset="0.9243" style="stop-color:#290B06;stop-opacity:0.2417"/>
+	<stop  offset="0.9364" style="stop-color:#311510;stop-opacity:0.235"/>
+	<stop  offset="0.9476" style="stop-color:#3F2521;stop-opacity:0.2288"/>
+	<stop  offset="0.9581" style="stop-color:#533C39;stop-opacity:0.223"/>
+	<stop  offset="0.9682" style="stop-color:#6D5958;stop-opacity:0.2175"/>
+	<stop  offset="0.978" style="stop-color:#8C7D7E;stop-opacity:0.2121"/>
+	<stop  offset="0.9875" style="stop-color:#B1A8AA;stop-opacity:0.2069"/>
+	<stop  offset="0.9966" style="stop-color:#DCD9DD;stop-opacity:0.2019"/>
+	<stop  offset="1" style="stop-color:#EDEDF2;stop-opacity:0.2"/>
+</radialGradient>
+<circle fill="url(#SVGID_1_)" cx="37.866" cy="41.022" r="37.866"/>
+<circle fill="#FCFCFC" stroke="#66BB6A" stroke-width="7" cx="38.208" cy="37.023" r="33.524"/>
+<path fill="#66BB6A" d="M60.447,46.723c-0.003,1.677-1.364,3.034-3.04,3.031l-37.809-0.056c-1.676-0.004-3.033-1.364-3.031-3.039
+	l0.03-19.979c0.003-1.677,1.364-3.034,3.039-3.031l37.811,0.056c1.675,0.003,3.033,1.365,3.029,3.041L60.447,46.723z"/>
+<path fill="#66BB6A" d="M49.014,24.666c-0.001,0.679-2.097,1.227-2.774,1.225l-15.28-0.022c-0.679-0.001-2.772-0.552-2.771-1.228
+	l1.559-3.052c0.241-0.728,0.551-1.226,1.228-1.225l15.282,0.023c0.677,0.001,0.97,0.481,1.225,1.229L49.014,24.666z"/>
+<circle fill="none" stroke="#F4F9F9" stroke-width="3" cx="38.858" cy="36.141" r="9.349"/>
+</svg>

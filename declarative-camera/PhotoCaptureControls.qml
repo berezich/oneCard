@@ -68,13 +68,7 @@ FocusScope {
             id: buttonsColumn
             spacing: 8
 
-//            FocusButton {
-//                camera: captureControls.camera
-//                visible: camera.cameraStatus == Camera.ActiveStatus && camera.focus.isFocusModeSupported(Camera.FocusAuto)
-//            }
-
             CameraButton {
-                //text: "Back"
                 scaleFactor: captureControls.scaleFactor
                 srcImg: "qrc:/svg/tools/NOcamera.svg"
                 visible: camera.imageCapture.ready
@@ -86,7 +80,6 @@ FocusScope {
                 srcImg: "qrc:/svg/tools/camera.svg"
                 visible: camera.imageCapture.ready
                 onClicked: camera.imageCapture.capture()
-                //onClicked: camera.imageCapture.captureToLocation("C:/Users/Sashka/Documents/GitHub/build-oneCard-Desktop_Qt_5_4_0_MinGW_32bit-Release/release/data.jpg")
             }
         }
 

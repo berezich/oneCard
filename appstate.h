@@ -1,26 +1,32 @@
 #ifndef APPSTATE_H
 #define APPSTATE_H
+#include "interface.h"
+#include "datalocationtype.h"
+#include "cardinfo.h"
 
+//parameters of client session state
 
-enum SCREEN_TYPE{LOCAL_GRP_SCREEN,CLOUD_LST_SCREEN,CARD_LST_SCREEN,CARD_INFO_SCREEN,GALLERY_SCREEN, CAMERAQML_SCREEN, NEW_GRP_SCREEN};
-enum GRP_SOURCE{LOCAL, CLOUD};
+enum SCREEN_TYPE{MAIN_CHOICE_SCREEN, GRP_SCREEN,CARD_LST_SCREEN,CARD_INFO_SCREEN,GALLERY_SCREEN, CAMERAQML_SCREEN, NEW_GRP_SCREEN};
 enum CARD_SIDE{FRONTSIDE, BACKSIDE};
 enum OS{NONE, WINDOWS, Android, IOS};
 class AppState
 {
 private:
-    GRP_SOURCE curGrpType;
+    DATA_SOURCE curGrpType;
     CARD_SIDE curSideCard;
     int curGrpId;
     int curCardId;
     SCREEN_TYPE curScreen;
     OS curOS;
-    bool isFixedWinSize=false;
+    bool isFixedWinSize;
+    CardInfo _tmpCardInfo;
+
+
 public:
     AppState();
 
-    GRP_SOURCE getCurGrpType(){return curGrpType;}
-    void setCurGrpType(GRP_SOURCE type){curGrpType=type;}
+    DATA_SOURCE getCurGrpType(){return curGrpType;}
+    void setCurGrpType(DATA_SOURCE type){curGrpType=type;}
 
     int getCurGrpId(){return curGrpId;}
     void setCurGrpId(int grpId){curGrpId=grpId;}
@@ -39,6 +45,16 @@ public:
 
     bool getIsFixedWinSize(){return isFixedWinSize;}
     void setIsFixedWinSize(bool val){isFixedWinSize = val;}
+
+    CardInfo *tmpCardInfo(){return &_tmpCardInfo;}
+    void setTmpCardInfo(CardInfo *tmpCardInfo);
+
+
+private:
+    void init()
+    {
+        isFixedWinSize=false;
+    }
 };
 
 #endif // APPSTATE_H

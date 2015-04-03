@@ -1,7 +1,8 @@
 #include "newgrpmodal.h"
 
-NewGrpModal::NewGrpModal(QSize size,double scale,QStringList grpIconLst, QWidget *parent):Overlay(parent)
+NewGrpModal::NewGrpModal(QSize size,double scale,QStringList grpIconLst, QString grpViewFolder, QWidget *parent):Overlay(parent)
 {
+    init();
     scaleFactor = scale;
     screenSize = size;
     setMinimumSize(size);
@@ -17,21 +18,18 @@ NewGrpModal::NewGrpModal(QSize size,double scale,QStringList grpIconLst, QWidget
     iconOkSize = iconOkSize*scale;
 
     imgSrcLst = grpIconLst;
+    this->grpViewFolder=grpViewFolder;
 }
 
 NewGrpModal::~NewGrpModal()
 {
-
+    while(this->children().length()>0)
+        delete(children().last());
 }
 
 void NewGrpModal::setIconLst()
 {
     SimpleIcon *icon;
-
-    QLabel *formWindow = new QLabel();
-    QIcon *picIcon = new QIcon(":/svg/tools/modalwindow.svg");
-    formWindow->setPixmap(picIcon->pixmap(rectSize));
-    formWindow->setAlignment(Qt::AlignCenter);
 
     formBasic = new QVBoxLayout();
     formWidget = new QWidget();
@@ -57,12 +55,10 @@ void NewGrpModal::setIconLst()
     grpName->setFont(QFont("Calibri",lblTxtSize));
 
     grpName->setStyleSheet(" color : "+lblTxtColor+/*"; border: 0px solid gray; background: "+backGroundColor+*/";");
-    //nameEditLine->setStyleSheet("border: 0px solid gray; border-radius: 10px; padding: 0 8px; background: "+backGroundColor+"; selection-background-color: darkgray;");
     grpName->setAlignment(Qt::AlignCenter);
     grpName->setMaxLength(10);
     editNameLayout->addWidget(grpName);
     editNameLayout->addSpacing(20*scaleFactor);
-    //formLayout->addWidget(grpName);
     formLayout->addWidget(editName);
 
     choiceLbl = new QLabel(lbl2);
@@ -75,9 +71,7 @@ void NewGrpModal::setIconLst()
     lineWidget->setLayout(lineGridLayout);
 
     gridWidget = new QWidget();
-    //gridWidget->setContentsMargins(0,0,0,0);
     gridLayout = new QGridLayout();
-    //gridWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::MinimumExpanding);
     gridLayout->setSpacing(gridSpace);
     lineGridLayout->addStretch(1);
     lineGridLayout->addWidget(gridWidget);
@@ -90,8 +84,7 @@ void NewGrpModal::setIconLst()
     {
         if(i < imgSrcLst.length())
         {
-            //icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpLst[i].getImgSrc(), grpLst[i].getImgPushSrc(), QSize(190*scaleFactor,190*scaleFactor)/*,*new QSize(230*scaleFactor,210*scaleFactor)*/);
-            icon = new SimpleIcon(i,imgSrcLst[i],"",iconSize,true);
+            icon = new SimpleIcon(i,grpViewFolder+imgSrcLst[i],"",iconSize,true);
             if(i==0)
             {
                 icon->selectIcon();
@@ -99,8 +92,7 @@ void NewGrpModal::setIconLst()
 
             }
             iconsGrid.append(icon);
-            icon->setAlignment(Qt::AlignVCenter /*| Qt::AlignRight*/);
-            //icon = new Icon(grpLst[i].getId(),grpLst[i].getName(),textSize, grpLst[i].getImgSrc(), grpLst[i].getImgPushSrc(), QSize(190*scaleFactor,190*scaleFactor)/*,*new QSize(230*scaleFactor,210*scaleFactor)*/);
+            icon->setAlignment(Qt::AlignVCenter);
             connect(icon,SIGNAL(click(int)),this,SLOT(onClickGrpIcon(int)));
             gridLayout->addWidget(icon, qFloor(i/columnsNum),i%columnsNum);
         }
@@ -110,7 +102,6 @@ void NewGrpModal::setIconLst()
     }
     formLayout->addStretch(1);
 
-    //SimpleIcon *icon;
     QWidget *confLineWidget = new QWidget();
     QHBoxLayout *confLineLayout = new QHBoxLayout();
     confLineWidget->setLayout(confLineLayout);
@@ -131,17 +122,14 @@ void NewGrpModal::setIconLst()
     confLineLayout->addStretch(1);
 
     formLayout->addWidget(confLineWidget);
-    //this->hide();
 }
 
 void NewGrpModal::paintEvent(QPaintEvent *event)
 {
-    Overlay::paintEvent(event);
     QPainter customPainter(this);
     customPainter.setRenderHint(QPainter::Antialiasing);
     customPainter.setBrush(QBrush(QColor(backGroundColor)));
     customPainter.drawRoundedRect(QRect(rectPoint,rectSize),xRound,yRound);
-    //setIconLst();
 }
 
 void NewGrpModal::onClickGrpOk()

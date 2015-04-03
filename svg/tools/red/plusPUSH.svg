@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+]>
+<svg version="1.1"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 x="0px" y="0px" width="91px" height="95px" viewBox="0 1.37 91 95" enable-background="new 0 1.37 91 95" xml:space="preserve">
+<defs>
+</defs>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="45.2559" y1="97.4468" x2="45.2559" y2="7.4467">
+	<stop  offset="0" style="stop-color:#F5F5F5;stop-opacity:0.2"/>
+	<stop  offset="0.0606" style="stop-color:#84ACAA;stop-opacity:0.3516"/>
+	<stop  offset="0.3394" style="stop-color:#F5F5F5;stop-opacity:0.2"/>
+	<stop  offset="0.4121" style="stop-color:#84ACAA;stop-opacity:0.3516"/>
+	<stop  offset="0.6307" style="stop-color:#83AAA8;stop-opacity:0.63"/>
+	<stop  offset="0.7094" style="stop-color:#7EA3A1;stop-opacity:0.7303"/>
+	<stop  offset="0.7656" style="stop-color:#769896;stop-opacity:0.8018"/>
+	<stop  offset="0.8109" style="stop-color:#6A8785;stop-opacity:0.8595"/>
+	<stop  offset="0.8498" style="stop-color:#5B7170;stop-opacity:0.9091"/>
+	<stop  offset="0.8842" style="stop-color:#495555;stop-opacity:0.9529"/>
+	<stop  offset="0.9146" style="stop-color:#333636;stop-opacity:0.9916"/>
+	<stop  offset="0.9212" style="stop-color:#2E2E2E"/>
+</linearGradient>
+<polygon fill="url(#SVGID_1_)" points="90.513,39.149 55.627,39.149 55.627,5.37 34.885,5.37 34.885,39.149 0,39.149 0,59.892 
+	34.885,59.892 34.885,95.882 55.627,95.882 55.627,59.892 90.513,59.892 "/>
+<polygon fill="#EF5350" points="90.513,35.149 55.627,35.149 55.627,1.37 34.885,1.37 34.885,35.149 0,35.149 0,55.892 
+	34.885,55.892 34.885,91.882 55.627,91.882 55.627,55.892 90.513,55.892 "/>
+<polygon opacity="0.2" fill="#575959" points="90.513,34.803 55.626,34.803 55.626,0 34.884,0 34.884,34.803 0,34.803 0,56.172 
+	34.884,56.172 34.884,93.252 55.626,93.252 55.626,56.172 90.513,56.172 "/>
+</svg>

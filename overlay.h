@@ -3,20 +3,13 @@
 
 #include <QWidget>
 
+//empty screen with semi-transparent background
 class Overlay : public QWidget
 {
     Q_OBJECT
 public:
     explicit Overlay(QWidget *parent = 0);
     ~Overlay();
-
-protected:
-
-    void paintEvent(QPaintEvent *event);
-
-signals:
-
-public slots:
 
 private:
     QWidget *blankSpace;

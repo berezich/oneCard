@@ -1,18 +1,20 @@
 #include "blankscreen.h"
 
-BlankScreen::BlankScreen(QScreen *screenInfo, QSize appScrSize, QWidget *parent)
+BlankScreen::BlankScreen(QWidget *parent):QWidget(parent)
 {
+
+}
+
+BlankScreen::BlankScreen(QScreen *screenInfo, QSize appScrSize, int colorName, QWidget *parent):QWidget(parent)
+{
+    init();
     this->screenInfo = screenInfo;
-    //screenSize = screenInfo->geometry().size();
     screenSize = appScrSize;
+    skinColor = colorName;
 
     scaleFactorW = ((double)screenSize.width())/(double)defaultWidth;
     scaleFactorH = ((double)screenSize.height())/(double)defaultHeight;
-
     scaleFactor = qMin(scaleFactorW,scaleFactorH);
-
-    qDebug()<<"scaleW = "<< scaleFactorW <<" scaleH = "<< scaleFactorH;
-    qDebug()<<"scale = "<< scaleFactor;
 
     capHeight = capHeight*scaleFactor;
     titleLeftMargin =titleLeftMargin*scaleFactor;
@@ -30,7 +32,6 @@ BlankScreen::BlankScreen(QScreen *screenInfo, QSize appScrSize, QWidget *parent)
     blankLayout->setMargin(0);
 
     QPalette Pal(palette());
-    // set black background
     Pal.setColor(QPalette::Background, backGroundColor);
     setAutoFillBackground(true);
     setPalette(Pal);
@@ -38,6 +39,8 @@ BlankScreen::BlankScreen(QScreen *screenInfo, QSize appScrSize, QWidget *parent)
 
 BlankScreen::~BlankScreen()
 {
-
+    while(children().length()>0)
+        if(children().last())
+            delete(children().last());
 }
 
