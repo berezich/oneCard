@@ -15,7 +15,7 @@ public:
     CameraQmlScreen(QWidget *parent = 0);
     CameraQmlScreen(QSize appScrSize,QString os, QWidget *parent = 0);
     ~CameraQmlScreen();
-
+    void turnOfCamera();
 signals:
     void pressedCancel();
     void selectPhoto(QString,QString);

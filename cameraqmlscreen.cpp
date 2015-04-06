@@ -23,8 +23,17 @@ CameraQmlScreen::CameraQmlScreen(QSize appScrSize, QString os, QWidget *parent) 
 
 CameraQmlScreen::~CameraQmlScreen()
 {
-    while(this->children().length()>0)
+    while(this->children().length()>0 )
         delete(children().last());
+}
+
+void CameraQmlScreen::turnOfCamera()
+{
+    if(mQQuickWidget != NULL)
+    {
+        mQQuickWidget->deleteLater();
+        mQQuickWidget = NULL;
+    }
 }
 
 void CameraQmlScreen::showQML()
@@ -38,12 +47,13 @@ void CameraQmlScreen::onPhotoOk(QString file)
 {
     QString fileName =  file.split('/').last();
     QString dir = file.left(file.lastIndexOf("/")+1);
-
+    turnOfCamera();
     emit selectPhoto(dir,fileName);
 }
 
 void CameraQmlScreen::closeCamera()
 {
+    turnOfCamera();
     emit pressedCancel();
 }
 

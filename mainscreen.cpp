@@ -92,13 +92,13 @@ MainScreen::MainScreen(QApplication *mainApp, QWidget *parent): QWidget(parent)
     // ----cache-----
 
     if(appState->getCurOS()==WINDOWS)
-        cameraQmlScreen = new CameraQmlScreen(appWidowSize,"WINDOWS");
+        cameraQmlScreen = NULL;
     else
+    {
         cameraQmlScreen = new CameraQmlScreen(appWidowSize,"NONE");
-    mainLayout->addWidget(cameraQmlScreen);
-    connect(cameraQmlScreen,SIGNAL(pressedCancel()),this,SLOT(onPressBackCameraQmlScreen()));
-    connect(cameraQmlScreen,SIGNAL(selectPhoto(QString,QString)),this,SLOT(setCardImgSrc(QString,QString)));
-
+        mainLayout->addWidget(cameraQmlScreen);
+        cameraQmlScreen->turnOfCamera();
+    }
     mainLayout->setMargin(0);
     setLayout(mainLayout);
 
@@ -403,7 +403,8 @@ void MainScreen::showCameraQmlScreenB()
 }
 void MainScreen::showCameraQmlScreen(int i)
 {
-    delete(cameraQmlScreen);
+    if(cameraQmlScreen!=NULL)
+        delete(cameraQmlScreen);
     if(appState->getCurOS()==WINDOWS)
         cameraQmlScreen = new CameraQmlScreen(window()->size(),"WINDOWS");
     else
@@ -417,6 +418,7 @@ void MainScreen::showCameraQmlScreen(int i)
 }
 void MainScreen::onPressBackCameraQmlScreen()
 {
+    cameraQmlScreen->turnOfCamera();
     showCardInfoScreen(true);
 }
 
@@ -623,6 +625,7 @@ void MainScreen::showScreen(SCREEN_TYPE scr)
     default:
         break;
     }
+
 }
 
 void MainScreen::hideAllScreens()
@@ -631,7 +634,8 @@ void MainScreen::hideAllScreens()
     grpScreen->hide();
     cardScreen->hide();
     cardInfoScreen->hide();
-    cameraQmlScreen->hide();
+    if(cameraQmlScreen!=NULL)
+        cameraQmlScreen->hide();
 }
 
 void MainScreen::resizeEvent(QResizeEvent *event)
